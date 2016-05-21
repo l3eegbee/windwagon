@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>windwagon</groupId>
+        <artifactId>windwagon</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>broceliande</artifactId>
+
+    <name>windwagon broceliande</name>
+
+    <packaging>jar</packaging>
+
+    <dependencies>
+
+        <!-- LOGRES -->
+        <dependency>
+            <groupId>windwagon</groupId>
+            <artifactId>logres</artifactId>
+        </dependency>
+
+        <!-- KAAMELOTT -->
+        <dependency>
+            <groupId>windwagon</groupId>
+            <artifactId>kaamelott</artifactId>
+        </dependency>
+
+        <!-- AVALON -->
+        <dependency>
+            <groupId>windwagon</groupId>
+            <artifactId>avalon-simple</artifactId>
+            <!-- scope>test</scope -->
+        </dependency>
+
+        <!-- SPRING BOOT JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- FLYWAY -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
+        <!-- JACKSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <!-- APACHE COMMONS IO -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- H2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JIMFS (in memory file system) -->
+        <dependency>
+            <groupId>com.google.jimfs</groupId>
+            <artifactId>jimfs</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- SHAZAM -->
+        <dependency>
+            <groupId>com.shazam</groupId>
+            <artifactId>shazamcrest</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>${project.basedir}/../avalon</directory>
+                <includes>
+                    <include>**/target/*.jar</include>
+                </includes>
+            </testResource>
+        </testResources>
+
+    </build>
+
+</project>

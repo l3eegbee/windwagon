@@ -1,0 +1,12 @@
+
+*/target/
+
+spring-shell.log
+
+**/*TODO*
+
+# eclipse files
+dependency-reduced-pom.xml
+**/.settings/
+**/.project
+**/.classpath
