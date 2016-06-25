@@ -31,13 +31,6 @@
             <artifactId>kaamelott</artifactId>
         </dependency>
 
-        <!-- AVALON -->
-        <dependency>
-            <groupId>windwagon</groupId>
-            <artifactId>avalon-simple</artifactId>
-            <!-- scope>test</scope -->
-        </dependency>
-
         <!-- SPRING BOOT JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
