@@ -96,14 +96,14 @@ public class MailConfigImpl implements MailConfig {
     public void init() {
 
         enabled = propertyResolver
-                .getProperty( MAIL_ENABLED, Boolean.class, defaultConfig.enabled() );
+                .getProperty( MAIL_ENABLED, Boolean.class, defaultConfig.getEnabled() );
         if( !enabled )
             return;
 
         String content = prop( MAIL_CONTENT );
         if( content != null ) {
 
-            String charset = prop( MAIL_CHARSET, defaultConfig.charset() );
+            String charset = prop( MAIL_CHARSET, defaultConfig.getCharset() );
 
             Resource resource = resourceLoader.getResource( content );
 
@@ -126,10 +126,10 @@ public class MailConfigImpl implements MailConfig {
             return;
         }
 
-        mailFrom = templatize( TEMPLATE_NAME_FROM, prop( MAIL_FROM, defaultConfig.from() ) );
-        mailTo = templatize( TEMPLATE_NAME_TO, prop( MAIL_TO, defaultConfig.to() ) );
+        mailFrom = templatize( TEMPLATE_NAME_FROM, prop( MAIL_FROM, defaultConfig.getFrom() ) );
+        mailTo = templatize( TEMPLATE_NAME_TO, prop( MAIL_TO, defaultConfig.getTo() ) );
         mailSubject =
-                templatize( TEMPLATE_NAME_SUBJECT, prop( MAIL_SUBJECT, defaultConfig.subject() ) );
+                templatize( TEMPLATE_NAME_SUBJECT, prop( MAIL_SUBJECT, defaultConfig.getSubject() ) );
 
     }
 

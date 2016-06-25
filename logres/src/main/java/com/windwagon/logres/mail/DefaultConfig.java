@@ -1,44 +1,60 @@
 package com.windwagon.logres.mail;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConfigurationProperties(prefix = "mail.default")
 public class DefaultConfig {
 
-    @Value( "${mail.default.enabled}" )
     private boolean enabled;
 
-    @Value( "${mail.default.from}" )
     private String from;
 
-    @Value( "${mail.default.to}" )
     private String to;
 
-    @Value( "${mail.default.subject}" )
     private String subject;
 
-    @Value( "${mail.default.charset}" )
     private String charset;
 
-    public boolean enabled() {
+    public boolean getEnabled() {
         return this.enabled;
     }
 
-    public String from() {
+    public void setEnabled( boolean enabled ) {
+        this.enabled = enabled;
+    }
+
+    public String getFrom() {
         return this.from;
     }
 
-    public String to() {
+    public void setFrom( String from ) {
+        this.from = from;
+    }
+
+    public String getTo() {
         return this.to;
     }
 
-    public String subject() {
+    public void setTo( String to ) {
+        this.to = to;
+    }
+
+    public String getSubject() {
         return this.subject;
     }
 
-    public String charset() {
+    public void setSubject( String subject ) {
+        this.subject = subject;
+    }
+
+    public String getCharset() {
         return this.charset;
+    }
+
+    public void setCharset( String charset ) {
+        this.charset = charset;
     }
 
 }
