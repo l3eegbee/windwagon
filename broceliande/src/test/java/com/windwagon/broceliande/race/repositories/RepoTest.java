@@ -14,12 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.windwagon.broceliande.GlobalInitializer;
+import com.windwagon.broceliande.Broceliande;
 import com.windwagon.broceliande.race.builders.Meeting_20150813_M1;
 import com.windwagon.broceliande.race.entities.Meeting;
 
 @RunWith( SpringJUnit4ClassRunner.class )
-@SpringApplicationConfiguration( classes = GlobalInitializer.class )
+@SpringApplicationConfiguration( classes = Broceliande.class )
 public class RepoTest {
 
     @Autowired

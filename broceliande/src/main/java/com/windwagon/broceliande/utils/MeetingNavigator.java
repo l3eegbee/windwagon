@@ -3,16 +3,16 @@ package com.windwagon.broceliande.utils;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 
 import com.windwagon.broceliande.race.entities.Horse;
 import com.windwagon.broceliande.race.entities.Meeting;
 import com.windwagon.broceliande.race.entities.Odds;
 import com.windwagon.broceliande.race.entities.Race;
+import com.windwagon.logres.getset.Getter;
 
 public class MeetingNavigator {
 
-    public static < R, S > R find( Set<R> set, Function<R, S> getter, S target ) {
+    public static <R, S> R find( Set<R> set, Getter<R, S> getter, S target ) {
 
         if( set == null )
             throw new IllegalArgumentException( "Set is null" );
@@ -20,7 +20,7 @@ public class MeetingNavigator {
             throw new IllegalArgumentException( "Set is empty" );
 
         for( R elt : set )
-            if( Objects.equals( getter.apply( elt ), target ) )
+            if( Objects.equals( getter.get( elt ), target ) )
                 return elt;
 
         throw new IllegalArgumentException( "Element not found" );

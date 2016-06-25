@@ -90,25 +90,25 @@ public class BetChecker {
 
         int ticketLength = betType.getTicketLength();
         if( betTicket.size() != ticketLength )
-            throw new InvalidBet( "Invalid horse number (expected: "
-                    + ticketLength
-                    + ", actual: "
-                    + betTicket.size()
-                    + ")" );
+            throw new InvalidBet(
+                    "Invalid horse number (expected: " + ticketLength + ", actual: " + betTicket.size() + ")" );
 
         Set<Horse> raceHorses = race.getHorses();
         Set<Horse> copyRaceHorses = new HashSet<Horse>( raceHorses );
         for( Horse h : betTicket )
             if( h == null )
                 throw new InvalidBet( "Null horse" );
-            else if( checkNotRunner && !h.isRunner() )
-                throw new InvalidBet( "Not runner horse: " + h );
-            else if( !raceHorses.contains( h ) )
-                throw new InvalidBet( "Invalid horse: " + h );
-            else if( !copyRaceHorses.contains( h ) )
-                throw new InvalidBet( "Horse betted twice: " + h );
             else
-                copyRaceHorses.remove( h );
+                if( checkNotRunner && !h.isRunner() )
+                    throw new InvalidBet( "Not runner horse: " + h );
+                else
+                    if( !raceHorses.contains( h ) )
+                        throw new InvalidBet( "Invalid horse: " + h );
+                    else
+                        if( !copyRaceHorses.contains( h ) )
+                            throw new InvalidBet( "Horse betted twice: " + h );
+                        else
+                            copyRaceHorses.remove( h );
 
         // stake
 
@@ -194,7 +194,7 @@ public class BetChecker {
 
     }
 
-    private class OrderComparator < T > implements Comparator<T> {
+    private class OrderComparator<T> implements Comparator<T> {
 
         private Map<T, Integer> order = new HashMap<T, Integer>();
 
@@ -304,7 +304,7 @@ public class BetChecker {
             return createRembPrice( race, BetType.SIMPLE_GAGNANT, ticket );
 
         Price price = searchPrice( race, BetType.SIMPLE_GAGNANT, PriceName.DIRECT, ticket, true );
-        return price != null ? Arrays.asList( price ) : Collections.<Price>emptyList();
+        return price != null ? Arrays.asList( price ) : Collections.<Price> emptyList();
 
     }
 
@@ -320,7 +320,7 @@ public class BetChecker {
             return createRembPrice( race, BetType.SIMPLE_PLACE, ticket );
 
         Price price = searchPrice( race, BetType.SIMPLE_PLACE, PriceName.DIRECT, ticket, true );
-        return price != null ? Arrays.asList( price ) : Collections.<Price>emptyList();
+        return price != null ? Arrays.asList( price ) : Collections.<Price> emptyList();
 
     }
 
@@ -336,7 +336,7 @@ public class BetChecker {
             return createRembPrice( race, BetType.COUPLE_ORDRE, ticket );
 
         Price price = searchPrice( race, BetType.COUPLE_ORDRE, PriceName.DIRECT, fTicket, true );
-        return price != null ? Arrays.asList( price ) : Collections.<Price>emptyList();
+        return price != null ? Arrays.asList( price ) : Collections.<Price> emptyList();
 
     }
 
@@ -352,7 +352,7 @@ public class BetChecker {
             return createRembPrice( race, BetType.COUPLE_GAGNANT, ticket );
 
         Price price = searchPrice( race, BetType.COUPLE_GAGNANT, PriceName.DIRECT, fTicket, false );
-        return price != null ? Arrays.asList( price ) : Collections.<Price>emptyList();
+        return price != null ? Arrays.asList( price ) : Collections.<Price> emptyList();
 
     }
 
@@ -368,7 +368,7 @@ public class BetChecker {
             return createRembPrice( race, BetType.COUPLE_PLACE, ticket );
 
         Price price = searchPrice( race, BetType.COUPLE_PLACE, PriceName.DIRECT, fTicket, false );
-        return price != null ? Arrays.asList( price ) : Collections.<Price>emptyList();
+        return price != null ? Arrays.asList( price ) : Collections.<Price> emptyList();
 
     }
 
@@ -384,7 +384,7 @@ public class BetChecker {
             return createRembPrice( race, BetType.TRIO_ORDRE, ticket );
 
         Price price = searchPrice( race, BetType.TRIO_ORDRE, PriceName.DIRECT, fTicket, true );
-        return price != null ? Arrays.asList( price ) : Collections.<Price>emptyList();
+        return price != null ? Arrays.asList( price ) : Collections.<Price> emptyList();
 
     }
 
@@ -400,7 +400,7 @@ public class BetChecker {
             return createRembPrice( race, BetType.TRIO, ticket );
 
         Price price = searchPrice( race, BetType.TRIO, PriceName.DIRECT, fTicket, false );
-        return price != null ? Arrays.asList( price ) : Collections.<Price>emptyList();
+        return price != null ? Arrays.asList( price ) : Collections.<Price> emptyList();
 
     }
 
@@ -416,7 +416,7 @@ public class BetChecker {
             return createRembPrice( race, BetType.DEUX_SUR_QUATRE, ticket );
 
         Price price = searchPrice( race, BetType.DEUX_SUR_QUATRE, PriceName.DIRECT, fTicket, false );
-        return price != null ? Arrays.asList( price ) : Collections.<Price>emptyList();
+        return price != null ? Arrays.asList( price ) : Collections.<Price> emptyList();
 
     }
 
@@ -433,14 +433,9 @@ public class BetChecker {
 
         finish = finish.subList( 0, 4 );
         if( unorder( finish, ticket ) == 4 )
-            return Arrays.asList( searchPrice(
-                    race,
-                    BetType.MULTI_EN_QUATRE,
-                    PriceName.DIRECT,
-                    finish,
-                    false ) );
+            return Arrays.asList( searchPrice( race, BetType.MULTI_EN_QUATRE, PriceName.DIRECT, finish, false ) );
 
-        return Collections.<Price>emptyList();
+        return Collections.<Price> emptyList();
 
     }
 
@@ -460,14 +455,9 @@ public class BetChecker {
 
         finish = finish.subList( 0, 4 );
         if( unorder( finish, ticket ) == 4 )
-            return Arrays.asList( searchPrice(
-                    race,
-                    BetType.MULTI_EN_CINQ,
-                    PriceName.DIRECT,
-                    finish,
-                    false ) );
+            return Arrays.asList( searchPrice( race, BetType.MULTI_EN_CINQ, PriceName.DIRECT, finish, false ) );
 
-        return Collections.<Price>emptyList();
+        return Collections.<Price> emptyList();
 
     }
 
@@ -490,14 +480,9 @@ public class BetChecker {
 
         finish = finish.subList( 0, 4 );
         if( unorder( finish, ticket ) == 4 )
-            return Arrays.asList( searchPrice(
-                    race,
-                    BetType.MULTI_EN_SIX,
-                    PriceName.DIRECT,
-                    finish,
-                    false ) );
+            return Arrays.asList( searchPrice( race, BetType.MULTI_EN_SIX, PriceName.DIRECT, finish, false ) );
 
-        return Collections.<Price>emptyList();
+        return Collections.<Price> emptyList();
 
     }
 
@@ -523,14 +508,9 @@ public class BetChecker {
 
         finish = finish.subList( 0, 4 );
         if( unorder( finish, ticket ) == 4 )
-            return Arrays.asList( searchPrice(
-                    race,
-                    BetType.MULTI_EN_SEPT,
-                    PriceName.DIRECT,
-                    finish,
-                    false ) );
+            return Arrays.asList( searchPrice( race, BetType.MULTI_EN_SEPT, PriceName.DIRECT, finish, false ) );
 
-        return Collections.<Price>emptyList();
+        return Collections.<Price> emptyList();
 
     }
 
@@ -546,7 +526,7 @@ public class BetChecker {
             return createRembPrice( race, BetType.PICK5, ticket );
 
         Price price = searchPrice( race, BetType.PICK5, PriceName.DIRECT, fTicket, false );
-        return price != null ? Arrays.asList( price ) : Collections.<Price>emptyList();
+        return price != null ? Arrays.asList( price ) : Collections.<Price> emptyList();
 
     }
 
@@ -573,7 +553,7 @@ public class BetChecker {
         if( price != null )
             return Arrays.asList( price );
 
-        return Collections.<Price>emptyList();
+        return Collections.<Price> emptyList();
 
     }
 
@@ -591,11 +571,10 @@ public class BetChecker {
         if( nbNotRunner == 1 ) {
             finish = finish.subList( 0, 3 );
             if( unorder( finish, fTicket ) == 3 ) {
-                Price bonus =
-                        searchPrice( race, BetType.QUARTE, PriceName.BONUS_TROIS, finish, true );
+                Price bonus = searchPrice( race, BetType.QUARTE, PriceName.BONUS_TROIS, finish, true );
                 return Arrays.asList( bonus, bonus );
             }
-            return Collections.<Price>emptyList();
+            return Collections.<Price> emptyList();
         }
 
         Price price = searchPrice( race, BetType.QUARTE, PriceName.ORDRE, ticket, true );
@@ -612,14 +591,9 @@ public class BetChecker {
 
         finish = finish.subList( 0, 3 );
         if( unorder( finish, ticket ) == 3 )
-            return Arrays.asList( searchPrice(
-                    race,
-                    BetType.QUARTE,
-                    PriceName.BONUS_TROIS,
-                    finish,
-                    true ) );
+            return Arrays.asList( searchPrice( race, BetType.QUARTE, PriceName.BONUS_TROIS, finish, true ) );
 
-        return Collections.<Price>emptyList();
+        return Collections.<Price> emptyList();
 
     }
 
@@ -637,49 +611,30 @@ public class BetChecker {
         if( nbNotRunner == 2 ) {
             finish = finish.subList( 0, 3 );
             if( unorder( finish, fTicket ) == 3 ) {
-                Price bonus =
-                        searchPrice( race, BetType.QUINTE, PriceName.BONUS_TROIS, finish, true );
+                Price bonus = searchPrice( race, BetType.QUINTE, PriceName.BONUS_TROIS, finish, true );
                 return Arrays.asList( bonus, bonus, bonus, bonus );
             }
-            return Collections.<Price>emptyList();
+            return Collections.<Price> emptyList();
         }
 
         if( nbNotRunner == 1 ) {
 
             if( unorder( finish.subList( 0, 4 ), fTicket ) == 4 ) {
-                Price bonus =
-                        searchPrice(
-                                race,
-                                BetType.QUINTE,
-                                PriceName.BONUS_QUATRE,
-                                finish.subList( 0, 4 ),
-                                true );
+                Price bonus = searchPrice( race, BetType.QUINTE, PriceName.BONUS_QUATRE, finish.subList( 0, 4 ), true );
                 return Arrays.asList( bonus, bonus, bonus, bonus );
             }
 
             if( unorder( finish.subList( 0, 5 ), fTicket ) == 4 ) {
-                Price bonus =
-                        searchPrice(
-                                race,
-                                BetType.QUINTE,
-                                PriceName.BONUS_QUATRE_SUR_CINQ,
-                                fTicket,
-                                false );
+                Price bonus = searchPrice( race, BetType.QUINTE, PriceName.BONUS_QUATRE_SUR_CINQ, fTicket, false );
                 return Arrays.asList( bonus, bonus, bonus, bonus );
             }
 
             if( unorder( finish.subList( 0, 3 ), fTicket ) == 3 ) {
-                Price bonus =
-                        searchPrice(
-                                race,
-                                BetType.QUINTE,
-                                PriceName.BONUS_TROIS,
-                                finish.subList( 0, 3 ),
-                                true );
+                Price bonus = searchPrice( race, BetType.QUINTE, PriceName.BONUS_TROIS, finish.subList( 0, 3 ), true );
                 return Arrays.asList( bonus, bonus );
             }
 
-            return Collections.<Price>emptyList();
+            return Collections.<Price> emptyList();
 
         }
 
@@ -696,12 +651,8 @@ public class BetChecker {
             return Arrays.asList( price );
 
         if( unorder( finish.subList( 0, 4 ), ticket ) == 4 )
-            return Arrays.asList( searchPrice(
-                    race,
-                    BetType.QUINTE,
-                    PriceName.BONUS_QUATRE,
-                    finish.subList( 0, 4 ),
-                    true ) );
+            return Arrays.asList(
+                    searchPrice( race, BetType.QUINTE, PriceName.BONUS_QUATRE, finish.subList( 0, 4 ), true ) );
 
         if( unorder( finish.subList( 0, 5 ), ticket ) == 4 ) {
             finish = finish.subList( 0, 5 );
@@ -709,24 +660,15 @@ public class BetChecker {
             for( Horse h : ticket )
                 if( finish.contains( h ) )
                     inter.add( h );
-            return Arrays.asList( searchPrice(
-                    race,
-                    BetType.QUINTE,
-                    PriceName.BONUS_QUATRE_SUR_CINQ,
-                    inter,
-                    false ) );
+            return Arrays.asList( searchPrice( race, BetType.QUINTE, PriceName.BONUS_QUATRE_SUR_CINQ, inter, false ) );
 
         }
 
         if( unorder( finish.subList( 0, 3 ), ticket ) == 3 )
-            return Arrays.asList( searchPrice(
-                    race,
-                    BetType.QUINTE,
-                    PriceName.BONUS_TROIS,
-                    finish.subList( 0, 3 ),
-                    true ) );
+            return Arrays
+                    .asList( searchPrice( race, BetType.QUINTE, PriceName.BONUS_TROIS, finish.subList( 0, 3 ), true ) );
 
-        return Collections.<Price>emptyList();
+        return Collections.<Price> emptyList();
 
     }
 
@@ -745,43 +687,43 @@ public class BetChecker {
 
         switch( bet.getBetType() ) {
 
-            case SIMPLE_GAGNANT :
+            case SIMPLE_GAGNANT:
                 return searchPrice_SIMPLE_GAGNANT( race, finish, ticket, fTicket );
-            case SIMPLE_PLACE :
+            case SIMPLE_PLACE:
                 return searchPrice_SIMPLE_PLACE( race, finish, ticket, fTicket );
 
-            case COUPLE_ORDRE :
+            case COUPLE_ORDRE:
                 return searchPrice_COUPLE_ORDRE( race, finish, ticket, fTicket );
-            case COUPLE_GAGNANT :
+            case COUPLE_GAGNANT:
                 return searchPrice_COUPLE_GAGNANT( race, finish, ticket, fTicket );
-            case COUPLE_PLACE :
+            case COUPLE_PLACE:
                 return searchPrice_COUPLE_PLACE( race, finish, ticket, fTicket );
 
-            case TRIO_ORDRE :
+            case TRIO_ORDRE:
                 return searchPrice_TRIO_ORDRE( race, finish, ticket, fTicket );
-            case TRIO :
+            case TRIO:
                 return searchPrice_TRIO( race, finish, ticket, fTicket );
 
-            case DEUX_SUR_QUATRE :
+            case DEUX_SUR_QUATRE:
                 return searchPrice_DEUX_SUR_QUATRE( race, finish, ticket, fTicket );
 
-            case MULTI_EN_QUATRE :
+            case MULTI_EN_QUATRE:
                 return searchPrice_MULTI_EN_QUATRE( race, finish, ticket, fTicket );
-            case MULTI_EN_CINQ :
+            case MULTI_EN_CINQ:
                 return searchPrice_MULTI_EN_CINQ( race, finish, ticket, fTicket );
-            case MULTI_EN_SIX :
+            case MULTI_EN_SIX:
                 return searchPrice_MULTI_EN_SIX( race, finish, ticket, fTicket );
-            case MULTI_EN_SEPT :
+            case MULTI_EN_SEPT:
                 return searchPrice_MULTI_EN_SEPT( race, finish, ticket, fTicket );
 
-            case PICK5 :
+            case PICK5:
                 return searchPrice_PICK5( race, finish, ticket, fTicket );
 
-            case TIERCE :
+            case TIERCE:
                 return searchPrice_TIERCE( race, finish, ticket, fTicket );
-            case QUARTE :
+            case QUARTE:
                 return searchPrice_QUARTE( race, finish, ticket, fTicket );
-            case QUINTE :
+            case QUINTE:
                 return searchPrice_QUINTE( race, finish, ticket, fTicket );
 
         }
@@ -794,8 +736,7 @@ public class BetChecker {
 
         List<Price> prices = getPrice( bet, race );
 
-        if( ( prices.size() == 1 )
-                && prices.get( 0 ).getPriceName().equals( PriceName.REMBOURSEMENT ) )
+        if( ( prices.size() == 1 ) && prices.get( 0 ).getPriceName().equals( PriceName.REMBOURSEMENT ) )
             return 0d;
 
         CleanBet cleanBet = clean( bet, race, false );

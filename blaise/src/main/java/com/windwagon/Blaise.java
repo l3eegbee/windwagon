@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-import com.windwagon.broceliande.GlobalInitializer;
+import com.windwagon.broceliande.Broceliande;
 
 @SpringBootApplication
-@Import( GlobalInitializer.class )
+@Import( Broceliande.class )
 public class Blaise {
 
     @Bean
