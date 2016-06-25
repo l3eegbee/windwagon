@@ -14,7 +14,7 @@ public interface Getter < T, R > {
         return Objects.toString( safe( object ) );
     }
 
-    default public < S > Getter<T, S> then( Getter<R, S> sub ) {
+    default public < S > Getter<T, S> then( Getter<? super R, S> sub ) {
         return (Getter<T, S>) ( obj -> sub.safe( safe( obj ) ) );
     }
 
