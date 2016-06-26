@@ -25,6 +25,7 @@
 
     <modules>
         <module>kaamelott</module>
+        <module>avalon</module>
         <module>logres</module>
         <module>broceliande</module>
         <module>blaise</module>
@@ -95,6 +96,23 @@
             <dependency>
                 <groupId>windwagon</groupId>
                 <artifactId>kaamelott</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <!-- AVALON -->
+            <dependency>
+                <groupId>windwagon</groupId>
+                <artifactId>avalon</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>windwagon</groupId>
+                <artifactId>avalon-simple</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>windwagon</groupId>
+                <artifactId>avalon-broken</artifactId>
                 <version>1.0</version>
             </dependency>
 
