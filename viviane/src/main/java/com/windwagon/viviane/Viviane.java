@@ -1,7 +1,5 @@
 package com.windwagon.viviane;
 
-import jline.console.ConsoleReader;
-
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -38,19 +36,11 @@ public class Viviane {
 
     }
 
-    public static class ConsoleReaderAccessibleJLineShellComponent extends JLineShellComponent {
-
-        public ConsoleReader getConsoleReader() {
-            return this.reader;
-        }
-
-    }
-
     // is necessary, autowired in:
     // org.springframework.shell.converters.AvailableCommandsConverter
     @Bean( name = "shell" )
-    public ConsoleReaderAccessibleJLineShellComponent jLineShellComponent() {
-        return new ConsoleReaderAccessibleJLineShellComponent();
+    public JLineShellComponent jLineShellComponent() {
+        return new JLineShellComponent();
     }
 
     // is necessary, autowired in:
