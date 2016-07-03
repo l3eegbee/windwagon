@@ -1,0 +1,160 @@
+package com.windwagon.broceliande.knights.forge.impl;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.windwagon.broceliande.knights.entities.BrotherhoodData;
+import com.windwagon.broceliande.knights.entities.BrotherhoodRun;
+import com.windwagon.broceliande.knights.entities.FencingMasterRun;
+import com.windwagon.broceliande.knights.entities.RunStatus;
+import com.windwagon.broceliande.knights.forge.ActorWrapper;
+import com.windwagon.broceliande.knights.forge.BrotherhoodWrapper;
+import com.windwagon.broceliande.knights.forge.ComponentPatterns;
+import com.windwagon.broceliande.knights.forge.FencingMasterWrapper;
+import com.windwagon.broceliande.knights.forge.TaskWrapper;
+import com.windwagon.broceliande.knights.forge.errors.ActorExecutionException;
+import com.windwagon.broceliande.knights.forge.errors.ForgeException;
+import com.windwagon.broceliande.knights.repositories.BrotherhoodRunRepository;
+import com.windwagon.kaamelott.Brotherhood;
+
+public class BrotherhoodWrapperImpl
+        extends TaskWrapperImpl<Brotherhood, BrotherhoodData, BrotherhoodRun>
+        implements BrotherhoodWrapper {
+
+    private static final Logger logger = LoggerFactory.getLogger( BrotherhoodWrapper.class );
+
+    @Autowired
+    private BrotherhoodRunRepository brotherhoodRunRepository;
+
+    private Set<FencingMasterWrapper> fencingMasters = new HashSet<>();
+
+    public BrotherhoodWrapperImpl( BrotherhoodRun runData ) {
+        super( runData.getBrotherhood(), runData );
+    }
+
+    @PostConstruct
+    public void init() {
+        for( FencingMasterRun fmrun : runData.getFencingMasters() )
+            fencingMasters.add( casern.getFencingMaster( fmrun ) );
+    }
+
+    @Override
+    protected void saveRun() {
+        brotherhoodRunRepository.save( runData );
+    }
+
+    @Override
+    public Set<? extends ActorWrapper> getActorDependances() {
+        return fencingMasters;
+    }
+
+    @Override
+    public Set<? extends TaskWrapper> getRequiredTasks() throws ForgeException {
+
+        ActorWrapperSet<TaskWrapper> tasks = new ActorWrapperSet<>();
+
+        for( FencingMasterWrapper fencingMaster : fencingMasters )
+            tasks.add( fencingMaster );
+
+        addRequiredTasksFromConstants( tasks );
+
+        return tasks.get();
+
+    }
+
+    @Override
+    public Set<TaskWrapper> getDependantTasks() throws ForgeException {
+
+        ActorWrapperSet<TaskWrapper> tasks = new ActorWrapperSet<>();
+
+        addDependantTasksFromConstants( tasks, ComponentPatterns.getSelectedKnightName( this ) );
+        addDependantTasksFromConstants( tasks, ComponentPatterns.getBrotherhoodName( this ) );
+
+        return tasks.get();
+
+    }
+
+    @Override
+    public void actorPostInitialize() throws Exception {
+
+        for( FencingMasterWrapper fencingMaster : fencingMasters ) {
+
+            fencingMaster.setClassLoader( classLoader );
+            fencingMaster.instanciate();
+
+            if( fencingMaster.getStatus() == RunStatus.DONE ) {
+                fencingMaster.getKnight().unmarshal();
+                fencingMaster.unmarshal();
+            }
+
+        }
+
+        actorInstance.setFencingMasters( Collections.unmodifiableSet( fencingMasters ) );
+
+        super.actorPostInitialize();
+
+    }
+
+    @Override
+    public void close() {
+
+        if( fencingMasters != null )
+            for( FencingMasterWrapper fencingMaster : fencingMasters )
+                fencingMaster.close();
+
+        super.close();
+
+    }
+
+    @Override
+    @Transactional
+    public RunStatus run() {
+
+        logger.info( "Run task {}", this );
+
+        try {
+
+            // instanciates actors
+            instanciate();
+
+            call( new Script() {
+
+                @Override
+                public void call() throws ActorExecutionException {
+
+                    // get best knight
+                    FencingMasterWrapper theone = (FencingMasterWrapper) actorInstance.getBest();
+
+                    // save
+                    runData.setSelected( theone.getRunData() );
+                    marshal();
+
+                }
+
+            } );
+
+            return done();
+
+        } catch( Throwable ex ) {
+
+            return fail( ex );
+
+        } finally {
+
+            this.close();
+
+            logger.info( "Task {} finished", this );
+
+        }
+
+    }
+
+}

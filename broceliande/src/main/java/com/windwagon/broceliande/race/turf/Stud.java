@@ -1,7 +1,9 @@
 package com.windwagon.broceliande.race.turf;
 
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,13 @@ import com.windwagon.broceliande.race.turf.impl.RaceWrapperImpl;
 @Configuration
 public class Stud {
 
+    @Value( "${race.reference.offset}" )
+    private long offset;
+
+    public Reference createReference( Race race ) {
+        return new Reference( Date.from( race.getStart().toInstant().minusSeconds( offset ) ) );
+    }
+
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
     public MeetingWrapper getMeeting( Reference ref, Meeting meeting ) {
@@ -33,6 +42,12 @@ public class Stud {
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
     public MeetingWrapper getMeeting( Reference ref, Meeting meeting, RaceWrapper race ) {
         return new MeetingWrapperImpl( ref, meeting, race );
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public RaceWrapper getRace( Race race ) {
+        return new RaceWrapperImpl( createReference( race ), race );
     }
 
     @Bean

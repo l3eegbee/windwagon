@@ -1,5 +1,7 @@
 package com.windwagon.broceliande;
 
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.time.Clock;
 import java.util.TimeZone;
 
@@ -19,6 +21,11 @@ public class Broceliande {
 
         return Clock.systemDefaultZone();
 
+    }
+
+    @Bean
+    public FileSystem getFileSystem() {
+        return FileSystems.getDefault();
     }
 
 }
