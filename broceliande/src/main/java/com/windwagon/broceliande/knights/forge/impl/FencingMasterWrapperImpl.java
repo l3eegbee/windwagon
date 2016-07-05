@@ -18,6 +18,7 @@ import com.windwagon.broceliande.knights.forge.ActorWrapper;
 import com.windwagon.broceliande.knights.forge.BrotherhoodWrapper;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns;
 import com.windwagon.broceliande.knights.forge.FencingMasterWrapper;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
 import com.windwagon.broceliande.knights.forge.TaskWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
@@ -38,19 +39,19 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
 
     private BrotherhoodWrapper brotherhood;
 
-    public FencingMasterWrapperImpl( FencingMasterRun runData ) {
-        super( runData.getFencingMaster(), runData );
+    public FencingMasterWrapperImpl( Herald herald, FencingMasterRun runData ) {
+        super( herald, runData.getFencingMaster(), runData );
     }
 
     @PostConstruct
     public void init() {
-        knight = casern.getKnight( runData );
+        knight = herald.getKnight( runData );
     }
 
     private BrotherhoodWrapper brotherhood() {
 
         if( brotherhood == null && runData.getBrotherhood() != null )
-            brotherhood = casern.getBrotherhood( runData.getBrotherhood() );
+            brotherhood = herald.getBrotherhood( runData.getBrotherhood() );
 
         return brotherhood;
 
@@ -69,25 +70,25 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
     @Override
     public Set<? extends TaskWrapper> getRequiredTasks() throws ForgeException {
 
-        ActorWrapperSet<TaskWrapper> tasks = new ActorWrapperSet<>();
+        Set<TaskWrapper> tasks = new HashSet<>();
 
         addRequiredTasksFromConstants( tasks );
 
-        return tasks.get();
+        return tasks;
 
     }
 
     @Override
     public Set<? extends TaskWrapper> getDependantTasks() throws ForgeException {
 
-        ActorWrapperSet<TaskWrapper> tasks = new ActorWrapperSet<>();
+        Set<TaskWrapper> tasks = new HashSet<>();
 
         tasks.add( brotherhood() );
 
         addDependantTasksFromConstants( tasks, ComponentPatterns.getTrainedKnightName( this ) );
         addDependantTasksFromConstants( tasks, ComponentPatterns.getFencingMasterName( this ) );
 
-        return tasks.get();
+        return tasks;
 
     }
 

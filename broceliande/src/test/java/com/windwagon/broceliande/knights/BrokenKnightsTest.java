@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import javax.transaction.Transactional;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.RunStatus;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.broceliande.knights.forge.Casern;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
 import com.windwagon.broceliande.knights.forge.builder.CycleBuilder;
 import com.windwagon.broceliande.knights.forge.builder.KnightBuilderFactory;
@@ -59,8 +61,15 @@ public class BrokenKnightsTest {
 
     @Autowired
     private BrokenKnightsBuilder brokenKnightsBuilder;
+    
+    private Herald herald;
 
     private Meeting meeting;
+    
+    @Before
+    public void createHerald() {
+        this.herald = casern.getHerald();
+    }
 
     public Environment setUp() {
 
@@ -81,9 +90,9 @@ public class BrokenKnightsTest {
     public void testBrokenKnight() throws Exception {
 
         Environment env = setUp();
-
+        
         // instanciate
-        KnightWrapper knight = casern.getKnight( env.getFencingMasterRun() );
+        KnightWrapper knight = herald.getKnight( env.getFencingMasterRun() );
         knight.instanciate();
 
         try {
@@ -112,7 +121,7 @@ public class BrokenKnightsTest {
 
         FencingMasterRun fencingMasterRun = setUp().getFencingMasterRun();
 
-        casern.getFencingMaster( fencingMasterRun ).run();
+        herald.getFencingMaster( fencingMasterRun ).run();
 
         assertThat( fencingMasterRun.getStatus(), is( RunStatus.FAILED ) );
 
@@ -124,7 +133,7 @@ public class BrokenKnightsTest {
 
         BrotherhoodRun brotherhoodRun = setUp().getBrotherhoodRun();
 
-        casern.getBrotherhood( brotherhoodRun ).run();
+        herald.getBrotherhood( brotherhoodRun ).run();
 
         assertThat( brotherhoodRun.getStatus(), is( RunStatus.FAILED ) );
 
@@ -136,7 +145,7 @@ public class BrokenKnightsTest {
 
         ScribeRun scribeRun = setUp().getScribeRun();
 
-        casern.getScribe( scribeRun ).run();
+        herald.getScribe( scribeRun ).run();
 
         assertThat( scribeRun.getStatus(), is( RunStatus.FAILED ) );
 

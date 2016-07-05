@@ -1,6 +1,7 @@
 package com.windwagon.broceliande.knights.forge.impl;
 
 import com.windwagon.broceliande.knights.entities.ActorData;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.WrappedKnight;
 import com.windwagon.kaamelott.Knight;
 import com.windwagon.kaamelott.words.Words;
@@ -8,8 +9,8 @@ import com.windwagon.kaamelott.words.Words;
 public abstract class WrappedKnightImpl<D extends ActorData> extends ActorWrapperImpl<Knight, D>
         implements WrappedKnight {
 
-    public WrappedKnightImpl( D actorData ) {
-        super( actorData );
+    public WrappedKnightImpl( Herald herald, D actorData ) {
+        super( herald, actorData );
     }
 
     @Override

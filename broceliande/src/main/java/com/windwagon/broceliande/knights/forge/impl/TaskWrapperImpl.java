@@ -17,6 +17,7 @@ import com.windwagon.broceliande.knights.entities.Task;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.SelectedKnightElements;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.TrainedKnightElements;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.TaskWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ComponentConstantWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
@@ -42,8 +43,8 @@ public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends 
 
     protected R runData;
 
-    protected TaskWrapperImpl( D actorData, R runData ) {
-        super( actorData );
+    protected TaskWrapperImpl( Herald herald, D actorData, R runData ) {
+        super( herald, actorData );
         this.runData = runData;
     }
 
@@ -125,66 +126,61 @@ public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends 
      * DEPENDENCES
      */
 
-    protected void addRequiredTasksFromConstants( ActorWrapperSet<TaskWrapper> tasks )
-            throws ForgeException {
+    protected void addRequiredTasksFromConstants( Set<TaskWrapper> tasks ) throws ForgeException {
 
         for( ComponentConstantWrapper constant : componentConstants ) {
 
             String value = constant.getValue();
 
-            Matcher trainedKnightMatcher =
-                    ComponentPatterns.TRAINED_KNIGHT_PATTERN.matcher( value );
+            Matcher trainedKnightMatcher = ComponentPatterns.TRAINED_KNIGHT_PATTERN.matcher( value );
             if( trainedKnightMatcher.matches() ) {
-                TrainedKnightElements elts =
-                        ComponentPatterns.getTrainedKnightElements( trainedKnightMatcher );
+                TrainedKnightElements elts = ComponentPatterns.getTrainedKnightElements( trainedKnightMatcher );
                 tasks.add(
                         tavern.getFencingMaster(
+                                herald,
                                 runData.getCycle(),
                                 elts.getKnightName(),
                                 elts.getFencingMasterName() ) );
             }
 
-            Matcher selectedKnightMatcher =
-                    ComponentPatterns.SELECTED_KNIGHT_PATTERN.matcher( value );
+            Matcher selectedKnightMatcher = ComponentPatterns.SELECTED_KNIGHT_PATTERN.matcher( value );
             if( selectedKnightMatcher.matches() ) {
-                SelectedKnightElements elts =
-                        ComponentPatterns.getSelectedKnightElements( selectedKnightMatcher );
-                tasks.add( tavern.getBrotherhood( runData.getCycle(), elts.getKnightName() ) );
+                SelectedKnightElements elts = ComponentPatterns.getSelectedKnightElements( selectedKnightMatcher );
+                tasks.add( tavern.getBrotherhood( herald, runData.getCycle(), elts.getKnightName() ) );
             }
 
-            Matcher fencingMasterMatcher =
-                    ComponentPatterns.FENCING_MASTER_PATTERN.matcher( value );
+            Matcher fencingMasterMatcher = ComponentPatterns.FENCING_MASTER_PATTERN.matcher( value );
             if( fencingMasterMatcher.matches() )
-                tasks.add( tavern.getFencingMaster( runData.getCycle(), fencingMasterMatcher ) );
+                tasks.add( tavern.getFencingMaster( herald, runData.getCycle(), fencingMasterMatcher ) );
 
             Matcher brotherhoodMatcher = ComponentPatterns.BROTHERHOOD_PATTERN.matcher( value );
             if( brotherhoodMatcher.matches() )
-                tasks.add( tavern.getBrotherhood( runData.getCycle(), brotherhoodMatcher ) );
+                tasks.add( tavern.getBrotherhood( herald, runData.getCycle(), brotherhoodMatcher ) );
 
             Matcher scribeMatcher = ComponentPatterns.SCRIBE_PATTERN.matcher( value );
             if( scribeMatcher.matches() )
-                tasks.add( tavern.getScribe( runData.getCycle(), scribeMatcher ) );
+                tasks.add( tavern.getScribe( herald, runData.getCycle(), scribeMatcher ) );
 
         }
 
     }
 
-    protected void addDependantTasksFromConstants( ActorWrapperSet<TaskWrapper> tasks, String value ) {
+    protected void addDependantTasksFromConstants( Set<TaskWrapper> tasks, String value ) {
 
         Set<FencingMasterRun> fencingMasters = fencingMasterRunRepository.findByContainedComponent( value );
         if( fencingMasters != null )
-            for( FencingMasterRun fencingMaster: fencingMasters )
-                tasks.add( casern.getFencingMaster( fencingMaster ) );
+            for( FencingMasterRun fencingMaster : fencingMasters )
+                tasks.add( herald.getFencingMaster( fencingMaster ) );
 
         Set<BrotherhoodRun> brotherhoods = brotherhoodRunRepository.findByContainedComponent( value );
         if( brotherhoods != null )
-            for( BrotherhoodRun brotherhood: brotherhoods )
-                tasks.add( casern.getBrotherhood( brotherhood ) );
+            for( BrotherhoodRun brotherhood : brotherhoods )
+                tasks.add( herald.getBrotherhood( brotherhood ) );
 
         Set<ScribeRun> scribes = scribeRunRepository.findByContainedComponent( value );
         if( scribes != null )
-            for( ScribeRun scribe: scribes )
-                tasks.add( casern.getScribe( scribe ) );
+            for( ScribeRun scribe : scribes )
+                tasks.add( herald.getScribe( scribe ) );
 
     }
 

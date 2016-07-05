@@ -11,6 +11,7 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.windwagon.broceliande.knights.entities.Constant;
 import com.windwagon.broceliande.knights.forge.ActorWrapper;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ConstantException;
 import com.windwagon.broceliande.knights.forge.errors.ConstraintsFormatException;
@@ -29,13 +30,13 @@ public abstract class ConstantWrapperImpl implements ConstantWrapper {
         this.constant = constant;
     }
 
-    protected abstract Object resolveValue() throws ConstantException;
+    protected abstract Object resolveValue( Herald herald ) throws ConstantException;
 
     protected Object cachedValue;
 
-    protected Object getCached() throws ConstantException {
+    protected Object getCached( Herald herald ) throws ConstantException {
         if( cachedValue == null )
-            cachedValue = resolveValue();
+            cachedValue = resolveValue( herald );
         return cachedValue;
     }
 
@@ -70,7 +71,7 @@ public abstract class ConstantWrapperImpl implements ConstantWrapper {
     }
 
     @Override
-    public void affectValue() throws ConstantException {
+    public void affectValue( Herald herald ) throws ConstantException {
 
         ExpressionParser parser = new SpelExpressionParser();
         Expression exp = parser.parseExpression( constant.getAttribute() );
@@ -79,7 +80,7 @@ public abstract class ConstantWrapperImpl implements ConstantWrapper {
         context.setRootObject( actor.getInstance() );
 
         try {
-            exp.setValue( context, getCached() );
+            exp.setValue( context, getCached( herald ) );
         } catch( EvaluationException ex ) {
             throw new ConstantException( ex );
         }

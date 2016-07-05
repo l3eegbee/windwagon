@@ -1,5 +1,6 @@
 package com.windwagon.broceliande.knights.forge.constant;
 
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.InActorClassPathOperation;
 import com.windwagon.broceliande.knights.forge.errors.ConstantException;
 import com.windwagon.kaamelott.ConstantProp;
@@ -7,7 +8,7 @@ import com.windwagon.kaamelott.ConstantProp;
 public interface ConstantWrapper extends ConstantProp {
 
     @InActorClassPathOperation
-    public void affectValue() throws ConstantException;
+    public void affectValue( Herald herald ) throws ConstantException;
 
     public String getAttribute();
 

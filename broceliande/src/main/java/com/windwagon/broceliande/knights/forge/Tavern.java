@@ -33,9 +33,6 @@ import com.windwagon.broceliande.knights.repositories.ScribeRunRepository;
 public class Tavern {
 
     @Autowired
-    private Casern casern;
-
-    @Autowired
     private OfficialKnightDataRepository officialKnightDataRepository;
 
     @Autowired
@@ -53,11 +50,11 @@ public class Tavern {
     @Autowired
     private ComponentDataRepository componentDataRepository;
 
-    public ComponentWrapper findComponent( String completeName ) throws ForgeException {
-        return findComponent( completeName, null );
+    public ComponentWrapper findComponent( Herald herald, String completeName ) throws ForgeException {
+        return findComponent( herald, completeName, null );
     }
 
-    public ComponentWrapper findComponent( String completeName, Cycle cycle ) throws ForgeException {
+    public ComponentWrapper findComponent( Herald herald, String completeName, Cycle cycle ) throws ForgeException {
 
         if( completeName == null || completeName.isEmpty() )
             throw new ForgeException( "Empty component name." );
@@ -66,39 +63,39 @@ public class Tavern {
 
             Matcher officialKnightMatcher = ComponentPatterns.OFFICIAL_KNIGHT_PATTERN.matcher( completeName );
             if( officialKnightMatcher.matches() )
-                return getOfficialKnight( officialKnightMatcher );
+                return getOfficialKnight( herald, officialKnightMatcher );
 
             Matcher trainedKnightMatcher = ComponentPatterns.TRAINED_KNIGHT_PATTERN.matcher( completeName );
             if( trainedKnightMatcher.matches() )
-                return getTrainedKnight( cycle, trainedKnightMatcher );
+                return getTrainedKnight( herald, cycle, trainedKnightMatcher );
 
             Matcher selectedKnightMatcher = ComponentPatterns.SELECTED_KNIGHT_PATTERN.matcher( completeName );
             if( selectedKnightMatcher.matches() )
-                return getSelectedKnight( cycle, selectedKnightMatcher );
+                return getSelectedKnight( herald, cycle, selectedKnightMatcher );
 
             Matcher fencingMasterMatcher = ComponentPatterns.FENCING_MASTER_PATTERN.matcher( completeName );
             if( fencingMasterMatcher.matches() )
-                return getFencingMaster( cycle, fencingMasterMatcher );
+                return getFencingMaster( herald, cycle, fencingMasterMatcher );
 
             Matcher brotherhoodMatcher = ComponentPatterns.BROTHERHOOD_PATTERN.matcher( completeName );
             if( brotherhoodMatcher.matches() )
-                return getBrotherhood( cycle, brotherhoodMatcher );
+                return getBrotherhood( herald, cycle, brotherhoodMatcher );
 
             Matcher scribeMatcher = ComponentPatterns.SCRIBE_PATTERN.matcher( completeName );
             if( scribeMatcher.matches() )
-                return getScribe( cycle, scribeMatcher );
+                return getScribe( herald, cycle, scribeMatcher );
 
             Matcher pageMatcher = ComponentPatterns.PAGE_PATTERN.matcher( completeName );
             if( pageMatcher.matches() )
-                return getPage( cycle, pageMatcher );
+                return getPage( herald, cycle, pageMatcher );
 
             Matcher officialComponentMatcher = ComponentPatterns.OFFICIAL_COMPONENT_PATTERN.matcher( completeName );
             if( officialComponentMatcher.matches() )
-                return getOfficialComponent( officialComponentMatcher );
+                return getOfficialComponent( herald, officialComponentMatcher );
 
             Matcher componentMatcher = ComponentPatterns.COMPONENT_PATTERN.matcher( completeName );
             if( componentMatcher.matches() )
-                return getComponent( componentMatcher );
+                return getComponent( herald, componentMatcher );
 
         } catch( ForgeException ex ) {
             throw new ForgeException( "Exception during getting component [" + completeName + "]" );
@@ -108,12 +105,12 @@ public class Tavern {
 
     }
 
-    public OfficialKnightWrapper getOfficialKnight( Matcher matcher ) throws ForgeException {
+    public OfficialKnightWrapper getOfficialKnight( Herald herald, Matcher matcher ) throws ForgeException {
         OfficialKnightElements elts = ComponentPatterns.getOfficialKnightElements( matcher );
-        return getOfficialKnight( elts.getKnightName(), elts.getOfficialId() );
+        return getOfficialKnight( herald, elts.getKnightName(), elts.getOfficialId() );
     }
 
-    public OfficialKnightWrapper getOfficialKnight( String kname, String offid ) throws ForgeException {
+    public OfficialKnightWrapper getOfficialKnight( Herald herald, String kname, String offid ) throws ForgeException {
 
         OfficialKnightData knightData =
                 officialKnightDataRepository.findByNameAndComponentComponentClassOfficialId( kname, offid );
@@ -121,16 +118,16 @@ public class Tavern {
         if( knightData == null )
             throw new ForgeException( "Official knight [" + kname + "][" + offid + "] not found" );
 
-        return casern.getOfficialKnight( knightData );
+        return herald.getOfficialKnight( knightData );
 
     }
 
-    public KnightWrapper getTrainedKnight( Cycle cycle, Matcher matcher ) throws ForgeException {
+    public KnightWrapper getTrainedKnight( Herald herald, Cycle cycle, Matcher matcher ) throws ForgeException {
         TrainedKnightElements elts = ComponentPatterns.getTrainedKnightElements( matcher );
-        return getTrainedKnight( cycle, elts.getKnightName(), elts.getFencingMasterName() );
+        return getTrainedKnight( herald, cycle, elts.getKnightName(), elts.getFencingMasterName() );
     }
 
-    public KnightWrapper getTrainedKnight( Cycle cycle, String kname, String fmname ) throws ForgeException {
+    public KnightWrapper getTrainedKnight( Herald herald, Cycle cycle, String kname, String fmname ) throws ForgeException {
 
         if( cycle == null )
             throw new ForgeException( "Cycle must be defined." );
@@ -142,16 +139,16 @@ public class Tavern {
         if( fencingMasterRun == null )
             throw new ForgeException( "Trained knight [" + kname + "][" + fmname + "] not found" );
 
-        return casern.getKnight( fencingMasterRun );
+        return herald.getKnight( fencingMasterRun );
 
     }
 
-    public KnightWrapper getSelectedKnight( Cycle cycle, Matcher matcher ) throws ForgeException {
+    public KnightWrapper getSelectedKnight( Herald herald, Cycle cycle, Matcher matcher ) throws ForgeException {
         SelectedKnightElements elts = ComponentPatterns.getSelectedKnightElements( matcher );
-        return getSelectedKnight( cycle, elts.getKnightName() );
+        return getSelectedKnight( herald, cycle, elts.getKnightName() );
     }
 
-    public KnightWrapper getSelectedKnight( Cycle cycle, String kname ) throws ForgeException {
+    public KnightWrapper getSelectedKnight( Herald herald, Cycle cycle, String kname ) throws ForgeException {
 
         if( cycle == null )
             throw new ForgeException( "Cycle must be defined." );
@@ -161,16 +158,16 @@ public class Tavern {
         if( brotherhoodRun == null )
             throw new ForgeException( "Selected knight [" + kname + "] not found" );
 
-        return casern.getKnight( brotherhoodRun.getSelected() );
+        return herald.getKnight( brotherhoodRun.getSelected() );
 
     }
 
-    public FencingMasterWrapper getFencingMaster( Cycle cycle, Matcher matcher ) throws ForgeException {
+    public FencingMasterWrapper getFencingMaster( Herald herald, Cycle cycle, Matcher matcher ) throws ForgeException {
         FencingMasterElements elts = ComponentPatterns.getFencingMasterElements( matcher );
-        return getFencingMaster( cycle, elts.getKnightName(), elts.getFencingMasterName() );
+        return getFencingMaster( herald, cycle, elts.getKnightName(), elts.getFencingMasterName() );
     }
 
-    public FencingMasterWrapper getFencingMaster( Cycle cycle, String kname, String fmname ) throws ForgeException {
+    public FencingMasterWrapper getFencingMaster( Herald herald, Cycle cycle, String kname, String fmname ) throws ForgeException {
 
         if( cycle == null )
             throw new ForgeException( "Cycle must be defined." );
@@ -182,16 +179,16 @@ public class Tavern {
         if( fencingMasterRun == null )
             throw new ForgeException( "Fencing master [" + kname + "][" + fmname + "] not found" );
 
-        return casern.getFencingMaster( fencingMasterRun );
+        return herald.getFencingMaster( fencingMasterRun );
 
     }
 
-    public BrotherhoodWrapper getBrotherhood( Cycle cycle, Matcher matcher ) throws ForgeException {
+    public BrotherhoodWrapper getBrotherhood( Herald herald, Cycle cycle, Matcher matcher ) throws ForgeException {
         BrotherhoodElements elts = ComponentPatterns.getBrotherhoodElements( matcher );
-        return getBrotherhood( cycle, elts.getName() );
+        return getBrotherhood( herald, cycle, elts.getName() );
     }
 
-    public BrotherhoodWrapper getBrotherhood( Cycle cycle, String kname ) throws ForgeException {
+    public BrotherhoodWrapper getBrotherhood( Herald herald, Cycle cycle, String kname ) throws ForgeException {
 
         if( cycle == null )
             throw new ForgeException( "Cycle must be defined." );
@@ -201,16 +198,16 @@ public class Tavern {
         if( brotherhoodRun == null )
             throw new ForgeException( "Brotherhood [" + kname + "] not found" );
 
-        return casern.getBrotherhood( brotherhoodRun );
+        return herald.getBrotherhood( brotherhoodRun );
 
     }
 
-    public ScribeWrapper getScribe( Cycle cycle, Matcher matcher ) throws ForgeException {
+    public ScribeWrapper getScribe( Herald herald, Cycle cycle, Matcher matcher ) throws ForgeException {
         ScribeElements elts = ComponentPatterns.getScribeElements( matcher );
-        return getScribe( cycle, elts.getName() );
+        return getScribe( herald, cycle, elts.getName() );
     }
 
-    public ScribeWrapper getScribe( Cycle cycle, String sname ) throws ForgeException {
+    public ScribeWrapper getScribe( Herald herald, Cycle cycle, String sname ) throws ForgeException {
 
         if( cycle == null )
             throw new ForgeException( "Cycle must be defined." );
@@ -220,16 +217,16 @@ public class Tavern {
         if( scribeRun == null )
             throw new ForgeException( "Scribe [" + sname + "] not found" );
 
-        return casern.getScribe( scribeRun );
+        return herald.getScribe( scribeRun );
 
     }
 
-    public PageWrapper getPage( Cycle cycle, Matcher matcher ) throws ForgeException {
+    public PageWrapper getPage( Herald herald, Cycle cycle, Matcher matcher ) throws ForgeException {
         PageElements elts = ComponentPatterns.getPageElements( matcher );
-        return getPage( cycle, elts.getName() );
+        return getPage( herald, cycle, elts.getName() );
     }
 
-    public PageWrapper getPage( Cycle cycle, String pname ) throws ForgeException {
+    public PageWrapper getPage( Herald herald, Cycle cycle, String pname ) throws ForgeException {
 
         if( cycle == null )
             throw new ForgeException( "Cycle must be defined." );
@@ -239,39 +236,39 @@ public class Tavern {
         if( pageData == null )
             throw new ForgeException( "Page [" + pname + "] not found" );
 
-        return casern.getPage( cycle, pageData );
+        return herald.getPage( cycle, pageData );
 
     }
 
-    public ComponentWrapper getOfficialComponent( Matcher matcher ) throws ForgeException {
+    public ComponentWrapper getOfficialComponent( Herald herald, Matcher matcher ) throws ForgeException {
         OfficialComponentElements elts = ComponentPatterns.getOfficialComponentElements( matcher );
-        return getOfficialComponent( elts.getName(), elts.getOfficialId() );
+        return getOfficialComponent( herald, elts.getName(), elts.getOfficialId() );
     }
 
-    public ComponentWrapper getOfficialComponent( String cname, String offid ) throws ForgeException {
+    public ComponentWrapper getOfficialComponent( Herald herald, String cname, String offid ) throws ForgeException {
 
         ComponentData component = componentDataRepository.findByNameAndComponentClassOfficialId( cname, offid );
 
         if( component == null )
             throw new ForgeException( "Official component [" + cname + "][" + offid + "] not found" );
 
-        return casern.getComponent( component );
+        return herald.getComponent( component );
 
     }
 
-    public ComponentWrapper getComponent( Matcher matcher ) throws ForgeException {
+    public ComponentWrapper getComponent( Herald herald, Matcher matcher ) throws ForgeException {
         ComponentElements elts = ComponentPatterns.getComponentElements( matcher );
-        return getComponent( elts.getName() );
+        return getComponent( herald, elts.getName() );
     }
 
-    public ComponentWrapper getComponent( String cname ) throws ForgeException {
+    public ComponentWrapper getComponent( Herald herald, String cname ) throws ForgeException {
 
         ComponentData component = componentDataRepository.findByName( cname );
 
         if( component == null )
             throw new ForgeException( "Component [" + cname + "] not found" );
 
-        return casern.getComponent( component );
+        return herald.getComponent( component );
 
     }
 

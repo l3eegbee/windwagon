@@ -1,5 +1,6 @@
 package com.windwagon.broceliande.knights.forge.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -10,22 +11,22 @@ import com.windwagon.broceliande.knights.entities.RunStatus;
 import com.windwagon.broceliande.knights.entities.ScribeData;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.ScribeWrapper;
 import com.windwagon.broceliande.knights.forge.TaskWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.repositories.ScribeRunRepository;
 import com.windwagon.kaamelott.Scribe;
 
-public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ScribeData, ScribeRun> implements
-        ScribeWrapper {
+public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ScribeData, ScribeRun> implements ScribeWrapper {
 
     private static final Logger logger = LoggerFactory.getLogger( ScribeWrapper.class );
 
     @Autowired
     private ScribeRunRepository scribeRunRepository;
 
-    public ScribeWrapperImpl( ScribeRun runData ) {
-        super( runData.getScribe(), runData );
+    public ScribeWrapperImpl( Herald herald, ScribeRun runData ) {
+        super( herald, runData.getScribe(), runData );
     }
 
     @Override
@@ -36,22 +37,22 @@ public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ScribeData, Scrib
     @Override
     public Set<TaskWrapper> getRequiredTasks() throws ForgeException {
 
-        ActorWrapperSet<TaskWrapper> tasks = new ActorWrapperSet<>();
+        Set<TaskWrapper> tasks = new HashSet<>();
 
         addRequiredTasksFromConstants( tasks );
 
-        return tasks.get();
+        return tasks;
 
     }
 
     @Override
     public Set<TaskWrapper> getDependantTasks() {
 
-        ActorWrapperSet<TaskWrapper> tasks = new ActorWrapperSet<>();
+        Set<TaskWrapper> tasks = new HashSet<>();
 
         addDependantTasksFromConstants( tasks, ComponentPatterns.getScribeName( this ) );
 
-        return tasks.get();
+        return tasks;
 
     }
 

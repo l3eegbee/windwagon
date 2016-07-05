@@ -3,6 +3,7 @@ package com.windwagon.broceliande.knights.forge.impl.constant;
 import java.util.List;
 import java.util.Vector;
 
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapperVisitor;
 import com.windwagon.broceliande.knights.forge.constant.ListConstantWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ListConstraints;
@@ -18,7 +19,7 @@ public class ListConstantWrapperImpl extends ConstantWrapperImpl implements List
 
     @Override
     @SuppressWarnings( "rawtypes" )
-    protected List resolveValue() throws ConstantException {
+    protected List resolveValue( Herald herald ) throws ConstantException {
 
         return new Vector( Integer.parseInt( constant.getValue() ) );
 

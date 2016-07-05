@@ -1,5 +1,6 @@
 package com.windwagon.broceliande.knights.forge.impl.constant;
 
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapperVisitor;
 import com.windwagon.broceliande.knights.forge.constant.EnumConstantWrapper;
 import com.windwagon.broceliande.knights.forge.constant.EnumConstraints;
@@ -15,7 +16,7 @@ public class EnumConstantWrapperImpl extends ConstantWrapperImpl implements Enum
 
     @Override
     @SuppressWarnings( { "unchecked", "rawtypes" } )
-    protected Object resolveValue() throws ConstantException {
+    protected Object resolveValue( Herald herald ) throws ConstantException {
 
         try {
 

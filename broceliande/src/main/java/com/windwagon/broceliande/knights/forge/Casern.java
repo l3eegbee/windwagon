@@ -26,44 +26,50 @@ public class Casern {
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public OfficialKnightWrapper getOfficialKnight( OfficialKnightData knightData ) {
-        return new OfficialKnightWrapperImpl( knightData );
+    public Herald getHerald() {
+        return new Herald();
     }
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public KnightWrapper getKnight( FencingMasterRun fencingMasterRun ) {
-        return new KnightWrapperImpl( fencingMasterRun );
+    public OfficialKnightWrapper getOfficialKnight( Herald herald, OfficialKnightData knightData ) {
+        return new OfficialKnightWrapperImpl( herald, knightData );
     }
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public FencingMasterWrapper getFencingMaster( FencingMasterRun fencingMasterRun ) {
-        return new FencingMasterWrapperImpl( fencingMasterRun );
+    public KnightWrapper getKnight( Herald herald, FencingMasterRun fencingMasterRun ) {
+        return new KnightWrapperImpl( herald, fencingMasterRun );
     }
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public BrotherhoodWrapper getBrotherhood( BrotherhoodRun brotherhoodRun ) {
-        return new BrotherhoodWrapperImpl( brotherhoodRun );
+    public FencingMasterWrapper getFencingMaster( Herald herald, FencingMasterRun fencingMasterRun ) {
+        return new FencingMasterWrapperImpl( herald, fencingMasterRun );
     }
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public ScribeWrapper getScribe( ScribeRun scribeRun ) {
-        return new ScribeWrapperImpl( scribeRun );
+    public BrotherhoodWrapper getBrotherhood( Herald herald, BrotherhoodRun brotherhoodRun ) {
+        return new BrotherhoodWrapperImpl( herald, brotherhoodRun );
     }
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public PageWrapper getPage( Cycle cycle, PageData pageData ) {
-        return new PageWrapperImpl( cycle, pageData );
+    public ScribeWrapper getScribe( Herald herald, ScribeRun scribeRun ) {
+        return new ScribeWrapperImpl( herald, scribeRun );
     }
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public ComponentWrapper getComponent( ComponentData component ) {
-        return new ComponentWrapperImpl( component );
+    public PageWrapper getPage( Herald herald, Cycle cycle, PageData pageData ) {
+        return new PageWrapperImpl( herald, cycle, pageData );
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public ComponentWrapper getComponent( Herald herald, ComponentData component ) {
+        return new ComponentWrapperImpl( herald, component );
     }
 
     @Bean

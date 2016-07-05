@@ -9,7 +9,6 @@ import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +30,8 @@ import com.windwagon.broceliande.knights.entities.Constant;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.JARFile;
 import com.windwagon.broceliande.knights.forge.ActorWrapper;
-import com.windwagon.broceliande.knights.forge.Casern;
 import com.windwagon.broceliande.knights.forge.ComponentWrapper;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.Tavern;
 import com.windwagon.broceliande.knights.forge.constant.ComponentConstantWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapper;
@@ -59,9 +58,6 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
     private ConstantWrapperFactory constantWrapperFactory;
 
     @Autowired
-    protected Casern casern;
-
-    @Autowired
     protected Tavern tavern;
 
     protected D actorData;
@@ -78,9 +74,9 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
 
     protected Map<String, ConstantWrapper> visibleConstantsMap;
 
-    protected ActorWrapperImpl( D actorData ) {
+    protected ActorWrapperImpl( Herald herald, D actorData ) {
 
-        super( actorData.getComponent() );
+        super( herald, actorData.getComponent() );
 
         this.actorData = actorData;
 
@@ -205,7 +201,7 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
         components.add( this );
 
         for( ComponentConstantWrapper constant : componentConstants )
-            components.add( constant.getComponent() );
+            components.add( constant.getComponent( herald ) );
 
         return components;
 
@@ -216,25 +212,7 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
         return Collections.emptySet();
     }
 
-    protected static class ActorWrapperSet<A extends ActorWrapper> {
-
-        private Map<ActorData, A> map = new HashMap<>();
-
-        public boolean add( A actorWrapper ) {
-            if( !map.containsKey( actorWrapper.getActorData() ) ) {
-                map.put( actorWrapper.getActorData(), actorWrapper );
-                return true;
-            }
-            return false;
-        }
-
-        public Set<A> get() {
-            return new HashSet<>( map.values() );
-        }
-
-    }
-
-    private void addAllActorDependances( ActorWrapperSet<ActorWrapper> actors, ActorWrapper actor ) {
+    private void addAllActorDependances( Set<ActorWrapper> actors, ActorWrapper actor ) {
 
         if( actors.add( actor ) )
             for( ActorWrapper dep : actor.getActorDependances() )
@@ -245,13 +223,12 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
     @Override
     public Set<JARFile> getAllJarDependances() throws ConstantException {
 
-        ActorWrapperSet<ActorWrapper> actors = new ActorWrapperSet<>();
+        Set<ActorWrapper> actors = new HashSet<>();
         addAllActorDependances( actors, this );
-        Set<ActorWrapper> allActors = actors.get();
 
         Set<JARFile> jarFiles = new HashSet<>();
 
-        for( ActorWrapper actor : allActors )
+        for( ActorWrapper actor : actors )
             for( ComponentWrapper component : actor.getComponentDependances() )
                 jarFiles.addAll( component.getComponent().getComponentClass().getJarFiles() );
 
@@ -318,7 +295,7 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
             actorInstance = (A) componentInstance;
 
             for( ConstantWrapper constant : allConstants )
-                constant.affectValue();
+                constant.affectValue( herald );
 
             actorPreInitialize();
 

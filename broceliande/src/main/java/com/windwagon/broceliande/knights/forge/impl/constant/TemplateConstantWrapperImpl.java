@@ -1,5 +1,6 @@
 package com.windwagon.broceliande.knights.forge.impl.constant;
 
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapperVisitor;
 import com.windwagon.broceliande.knights.forge.constant.TemplateConstantWrapper;
 import com.windwagon.broceliande.knights.forge.constant.TemplateConstraints;
@@ -14,7 +15,7 @@ public class TemplateConstantWrapperImpl extends ConstantWrapperImpl
     }
 
     @Override
-    protected String resolveValue() {
+    protected String resolveValue( Herald herald ) {
 
         return constant.getValue();
 

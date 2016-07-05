@@ -2,6 +2,7 @@ package com.windwagon.broceliande.knights.forge.impl;
 
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.KnightData;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
 
 public class KnightWrapperImpl extends WrappedKnightImpl<KnightData> implements KnightWrapper {
@@ -10,9 +11,9 @@ public class KnightWrapperImpl extends WrappedKnightImpl<KnightData> implements 
 
     private String knightName;
 
-    public KnightWrapperImpl( FencingMasterRun fencingMasterRun ) {
+    public KnightWrapperImpl( Herald herald, FencingMasterRun fencingMasterRun ) {
 
-        super( fencingMasterRun.getFencingMaster().getKnight() );
+        super( herald, fencingMasterRun.getFencingMaster().getKnight() );
 
         this.fencingMasterRun = fencingMasterRun;
 

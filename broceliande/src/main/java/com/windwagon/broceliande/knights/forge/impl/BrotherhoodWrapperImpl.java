@@ -19,14 +19,14 @@ import com.windwagon.broceliande.knights.forge.ActorWrapper;
 import com.windwagon.broceliande.knights.forge.BrotherhoodWrapper;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns;
 import com.windwagon.broceliande.knights.forge.FencingMasterWrapper;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.TaskWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ActorExecutionException;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.repositories.BrotherhoodRunRepository;
 import com.windwagon.kaamelott.Brotherhood;
 
-public class BrotherhoodWrapperImpl
-        extends TaskWrapperImpl<Brotherhood, BrotherhoodData, BrotherhoodRun>
+public class BrotherhoodWrapperImpl extends TaskWrapperImpl<Brotherhood, BrotherhoodData, BrotherhoodRun>
         implements BrotherhoodWrapper {
 
     private static final Logger logger = LoggerFactory.getLogger( BrotherhoodWrapper.class );
@@ -36,14 +36,14 @@ public class BrotherhoodWrapperImpl
 
     private Set<FencingMasterWrapper> fencingMasters = new HashSet<>();
 
-    public BrotherhoodWrapperImpl( BrotherhoodRun runData ) {
-        super( runData.getBrotherhood(), runData );
+    public BrotherhoodWrapperImpl( Herald herald, BrotherhoodRun runData ) {
+        super( herald, runData.getBrotherhood(), runData );
     }
 
     @PostConstruct
     public void init() {
         for( FencingMasterRun fmrun : runData.getFencingMasters() )
-            fencingMasters.add( casern.getFencingMaster( fmrun ) );
+            fencingMasters.add( herald.getFencingMaster( fmrun ) );
     }
 
     @Override
@@ -59,26 +59,26 @@ public class BrotherhoodWrapperImpl
     @Override
     public Set<? extends TaskWrapper> getRequiredTasks() throws ForgeException {
 
-        ActorWrapperSet<TaskWrapper> tasks = new ActorWrapperSet<>();
+        Set<TaskWrapper> tasks = new HashSet<>();
 
         for( FencingMasterWrapper fencingMaster : fencingMasters )
             tasks.add( fencingMaster );
 
         addRequiredTasksFromConstants( tasks );
 
-        return tasks.get();
+        return tasks;
 
     }
 
     @Override
     public Set<TaskWrapper> getDependantTasks() throws ForgeException {
 
-        ActorWrapperSet<TaskWrapper> tasks = new ActorWrapperSet<>();
+        Set<TaskWrapper> tasks = new HashSet<>();
 
         addDependantTasksFromConstants( tasks, ComponentPatterns.getSelectedKnightName( this ) );
         addDependantTasksFromConstants( tasks, ComponentPatterns.getBrotherhoodName( this ) );
 
-        return tasks.get();
+        return tasks;
 
     }
 

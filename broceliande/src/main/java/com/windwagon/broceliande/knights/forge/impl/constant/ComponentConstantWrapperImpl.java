@@ -3,6 +3,7 @@ package com.windwagon.broceliande.knights.forge.impl.constant;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.windwagon.broceliande.knights.forge.ComponentWrapper;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.Tavern;
 import com.windwagon.broceliande.knights.forge.constant.ComponentConstantWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ComponentConstraints;
@@ -23,11 +24,11 @@ public class ComponentConstantWrapperImpl extends ConstantWrapperImpl
     }
 
     @Override
-    public ComponentWrapper getComponent() throws ConstantException {
+    public ComponentWrapper getComponent( Herald herald ) throws ConstantException {
 
         try {
 
-            return tavern.findComponent( constant.getValue(), actor.getCycle() );
+            return tavern.findComponent( herald, constant.getValue(), actor.getCycle() );
 
         } catch( ForgeException ex ) {
             throw new ConstantException( ex );
@@ -36,11 +37,11 @@ public class ComponentConstantWrapperImpl extends ConstantWrapperImpl
     }
 
     @Override
-    protected Object resolveValue() throws ConstantException {
+    protected Object resolveValue( Herald herald ) throws ConstantException {
 
         try {
 
-            ComponentWrapper wrapper = getComponent();
+            ComponentWrapper wrapper = getComponent( herald );
 
             wrapper.inClasspathInstanciate();
 

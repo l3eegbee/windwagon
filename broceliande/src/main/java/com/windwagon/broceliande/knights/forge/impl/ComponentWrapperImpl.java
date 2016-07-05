@@ -5,10 +5,13 @@ import java.net.URLClassLoader;
 
 import com.windwagon.broceliande.knights.entities.ComponentData;
 import com.windwagon.broceliande.knights.forge.ComponentWrapper;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.errors.ConstructorException;
 import com.windwagon.broceliande.knights.forge.errors.LoadClassException;
 
 public class ComponentWrapperImpl implements ComponentWrapper {
+
+    protected Herald herald;
 
     protected URLClassLoader classLoader;
 
@@ -16,7 +19,8 @@ public class ComponentWrapperImpl implements ComponentWrapper {
 
     protected Object componentInstance;
 
-    public ComponentWrapperImpl( ComponentData component ) {
+    public ComponentWrapperImpl( Herald herald, ComponentData component ) {
+        this.herald = herald;
         this.component = component;
     }
 
