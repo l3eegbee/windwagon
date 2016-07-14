@@ -1,7 +1,7 @@
 package com.windwagon.broceliande.knights.forge.impl.constant;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapperVisitor;
@@ -21,7 +21,7 @@ public class ListConstantWrapperImpl extends ConstantWrapperImpl implements List
     @SuppressWarnings( "rawtypes" )
     protected List resolveValue( Herald herald ) throws ConstantException {
 
-        return new Vector( Integer.parseInt( constant.getValue() ) );
+        return new ArrayList( Integer.parseInt( constant.getValue() ) );
 
     }
 

@@ -4,36 +4,24 @@ import java.util.List;
 
 public class EnumConstraints {
 
-    private String enumClassName;
+    private String className;
 
-    private List<String> enumNames;
+    private List<String> names;
 
-    /**
-     * @return the enumClassName
-     */
-    public String getEnumClassName() {
-        return enumClassName;
+    public String getClassName() {
+        return this.className;
     }
 
-    /**
-     * @param enumClassName the enumClassName to set
-     */
-    public void setEnumClassName( String enumClassName ) {
-        this.enumClassName = enumClassName;
+    public void setClassName( String className ) {
+        this.className = className;
     }
 
-    /**
-     * @return the enumNames
-     */
-    public List<String> getEnumNames() {
-        return enumNames;
+    public List<String> getNames() {
+        return this.names;
     }
 
-    /**
-     * @param enumNames the enumNames to set
-     */
-    public void setEnumNames( List<String> enumNames ) {
-        this.enumNames = enumNames;
+    public void setNames( List<String> names ) {
+        this.names = names;
     }
 
 }
