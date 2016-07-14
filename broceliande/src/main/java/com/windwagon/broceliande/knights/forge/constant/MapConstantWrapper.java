@@ -1,3 +1,9 @@
 package com.windwagon.broceliande.knights.forge.constant;
 
-public interface MapConstantWrapper extends ConstantWrapper {}
+import com.windwagon.broceliande.knights.forge.errors.ConstraintsFormatException;
+
+public interface MapConstantWrapper extends ConstantWrapper {
+
+    public MapConstraints getMapConstraints() throws ConstraintsFormatException;
+
+}
