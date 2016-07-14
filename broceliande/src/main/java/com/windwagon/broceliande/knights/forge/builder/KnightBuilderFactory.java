@@ -34,6 +34,36 @@ public class KnightBuilderFactory {
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public EnumConstraintsBuilder getEnumConstraintsBuilder() {
+        return new EnumConstraintsBuilder();
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public ComponentConstraintsBuilder getComponentConstraintsBuilder() {
+        return new ComponentConstraintsBuilder();
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public TemplateConstraintsBuilder getTemplateConstraintsBuilder() {
+        return new TemplateConstraintsBuilder();
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public ListConstraintsBuilder getListConstraintsBuilder() {
+        return new ListConstraintsBuilder();
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public MapConstraintsBuilder getMapConstraintsBuilder() {
+        return new MapConstraintsBuilder();
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
     public OfficialKnightDataBuilder getOfficialKnightDataBuilder() {
         return new OfficialKnightDataBuilder();
     }
