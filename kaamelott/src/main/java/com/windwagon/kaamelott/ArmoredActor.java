@@ -1,6 +1,6 @@
 package com.windwagon.kaamelott;
 
-import java.util.Set;
+import java.util.SortedSet;
 
 public interface ArmoredActor < A extends Actor > {
 
@@ -8,7 +8,7 @@ public interface ArmoredActor < A extends Actor > {
 
     public String getDescription();
 
-    public Set<? extends ConstantProp> getConstantProps();
+    public SortedSet<? extends ConstantProp> getConstantProps();
 
     public ConstantProp getConstantProp( String name );
 
