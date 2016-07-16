@@ -12,14 +12,11 @@
 CREATE TABLE ww_jarfile (
     id          BIGINT NOT NULL,
     path        VARCHAR NOT NULL,
-    checksum    VARCHAR NOT NULL,
     description VARCHAR
 );
 
 ALTER TABLE ww_jarfile
     ADD CONSTRAINT pk_ww_jarfile PRIMARY KEY (id);
-
-CREATE INDEX idx_jarfile__checksum ON ww_jarfile(checksum);
 
 --
 -- ww_component_class

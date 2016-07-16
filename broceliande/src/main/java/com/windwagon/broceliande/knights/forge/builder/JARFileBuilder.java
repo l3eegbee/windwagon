@@ -34,15 +34,6 @@ public class JARFileBuilder implements Builder<JARFile> {
     }
 
     /*
-     * Checksum
-     */
-
-    public JARFileBuilder checksum( String checksum ) {
-        jarFile.setChecksum( checksum );
-        return this;
-    }
-
-    /*
      * Description
      */
 

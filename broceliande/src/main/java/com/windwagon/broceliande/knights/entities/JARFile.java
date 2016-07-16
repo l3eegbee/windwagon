@@ -25,10 +25,6 @@ public class JARFile implements Comparable<JARFile> {
     @Column( unique = true, nullable = false )
     private String path;
 
-    // hash SHA1
-    @Column( length = 250 )
-    private String checksum;
-
     @Column( length = 500 )
     private String description;
 
@@ -63,20 +59,6 @@ public class JARFile implements Comparable<JARFile> {
      */
     public void setPath( String path ) {
         this.path = path;
-    }
-
-    /**
-     * @return the checksum
-     */
-    public String getChecksum() {
-        return checksum;
-    }
-
-    /**
-     * @param checksum the checksum to set
-     */
-    public void setChecksum( String checksum ) {
-        this.checksum = checksum;
     }
 
     /**
