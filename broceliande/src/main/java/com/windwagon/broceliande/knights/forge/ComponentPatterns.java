@@ -278,7 +278,7 @@ public class ComponentPatterns {
      * PAGE
      */
 
-    public static final Pattern PAGE_PATTERN = Pattern.compile( "^pg:(?pname>.*)$" );
+    public static final Pattern PAGE_PATTERN = Pattern.compile( "^pg:(?<pname>.*)$" );
 
     public static Matcher pageMatcher( String name ) {
         return PAGE_PATTERN.matcher( name );
