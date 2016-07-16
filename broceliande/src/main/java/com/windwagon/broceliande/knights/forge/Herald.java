@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.windwagon.broceliande.knights.entities.ActorData;
 import com.windwagon.broceliande.knights.entities.BrotherhoodRun;
-import com.windwagon.broceliande.knights.entities.ComponentData;
+import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.OfficialKnightData;
@@ -32,7 +32,7 @@ public class Herald {
 
     private Map<Cycle, Map<ActorData, PageWrapper>> pages = new HashMap<>();
 
-    private Map<ComponentData, ComponentWrapper> components = new HashMap<>();
+    private Map<ComponentClass, ComponentWrapper> components = new HashMap<>();
 
     private Map<RaceSet, DrillHallWrapper> drillHalls = new HashMap<>();
 
@@ -74,8 +74,8 @@ public class Herald {
                 data -> casern.getPage( this, cycle, pageData ) );
     }
 
-    public ComponentWrapper getComponent( ComponentData component ) {
-        return components.computeIfAbsent( component, data -> casern.getComponent( this, component ) );
+    public ComponentWrapper getComponent( ComponentClass componentClass ) {
+        return components.computeIfAbsent( componentClass, data -> casern.getComponent( this, componentClass ) );
     }
 
     public DrillHallWrapper getDrillHall( RaceSet raceSet ) {

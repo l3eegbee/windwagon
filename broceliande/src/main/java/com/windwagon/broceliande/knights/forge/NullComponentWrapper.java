@@ -2,11 +2,11 @@ package com.windwagon.broceliande.knights.forge;
 
 import java.net.URLClassLoader;
 
-import com.windwagon.broceliande.knights.entities.ComponentData;
+import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 
 public class NullComponentWrapper implements ComponentWrapper {
-    
+
     private URLClassLoader classLoader;
 
     public void setClassLoader( URLClassLoader classLoader ) {
@@ -23,7 +23,7 @@ public class NullComponentWrapper implements ComponentWrapper {
         return null;
     }
 
-    public ComponentData getComponent() {
+    public ComponentClass getComponentClass() {
         return null;
     }
 

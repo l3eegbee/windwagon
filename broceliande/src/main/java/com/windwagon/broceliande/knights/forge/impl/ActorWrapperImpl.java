@@ -76,7 +76,7 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
 
     protected ActorWrapperImpl( Herald herald, D actorData ) {
 
-        super( herald, actorData.getComponent() );
+        super( herald, actorData.getComponent().getComponentClass() );
 
         this.actorData = actorData;
 
@@ -86,7 +86,7 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
     public void initialize() {
 
         allConstants = new Vector<>();
-        for( Constant constant : component.getConstants() )
+        for( Constant constant : actorData.getComponent().getConstants() )
             allConstants.add( constantWrapperFactory.getConstantWrapper( this, constant ) );
         Collections.sort( allConstants, Comparator.comparing( ConstantWrapper::getAttribute ) );
 
@@ -230,7 +230,7 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
 
         for( ActorWrapper actor : actors )
             for( ComponentWrapper component : actor.getComponentDependances() )
-                jarFiles.addAll( component.getComponent().getComponentClass().getJarFiles() );
+                jarFiles.addAll( component.getComponentClass().getJarFiles() );
 
         return jarFiles;
 

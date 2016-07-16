@@ -314,7 +314,7 @@ public class ComponentPatterns {
      * OFFICIAL COMPONENT
      */
 
-    public static final Pattern OFFICIAL_COMPONENT_PATTERN = Pattern.compile( "^(?<cname>[^@]*)@(?<offid>.*)$" );
+    public static final Pattern OFFICIAL_COMPONENT_PATTERN = Pattern.compile( "^(?<mname>[^@]*)@(?<offid>.*)$" );
 
     public static Matcher officalComponentMatcher( String name ) {
         return OFFICIAL_COMPONENT_PATTERN.matcher( name );
@@ -322,17 +322,17 @@ public class ComponentPatterns {
 
     public static class OfficialComponentElements {
 
-        private String name;
+        private String mainName;
 
         private String officialId;
 
-        public OfficialComponentElements( String name, String officialId ) {
-            this.name = name;
+        public OfficialComponentElements( String mainName, String officialId ) {
+            this.mainName = mainName;
             this.officialId = officialId;
         }
 
-        public String getName() {
-            return this.name;
+        public String getMainName() {
+            return this.mainName;
         }
 
         public String getOfficialId() {
@@ -342,14 +342,14 @@ public class ComponentPatterns {
     }
 
     public static OfficialComponentElements getOfficialComponentElements( Matcher matcher ) {
-        return new OfficialComponentElements( matcher.group( "cname" ), matcher.group( "offid" ) );
+        return new OfficialComponentElements( matcher.group( "mname" ), matcher.group( "offid" ) );
     }
 
     /*
      * COMPONENT
      */
 
-    public static final Pattern COMPONENT_PATTERN = Pattern.compile( "^(?<cname>.*)$" );
+    public static final Pattern COMPONENT_PATTERN = Pattern.compile( "^(?<mname>.*)$" );
 
     public static Matcher componentMatcher( String name ) {
         return COMPONENT_PATTERN.matcher( name );
@@ -357,20 +357,20 @@ public class ComponentPatterns {
 
     public static class ComponentElements {
 
-        private String name;
+        private String mainName;
 
-        public ComponentElements( String name ) {
-            this.name = name;
+        public ComponentElements( String mainName ) {
+            this.mainName = mainName;
         }
 
-        public String getName() {
-            return this.name;
+        public String getMainName() {
+            return this.mainName;
         }
 
     }
 
     public static ComponentElements getComponentElements( Matcher matcher ) {
-        return new ComponentElements( matcher.group( "cname" ) );
+        return new ComponentElements( matcher.group( "mname" ) );
     }
 
     public static String getComponentName( ComponentData data ) {

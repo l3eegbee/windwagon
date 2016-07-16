@@ -6,8 +6,4 @@ public interface ComponentDataRepository extends LongIdentifiedRepository<Compon
 
     public ComponentData findByName( String componentName );
 
-    public ComponentData findByNameAndComponentClassOfficialId(
-            String componentName,
-            String officialId );
-
 }

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.windwagon.broceliande.knights.entities.BrotherhoodRun;
-import com.windwagon.broceliande.knights.entities.ComponentData;
+import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.OfficialKnightData;
@@ -23,7 +23,7 @@ import com.windwagon.broceliande.knights.forge.ComponentPatterns.SelectedKnightE
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.TrainedKnightElements;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.repositories.BrotherhoodRunRepository;
-import com.windwagon.broceliande.knights.repositories.ComponentDataRepository;
+import com.windwagon.broceliande.knights.repositories.ComponentClassRepository;
 import com.windwagon.broceliande.knights.repositories.FencingMasterRunRepository;
 import com.windwagon.broceliande.knights.repositories.OfficialKnightDataRepository;
 import com.windwagon.broceliande.knights.repositories.PageDataRepository;
@@ -48,7 +48,7 @@ public class Tavern {
     private PageDataRepository pageDataRepository;
 
     @Autowired
-    private ComponentDataRepository componentDataRepository;
+    private ComponentClassRepository componentClassRepository;
 
     public ComponentWrapper findComponent( Herald herald, String completeName ) throws ForgeException {
         return findComponent( herald, completeName, null );
@@ -98,7 +98,7 @@ public class Tavern {
                 return getComponent( herald, componentMatcher );
 
         } catch( ForgeException ex ) {
-            throw new ForgeException( "Exception during getting component [" + completeName + "]" );
+            throw new ForgeException( "Exception during getting component [" + completeName + "]", ex );
         }
 
         throw new ForgeException( "No component match syntax [" + completeName + "]" );
@@ -242,33 +242,33 @@ public class Tavern {
 
     public ComponentWrapper getOfficialComponent( Herald herald, Matcher matcher ) throws ForgeException {
         OfficialComponentElements elts = ComponentPatterns.getOfficialComponentElements( matcher );
-        return getOfficialComponent( herald, elts.getName(), elts.getOfficialId() );
+        return getOfficialComponent( herald, elts.getMainName(), elts.getOfficialId() );
     }
 
-    public ComponentWrapper getOfficialComponent( Herald herald, String cname, String offid ) throws ForgeException {
+    public ComponentWrapper getOfficialComponent( Herald herald, String mainName, String offid ) throws ForgeException {
 
-        ComponentData component = componentDataRepository.findByNameAndComponentClassOfficialId( cname, offid );
+        ComponentClass componentClass = componentClassRepository.findByMainClassAndOfficialId( mainName, offid );
 
-        if( component == null )
-            throw new ForgeException( "Official component [" + cname + "][" + offid + "] not found" );
+        if( componentClass == null )
+            throw new ForgeException( "Official component class [" + mainName + "][" + offid + "] not found" );
 
-        return herald.getComponent( component );
+        return herald.getComponent( componentClass );
 
     }
 
     public ComponentWrapper getComponent( Herald herald, Matcher matcher ) throws ForgeException {
         ComponentElements elts = ComponentPatterns.getComponentElements( matcher );
-        return getComponent( herald, elts.getName() );
+        return getComponent( herald, elts.getMainName() );
     }
 
-    public ComponentWrapper getComponent( Herald herald, String cname ) throws ForgeException {
+    public ComponentWrapper getComponent( Herald herald, String mainName ) throws ForgeException {
 
-        ComponentData component = componentDataRepository.findByName( cname );
+        ComponentClass componentClass = componentClassRepository.findByMainClassAndOfficialId( mainName, null );
 
-        if( component == null )
-            throw new ForgeException( "Component [" + cname + "] not found" );
+        if( componentClass == null )
+            throw new ForgeException( "Component class [" + mainName + "] not found" );
 
-        return herald.getComponent( component );
+        return herald.getComponent( componentClass );
 
     }
 

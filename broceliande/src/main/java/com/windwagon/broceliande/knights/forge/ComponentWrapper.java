@@ -2,7 +2,7 @@ package com.windwagon.broceliande.knights.forge;
 
 import java.net.URLClassLoader;
 
-import com.windwagon.broceliande.knights.entities.ComponentData;
+import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 
 public interface ComponentWrapper {
@@ -28,7 +28,7 @@ public interface ComponentWrapper {
      * OTHERS
      */
 
-    public ComponentData getComponent();
+    public ComponentClass getComponentClass();
 
     public String getName();
 

@@ -3,7 +3,7 @@ package com.windwagon.broceliande.knights.forge.impl;
 import java.lang.reflect.Constructor;
 import java.net.URLClassLoader;
 
-import com.windwagon.broceliande.knights.entities.ComponentData;
+import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.forge.ComponentWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.errors.ConstructorException;
@@ -15,13 +15,13 @@ public class ComponentWrapperImpl implements ComponentWrapper {
 
     protected URLClassLoader classLoader;
 
-    protected ComponentData component;
+    protected ComponentClass componentClass;
 
     protected Object componentInstance;
 
-    public ComponentWrapperImpl( Herald herald, ComponentData component ) {
+    public ComponentWrapperImpl( Herald herald, ComponentClass componentClass ) {
         this.herald = herald;
-        this.component = component;
+        this.componentClass = componentClass;
     }
 
     /*
@@ -48,12 +48,16 @@ public class ComponentWrapperImpl implements ComponentWrapper {
 
         try {
 
+            String mainClass = componentClass.getMainClass();
+
             // get class
-            Class componentClass = classLoader.loadClass( component.getComponentClass().getMainClass() );
+            Class clazz = classLoader.loadClass( mainClass );
 
             // get constructor and instanciate
-            Constructor constructor = componentClass.getConstructor();
+            Constructor constructor = clazz.getConstructor();
             componentInstance = constructor.newInstance();
+
+            // only actors affect constants
 
         } catch( ClassNotFoundException | ClassCastException ex ) {
             throw new LoadClassException( ex );
@@ -73,18 +77,18 @@ public class ComponentWrapperImpl implements ComponentWrapper {
      */
 
     @Override
-    public ComponentData getComponent() {
-        return component;
+    public ComponentClass getComponentClass() {
+        return componentClass;
     }
 
     @Override
     public String getName() {
-        return component.getName();
+        return componentClass.getMainClass();
     }
 
     @Override
     public String getDescription() {
-        return component.getDescription();
+        return componentClass.getDescription();
     }
 
 }

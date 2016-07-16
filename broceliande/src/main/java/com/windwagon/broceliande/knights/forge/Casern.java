@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 import com.windwagon.broceliande.knights.entities.BrotherhoodRun;
-import com.windwagon.broceliande.knights.entities.ComponentData;
+import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.OfficialKnightData;
@@ -69,8 +69,8 @@ public class Casern {
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public ComponentWrapper getComponent( Herald herald, ComponentData component ) {
-        return new ComponentWrapperImpl( herald, component );
+    public ComponentWrapper getComponent( Herald herald, ComponentClass componentClass ) {
+        return new ComponentWrapperImpl( herald, componentClass );
     }
 
     @Bean
