@@ -2,6 +2,7 @@ package com.windwagon.broceliande.knights.forge.impl;
 
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.PageData;
+import com.windwagon.broceliande.knights.forge.ActorVisitor;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.PageWrapper;
 import com.windwagon.kaamelott.Page;
@@ -21,6 +22,11 @@ public class PageWrapperImpl extends ActorWrapperImpl<Page, PageData> implements
     @Override
     public Cycle getCycle() {
         return cycle;
+    }
+
+    @Override
+    public <R> R accept( ActorVisitor<R> visitor ) {
+        return visitor.visitPage( this );
     }
 
 }

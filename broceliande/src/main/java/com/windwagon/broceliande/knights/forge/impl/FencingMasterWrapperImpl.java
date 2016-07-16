@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
+import org.h2.tools.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.windwagon.broceliande.knights.entities.FencingMasterData;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.RunStatus;
+import com.windwagon.broceliande.knights.forge.ActorVisitor;
 import com.windwagon.broceliande.knights.forge.ActorWrapper;
 import com.windwagon.broceliande.knights.forge.BrotherhoodWrapper;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns;
@@ -175,6 +177,11 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
 
         }
 
+    }
+
+    @Override
+    public <R> R accept( ActorVisitor<R> visitor ) {
+        return visitor.visitFencingMaster( this );
     }
 
 }

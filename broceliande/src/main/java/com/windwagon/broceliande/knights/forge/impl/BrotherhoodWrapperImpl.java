@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
+import org.h2.tools.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.windwagon.broceliande.knights.entities.BrotherhoodData;
 import com.windwagon.broceliande.knights.entities.BrotherhoodRun;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.RunStatus;
+import com.windwagon.broceliande.knights.forge.ActorVisitor;
 import com.windwagon.broceliande.knights.forge.ActorWrapper;
 import com.windwagon.broceliande.knights.forge.BrotherhoodWrapper;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns;
@@ -161,6 +163,11 @@ public class BrotherhoodWrapperImpl extends TaskWrapperImpl<Brotherhood, Brother
 
         }
 
+    }
+
+    @Override
+    public <R> R accept( ActorVisitor<R> visitor ) {
+        return visitor.visitBrotherhood( this );
     }
 
 }

@@ -30,4 +30,6 @@ public interface ComponentWrapper {
 
     public ComponentClass getComponentClass();
 
+    public <R> R accept( ActorVisitor<R> visitor );
+
 }

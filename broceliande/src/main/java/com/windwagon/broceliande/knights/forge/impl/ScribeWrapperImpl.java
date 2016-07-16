@@ -3,6 +3,7 @@ package com.windwagon.broceliande.knights.forge.impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.h2.tools.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.windwagon.broceliande.knights.entities.RunStatus;
 import com.windwagon.broceliande.knights.entities.ScribeData;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
+import com.windwagon.broceliande.knights.forge.ActorVisitor;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.ScribeWrapper;
@@ -95,6 +97,11 @@ public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ScribeData, Scrib
 
         }
 
+    }
+
+    @Override
+    public <R> R accept( ActorVisitor<R> visitor ) {
+        return visitor.visitScribe( this );
     }
 
 }

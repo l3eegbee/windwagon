@@ -32,6 +32,7 @@ import com.windwagon.broceliande.knights.entities.ActorData;
 import com.windwagon.broceliande.knights.entities.Constant;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.JARFile;
+import com.windwagon.broceliande.knights.forge.ActorVisitor;
 import com.windwagon.broceliande.knights.forge.ActorWrapper;
 import com.windwagon.broceliande.knights.forge.ComponentWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
@@ -361,6 +362,11 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
     @Override
     public Cycle getCycle() {
         return null;
+    }
+
+    @Override
+    public <R> R accept( ActorVisitor<R> visitor ) {
+        return visitor.visitActor( this );
     }
 
     /*

@@ -14,6 +14,7 @@ import com.windwagon.broceliande.knights.entities.Run;
 import com.windwagon.broceliande.knights.entities.RunStatus;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.broceliande.knights.entities.Task;
+import com.windwagon.broceliande.knights.forge.ActorVisitor;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.SelectedKnightElements;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.TrainedKnightElements;
@@ -200,6 +201,11 @@ public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends 
     @Override
     public R getRunData() {
         return runData;
+    }
+
+    @Override
+    public <R> R accept( ActorVisitor<R> visitor ) {
+        return visitor.visitTask( this );
     }
 
     @Override

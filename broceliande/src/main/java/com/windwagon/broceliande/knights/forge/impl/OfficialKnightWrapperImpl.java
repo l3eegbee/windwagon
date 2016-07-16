@@ -1,6 +1,7 @@
 package com.windwagon.broceliande.knights.forge.impl;
 
 import com.windwagon.broceliande.knights.entities.OfficialKnightData;
+import com.windwagon.broceliande.knights.forge.ActorVisitor;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.OfficialKnightWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ActorExecutionException;
@@ -28,6 +29,11 @@ public class OfficialKnightWrapperImpl extends WrappedKnightImpl<OfficialKnightD
 
         }
 
+    }
+
+    @Override
+    public <R> R accept( ActorVisitor<R> visitor ) {
+        return visitor.visitOfficialKnight( this );
     }
 
 }

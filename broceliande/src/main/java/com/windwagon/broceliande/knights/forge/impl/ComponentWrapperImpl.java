@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.net.URLClassLoader;
 
 import com.windwagon.broceliande.knights.entities.ComponentClass;
+import com.windwagon.broceliande.knights.forge.ActorVisitor;
 import com.windwagon.broceliande.knights.forge.ComponentWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.errors.ConstructorException;
@@ -80,6 +81,11 @@ public class ComponentWrapperImpl implements ComponentWrapper {
     @Override
     public ComponentClass getComponentClass() {
         return componentClass;
+    }
+
+    @Override
+    public <R> R accept( ActorVisitor<R> visitor ) {
+        return visitor.visitComponent( this );
     }
 
 }
