@@ -20,9 +20,7 @@ public class MapConstantWrapperImpl extends ConstantWrapperImpl implements MapCo
     @Override
     @SuppressWarnings( "rawtypes" )
     protected Map resolveValue( Herald herald ) throws ConstantException {
-
         return new HashMap();
-
     }
 
     @Override

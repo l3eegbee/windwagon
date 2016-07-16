@@ -43,6 +43,7 @@ public class ComponentConstantWrapperImpl extends ConstantWrapperImpl
 
             ComponentWrapper wrapper = getComponent( herald );
 
+            wrapper.setClassLoader( actor.getClassLoader() );
             wrapper.inClasspathInstanciate();
 
             return wrapper.getInstance();

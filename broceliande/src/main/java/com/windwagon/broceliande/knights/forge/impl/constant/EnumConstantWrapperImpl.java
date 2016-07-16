@@ -22,7 +22,7 @@ public class EnumConstantWrapperImpl extends ConstantWrapperImpl implements Enum
 
             EnumConstraints constraints = getEnumConstraints();
 
-            Class enumClass = actor.getClassLoader().loadClass( constraints.getEnumClassName() );
+            Class enumClass = actor.getClassLoader().loadClass( constraints.getClassName() );
 
             return Enum.valueOf( enumClass, constant.getValue() );
 

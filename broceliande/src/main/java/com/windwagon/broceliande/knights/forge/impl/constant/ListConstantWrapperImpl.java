@@ -1,6 +1,7 @@
 package com.windwagon.broceliande.knights.forge.impl.constant;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.windwagon.broceliande.knights.forge.Herald;
@@ -18,10 +19,10 @@ public class ListConstantWrapperImpl extends ConstantWrapperImpl implements List
     }
 
     @Override
-    @SuppressWarnings( "rawtypes" )
+    @SuppressWarnings( { "unchecked", "rawtypes" } )
     protected List resolveValue( Herald herald ) throws ConstantException {
 
-        return new ArrayList( Integer.parseInt( constant.getValue() ) );
+        return new ArrayList( Collections.nCopies( Integer.parseInt( constant.getValue() ), null ) );
 
     }
 
