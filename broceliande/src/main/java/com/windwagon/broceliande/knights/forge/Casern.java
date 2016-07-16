@@ -15,6 +15,7 @@ import com.windwagon.broceliande.knights.entities.RaceSet;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.broceliande.knights.forge.impl.BrotherhoodWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.ComponentWrapperImpl;
+import com.windwagon.broceliande.knights.forge.impl.DrillHallWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.FencingMasterWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.KnightWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.OfficialKnightWrapperImpl;
@@ -75,7 +76,7 @@ public class Casern {
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
     public DrillHallWrapper getDrillHall( RaceSet raceSet ) {
-        return new DrillHallWrapper( raceSet );
+        return new DrillHallWrapperImpl( raceSet );
     }
 
 }
