@@ -45,12 +45,13 @@ public class ComponentClass implements Comparable<ComponentClass> {
 
     private String officialId;
 
-    @ManyToMany( cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH } )
+    @ManyToMany(
+            targetEntity = JARFile.class,
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH } )
     @JoinTable(
             name = "ww_componentclass_jarfiles",
             joinColumns = @JoinColumn( name = "component_class" ),
             inverseJoinColumns = @JoinColumn( name = "jarfile" ) )
-    @ElementCollection( targetClass = JARFile.class )
     @SortNatural
     private SortedSet<JARFile> jarFiles;
 
