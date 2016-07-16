@@ -35,6 +35,10 @@ public class SortedSetCachedBuilder<O, B extends Builder<O>> implements Builder<
 
     }
 
+    public List<B> builders() {
+        return builders;
+    }
+
     public SortedSet<O> build() {
 
         for( Builder<O> builder : builders )

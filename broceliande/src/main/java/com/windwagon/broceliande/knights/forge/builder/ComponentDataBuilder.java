@@ -57,7 +57,13 @@ public class ComponentDataBuilder implements Builder<ComponentData> {
      */
 
     private SortedSetCachedBuilder<Constant, ConstantBuilder> constantBuilder =
-            new SortedSetCachedBuilder<>( () -> knightBuilderFactory.getConstantBuilder() );
+            new SortedSetCachedBuilder<>( this::newConstantBuilder );
+
+    private ConstantBuilder newConstantBuilder() {
+        ConstantBuilder builder = knightBuilderFactory.getConstantBuilder();
+        builder.order( constantBuilder.builders().size() );
+        return builder;
+    }
 
     public ComponentDataBuilder constants( SortedSet<Constant> constants ) {
         constantBuilder.set( constants );
@@ -81,7 +87,11 @@ public class ComponentDataBuilder implements Builder<ComponentData> {
     public ComponentData build() {
 
         component.setComponentClass( componentClassBuilder.build() );
-        component.setConstants( constantBuilder.build() );
+
+        SortedSet<Constant> constants = constantBuilder.build();
+        for( Constant constant : constants )
+            constant.setComponent( component );
+        component.setConstants( constants );
 
         return component;
 

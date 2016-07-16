@@ -13,7 +13,16 @@ public class ConstantBuilder implements Builder<Constant> {
     @Autowired
     private KnightBuilderFactory knightBuilderFactory;
 
-    private Constant constant = new Constant();
+    private Constant constant;
+
+    public ConstantBuilder() {
+
+        constant = new Constant();
+
+        constant.setFinalValue( false );
+        constant.setHiddenValue( false );
+
+    }
 
     /*
      * Name
