@@ -23,7 +23,7 @@ public abstract class ActorData {
     @Lob
     private String description;
 
-    @ManyToOne( cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH } )
+    @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = "component" )
     private ComponentData component;
 
