@@ -4,9 +4,11 @@ import java.util.Set;
 
 import com.windwagon.broceliande.knights.entities.Run;
 import com.windwagon.broceliande.knights.entities.RunStatus;
+import com.windwagon.broceliande.knights.entities.Task;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
+import com.windwagon.kaamelott.Actor;
 
-public interface TaskWrapper extends ActorWrapper {
+public interface TaskWrapper<A extends Actor, T extends Task, R extends Run> extends ActorWrapper<A, T> {
 
     /*
      * EXECUTION
@@ -38,14 +40,14 @@ public interface TaskWrapper extends ActorWrapper {
      * DEPENDENCES
      */
 
-    public Set<? extends TaskWrapper> getRequiredTasks() throws ForgeException;
+    public Set<? extends TaskWrapper<?,?,?>> getRequiredTasks() throws ForgeException;
 
-    public Set<? extends TaskWrapper> getDependantTasks() throws ForgeException;
+    public Set<? extends TaskWrapper<?,?,?>> getDependantTasks() throws ForgeException;
 
     /*
      * OTHERS
      */
 
-    public Run getRunData();
+    public R getRunData();
 
 }

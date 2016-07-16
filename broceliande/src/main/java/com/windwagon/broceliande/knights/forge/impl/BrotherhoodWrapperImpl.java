@@ -52,14 +52,14 @@ public class BrotherhoodWrapperImpl extends TaskWrapperImpl<Brotherhood, Brother
     }
 
     @Override
-    public Set<? extends ActorWrapper> getActorDependances() {
+    public Set<? extends ActorWrapper<?,?>> getActorDependances() {
         return fencingMasters;
     }
 
     @Override
-    public Set<? extends TaskWrapper> getRequiredTasks() throws ForgeException {
+    public Set<? extends TaskWrapper<?,?,?>> getRequiredTasks() throws ForgeException {
 
-        Set<TaskWrapper> tasks = new HashSet<>();
+        Set<TaskWrapper<?,?,?>> tasks = new HashSet<>();
 
         for( FencingMasterWrapper fencingMaster : fencingMasters )
             tasks.add( fencingMaster );
@@ -71,9 +71,9 @@ public class BrotherhoodWrapperImpl extends TaskWrapperImpl<Brotherhood, Brother
     }
 
     @Override
-    public Set<TaskWrapper> getDependantTasks() throws ForgeException {
+    public Set<TaskWrapper<?,?,?>> getDependantTasks() throws ForgeException {
 
-        Set<TaskWrapper> tasks = new HashSet<>();
+        Set<TaskWrapper<?,?,?>> tasks = new HashSet<>();
 
         addDependantTasksFromConstants( tasks, ComponentPatterns.getSelectedKnightName( this ) );
         addDependantTasksFromConstants( tasks, ComponentPatterns.getBrotherhoodName( this ) );
@@ -83,23 +83,29 @@ public class BrotherhoodWrapperImpl extends TaskWrapperImpl<Brotherhood, Brother
     }
 
     @Override
-    public void actorPostInitialize() throws Exception {
+    public void actorPreInitialize() throws ForgeException {
 
-        for( FencingMasterWrapper fencingMaster : fencingMasters ) {
+        try {
 
-            fencingMaster.setClassLoader( classLoader );
-            fencingMaster.instanciate();
+            for( FencingMasterWrapper fencingMaster : fencingMasters ) {
 
-            if( fencingMaster.getStatus() == RunStatus.DONE ) {
-                fencingMaster.getKnight().unmarshal();
-                fencingMaster.unmarshal();
+                fencingMaster.setClassLoader( classLoader );
+                fencingMaster.inClasspathInstanciate();
+
+                if( fencingMaster.getStatus() == RunStatus.DONE ) {
+                    fencingMaster.getKnight().unmarshal();
+                    fencingMaster.unmarshal();
+                }
+
             }
 
+            actorInstance.setFencingMasters( Collections.unmodifiableSet( fencingMasters ) );
+
+        } catch( ForgeException ex ) {
+            throw ex;
+        } catch( Throwable ex ) {
+            throw new ActorExecutionException( ex );
         }
-
-        actorInstance.setFencingMasters( Collections.unmodifiableSet( fencingMasters ) );
-
-        super.actorPostInitialize();
 
     }
 

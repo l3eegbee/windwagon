@@ -19,6 +19,7 @@ import com.windwagon.broceliande.knights.forge.ComponentPatterns.SelectedKnightE
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.TrainedKnightElements;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.TaskWrapper;
+import com.windwagon.broceliande.knights.forge.Tavern;
 import com.windwagon.broceliande.knights.forge.constant.ComponentConstantWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.repositories.BrotherhoodRunRepository;
@@ -28,9 +29,12 @@ import com.windwagon.kaamelott.Actor;
 import com.windwagon.kaamelott.Marshallable;
 
 public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends Task, R extends Run>
-        extends ActorWrapperImpl<A, D> implements TaskWrapper {
+        extends ActorWrapperImpl<A, D> implements TaskWrapper<A, D, R> {
 
     private static final Logger logger = LoggerFactory.getLogger( TaskWrapper.class );
+
+    @Autowired
+    private Tavern tavern;
 
     @Autowired
     protected FencingMasterRunRepository fencingMasterRunRepository;
@@ -126,7 +130,7 @@ public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends 
      * DEPENDENCES
      */
 
-    protected void addRequiredTasksFromConstants( Set<TaskWrapper> tasks ) throws ForgeException {
+    protected void addRequiredTasksFromConstants( Set<TaskWrapper<?, ?, ?>> tasks ) throws ForgeException {
 
         for( ComponentConstantWrapper constant : componentConstants ) {
 
@@ -165,7 +169,7 @@ public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends 
 
     }
 
-    protected void addDependantTasksFromConstants( Set<TaskWrapper> tasks, String value ) {
+    protected void addDependantTasksFromConstants( Set<TaskWrapper<?, ?, ?>> tasks, String value ) {
 
         Set<FencingMasterRun> fencingMasters = fencingMasterRunRepository.findByContainedComponent( value );
         if( fencingMasters != null )

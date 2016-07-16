@@ -30,8 +30,4 @@ public interface ComponentWrapper {
 
     public ComponentClass getComponentClass();
 
-    public String getName();
-
-    public String getDescription();
-
 }

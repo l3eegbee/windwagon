@@ -27,12 +27,4 @@ public class NullComponentWrapper implements ComponentWrapper {
         return null;
     }
 
-    public String getName() {
-        return "";
-    }
-
-    public String getDescription() {
-        return "NULL";
-    }
-
 }

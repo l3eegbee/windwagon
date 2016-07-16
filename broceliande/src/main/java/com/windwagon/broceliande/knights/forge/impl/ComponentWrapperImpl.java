@@ -7,6 +7,7 @@ import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.forge.ComponentWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.errors.ConstructorException;
+import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.forge.errors.LoadClassException;
 
 public class ComponentWrapperImpl implements ComponentWrapper {
@@ -44,7 +45,7 @@ public class ComponentWrapperImpl implements ComponentWrapper {
 
     @Override
     @SuppressWarnings( { "rawtypes", "unchecked" } )
-    public void inClasspathInstanciate() throws LoadClassException, ConstructorException {
+    public void inClasspathInstanciate() throws ForgeException {
 
         try {
 
@@ -79,16 +80,6 @@ public class ComponentWrapperImpl implements ComponentWrapper {
     @Override
     public ComponentClass getComponentClass() {
         return componentClass;
-    }
-
-    @Override
-    public String getName() {
-        return componentClass.getMainClass();
-    }
-
-    @Override
-    public String getDescription() {
-        return componentClass.getDescription();
     }
 
 }

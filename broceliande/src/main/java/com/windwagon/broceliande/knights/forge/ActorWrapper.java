@@ -12,7 +12,7 @@ import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.forge.errors.LoadJARException;
 import com.windwagon.kaamelott.Actor;
 
-public interface ActorWrapper extends AutoCloseable, ComponentWrapper {
+public interface ActorWrapper<A extends Actor, D extends ActorData> extends AutoCloseable, ComponentWrapper {
 
     /*
      * PROTECT CALLING
@@ -35,18 +35,10 @@ public interface ActorWrapper extends AutoCloseable, ComponentWrapper {
     public void call( Script script ) throws ActorExecutionException;
 
     /*
-     * CONSTANTS
-     */
-
-    public Set<ConstantWrapper> getConstantProps();
-
-    public ConstantWrapper getConstantProp( String name );
-
-    /*
      * CLASS LOADER
      */
 
-    public Set<? extends ActorWrapper> getActorDependances();
+    public Set<? extends ActorWrapper<?, ?>> getActorDependances();
 
     public Set<ComponentWrapper> getComponentDependances() throws ConstantException;
 
@@ -63,21 +55,27 @@ public interface ActorWrapper extends AutoCloseable, ComponentWrapper {
     @InActorClassPathOperation
     public void inClasspathInstanciate() throws ForgeException;
 
-    @InActorClassPathOperation
-    public void actorPreInitialize() throws Exception;
-
-    @InActorClassPathOperation
-    public void actorPostInitialize() throws Exception;
-
-    /*
-     * OTHERS
-     */
-
     public void close();
 
-    public ActorData getActorData();
+    /*
+     * ARMORED INTERFACE
+     */
 
-    public Actor getActor();
+    public String getName();
+
+    public String getDescription();
+
+    public Set<ConstantWrapper> getConstantProps();
+
+    public ConstantWrapper getConstantProp( String name );
+
+    public A getActor();
+
+    /*
+     * OTHER
+     */
+
+    public D getActorData();
 
     public Cycle getCycle();
 

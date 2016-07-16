@@ -19,6 +19,7 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,6 @@ import com.windwagon.broceliande.knights.entities.JARFile;
 import com.windwagon.broceliande.knights.forge.ActorWrapper;
 import com.windwagon.broceliande.knights.forge.ComponentWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
-import com.windwagon.broceliande.knights.forge.Tavern;
 import com.windwagon.broceliande.knights.forge.constant.ComponentConstantWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapperFactory;
@@ -43,8 +43,8 @@ import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.forge.errors.LoadJARException;
 import com.windwagon.kaamelott.Actor;
 
-public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends ComponentWrapperImpl
-        implements ActorWrapper {
+public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> extends ComponentWrapperImpl
+        implements ActorWrapper<A, D> {
 
     private static final Logger logger = LoggerFactory.getLogger( ActorWrapperImpl.class );
 
@@ -57,12 +57,7 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
     @Autowired
     private ConstantWrapperFactory constantWrapperFactory;
 
-    @Autowired
-    protected Tavern tavern;
-
     protected D actorData;
-
-    protected Class<? extends A> actorClass;
 
     protected A actorInstance;
 
@@ -179,18 +174,6 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
     }
 
     /*
-     * CONSTANTS
-     */
-
-    public Set<ConstantWrapper> getConstantProps() {
-        return visibleConstants;
-    }
-
-    public ConstantWrapper getConstantProp( String name ) {
-        return visibleConstantsMap.get( name );
-    }
-
-    /*
      * CLASS LOADER
      */
 
@@ -208,14 +191,14 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
     }
 
     @Override
-    public Set<? extends ActorWrapper> getActorDependances() {
+    public Set<? extends ActorWrapper<?, ?>> getActorDependances() {
         return Collections.emptySet();
     }
 
-    private void addAllActorDependances( Set<ActorWrapper> actors, ActorWrapper actor ) {
+    private void addAllActorDependances( Set<ActorWrapper<?, ?>> actors, ActorWrapper<?, ?> actor ) {
 
         if( actors.add( actor ) )
-            for( ActorWrapper dep : actor.getActorDependances() )
+            for( ActorWrapper<?, ?> dep : actor.getActorDependances() )
                 addAllActorDependances( actors, dep );
 
     }
@@ -223,12 +206,12 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
     @Override
     public Set<JARFile> getAllJarDependances() throws ConstantException {
 
-        Set<ActorWrapper> actors = new HashSet<>();
+        Set<ActorWrapper<?, ?>> actors = new HashSet<>();
         addAllActorDependances( actors, this );
 
         Set<JARFile> jarFiles = new HashSet<>();
 
-        for( ActorWrapper actor : actors )
+        for( ActorWrapper<?, ?> actor : actors )
             for( ComponentWrapper component : actor.getComponentDependances() )
                 jarFiles.addAll( component.getComponentClass().getJarFiles() );
 
@@ -270,7 +253,7 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
             try {
                 classLoader.close();
             } catch( IOException ex ) {
-                logger.error( "Can't close actor {}", getName(), ex );
+                logger.error( "Can't close actor {}", actorData.getName(), ex );
             } finally {
                 classLoader = null;
             }
@@ -283,16 +266,13 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
 
     @Override
     @SuppressWarnings( "unchecked" )
-    public void instanciate() throws ForgeException {
+    public void inClasspathInstanciate() throws ForgeException {
 
-        if( classLoader == null )
-            this.constructClassLoader();
+        super.inClasspathInstanciate();
 
-        call( () -> {
+        actorInstance = (A) componentInstance;
 
-            inClasspathInstanciate();
-
-            actorInstance = (A) componentInstance;
+        try {
 
             for( ConstantWrapper constant : allConstants )
                 constant.affectValue( herald );
@@ -303,18 +283,31 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
 
             actorPostInitialize();
 
-        } );
+        } catch( ForgeException ex ) {
+            throw ex;
+        } catch( Throwable ex ) {
+            throw new ActorExecutionException( ex );
+        }
 
     }
 
     @Override
-    public void actorPreInitialize() throws Exception {}
+    @Transactional
+    public void instanciate() throws ForgeException {
 
-    @Override
-    public void actorPostInitialize() throws Exception {}
+        if( classLoader == null )
+            this.constructClassLoader();
+
+        call( this::inClasspathInstanciate );
+
+    }
+
+    protected void actorPreInitialize() throws ForgeException {}
+
+    protected void actorPostInitialize() throws ForgeException {}
 
     /*
-     * OTHERS
+     * ARMORED INTERFACE
      */
 
     @Override
@@ -328,13 +321,27 @@ public class ActorWrapperImpl<A extends Actor, D extends ActorData> extends Comp
     }
 
     @Override
-    public D getActorData() {
-        return actorData;
+    public Set<ConstantWrapper> getConstantProps() {
+        return visibleConstants;
+    }
+
+    @Override
+    public ConstantWrapper getConstantProp( String name ) {
+        return visibleConstantsMap.get( name );
     }
 
     @Override
     public A getActor() {
         return actorInstance;
+    }
+
+    /*
+     * OTHER
+     */
+
+    @Override
+    public D getActorData() {
+        return actorData;
     }
 
     @Override

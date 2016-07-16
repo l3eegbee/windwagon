@@ -7,7 +7,7 @@ import com.windwagon.kaamelott.Knight;
 import com.windwagon.kaamelott.words.Words;
 
 public abstract class WrappedKnightImpl<D extends ActorData> extends ActorWrapperImpl<Knight, D>
-        implements WrappedKnight {
+        implements WrappedKnight<D> {
 
     public WrappedKnightImpl( Herald herald, D actorData ) {
         super( herald, actorData );

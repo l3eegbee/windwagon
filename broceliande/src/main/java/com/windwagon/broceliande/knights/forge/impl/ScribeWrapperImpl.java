@@ -35,9 +35,9 @@ public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ScribeData, Scrib
     }
 
     @Override
-    public Set<TaskWrapper> getRequiredTasks() throws ForgeException {
+    public Set<TaskWrapper<?,?,?>> getRequiredTasks() throws ForgeException {
 
-        Set<TaskWrapper> tasks = new HashSet<>();
+        Set<TaskWrapper<?,?,?>> tasks = new HashSet<>();
 
         addRequiredTasksFromConstants( tasks );
 
@@ -46,9 +46,9 @@ public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ScribeData, Scrib
     }
 
     @Override
-    public Set<TaskWrapper> getDependantTasks() {
+    public Set<TaskWrapper<?,?,?>> getDependantTasks() {
 
-        Set<TaskWrapper> tasks = new HashSet<>();
+        Set<TaskWrapper<?,?,?>> tasks = new HashSet<>();
 
         addDependantTasksFromConstants( tasks, ComponentPatterns.getScribeName( this ) );
 

@@ -5,16 +5,8 @@ import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.kaamelott.ArmoredFencingMaster;
 import com.windwagon.kaamelott.FencingMaster;
 
-public interface FencingMasterWrapper extends TaskWrapper, ArmoredFencingMaster {
-
-    @Override
-    public FencingMasterData getActorData();
-
-    @Override
-    public FencingMasterRun getRunData();
-
-    @Override
-    public FencingMaster getActor();
+public interface FencingMasterWrapper
+        extends TaskWrapper<FencingMaster, FencingMasterData, FencingMasterRun>, ArmoredFencingMaster {
 
     @Override
     public KnightWrapper getKnight();

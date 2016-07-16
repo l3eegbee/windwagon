@@ -21,6 +21,7 @@ import com.windwagon.broceliande.knights.forge.FencingMasterWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
 import com.windwagon.broceliande.knights.forge.TaskWrapper;
+import com.windwagon.broceliande.knights.forge.errors.ActorExecutionException;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.repositories.FencingMasterRunRepository;
 import com.windwagon.kaamelott.FencingMaster;
@@ -63,14 +64,14 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
     }
 
     @Override
-    public Set<? extends ActorWrapper> getActorDependances() {
+    public Set<? extends ActorWrapper<?,?>> getActorDependances() {
         return new HashSet<>( Arrays.asList( knight, brotherhood() ) );
     }
 
     @Override
-    public Set<? extends TaskWrapper> getRequiredTasks() throws ForgeException {
+    public Set<? extends TaskWrapper<?,?,?>> getRequiredTasks() throws ForgeException {
 
-        Set<TaskWrapper> tasks = new HashSet<>();
+        Set<TaskWrapper<?,?,?>> tasks = new HashSet<>();
 
         addRequiredTasksFromConstants( tasks );
 
@@ -79,9 +80,9 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
     }
 
     @Override
-    public Set<? extends TaskWrapper> getDependantTasks() throws ForgeException {
+    public Set<? extends TaskWrapper<?,?,?>> getDependantTasks() throws ForgeException {
 
-        Set<TaskWrapper> tasks = new HashSet<>();
+        Set<TaskWrapper<?,?,?>> tasks = new HashSet<>();
 
         tasks.add( brotherhood() );
 
@@ -93,14 +94,16 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
     }
 
     @Override
-    public void actorPostInitialize() throws Exception {
+    public void actorPreInitialize() throws ForgeException {
 
         knight.setClassLoader( classLoader );
-        knight.instanciate();
+        knight.inClasspathInstanciate();
 
-        actorInstance.setKnight( knight );
-
-        super.actorPostInitialize();
+        try {
+            actorInstance.setKnight( knight );
+        } catch( Throwable ex ) {
+            throw new ActorExecutionException( ex );
+        }
 
     }
 
