@@ -11,9 +11,9 @@
 
 CREATE TABLE ww_jarfile (
     id          BIGINT NOT NULL,
-    path        CHARACTER VARYING(255) NOT NULL,
-    checksum    CHARACTER VARYING(250) NOT NULL,
-    description CHARACTER VARYING(500)
+    path        VARCHAR NOT NULL,
+    checksum    VARCHAR NOT NULL,
+    description VARCHAR
 );
 
 ALTER TABLE ww_jarfile
@@ -27,9 +27,9 @@ CREATE INDEX idx_jarfile__checksum ON ww_jarfile(checksum);
 
 CREATE TABLE ww_component_class (
     id          BIGINT NOT NULL,
-    main_class  CHARACTER VARYING(255) NOT NULL,
+    main_class  VARCHAR NOT NULL,
     description TEXT,
-    official_id CHARACTER VARYING(255)
+    official_id VARCHAR
 );
 
 ALTER TABLE ww_component_class
@@ -43,7 +43,7 @@ CREATE UNIQUE INDEX idx_component_class__main_class ON ww_component_class(main_c
 
 CREATE TABLE ww_componentclass_types (
     component_class BIGINT NOT NULL,
-    type            CHARACTER VARYING(250) NOT NULL
+    type            VARCHAR NOT NULL
 );
 
 ALTER TABLE ww_componentclass_types
@@ -76,7 +76,7 @@ CREATE INDEX idx_componentclass_jarfiles__jarfile ON ww_componentclass_jarfiles(
 
 CREATE TABLE ww_component (
     id              BIGINT NOT NULL,
-    name            CHARACTER VARYING(255) NOT NULL,
+    name            VARCHAR NOT NULL,
     description     TEXT,
     component_class BIGINT NOT NULL,
 );
@@ -97,11 +97,11 @@ CREATE INDEX idx_component__component_class ON ww_component(component_class);
 
 CREATE TABLE ww_constant (
     id           BIGINT NOT NULL,
-    name         CHARACTER VARYING(255),
+    name         VARCHAR,
     description  TEXT,
     attribute    TEXT,
     type_value   CHARACTER VARYING(15) NOT NULL,
-    constraints  CHARACTER VARYING(255) NOT NULL,
+    constraints  VARCHAR,
     value        TEXT,
     order_value  INTEGER NOT NULL,
     final_value  BOOLEAN NOT NULL,
@@ -121,7 +121,7 @@ ALTER TABLE ww_constant
 
 CREATE TABLE ww_official_knight (
     id            BIGINT NOT NULL,
-    name          CHARACTER VARYING(255) NOT NULL,
+    name          VARCHAR NOT NULL,
     description   TEXT,
     component     BIGINT NOT NULL,
     serialization TEXT
@@ -141,7 +141,7 @@ CREATE INDEX idx_official_knight__name ON ww_official_knight(name);
 
 CREATE TABLE ww_knight (
     id            BIGINT NOT NULL,
-    name          CHARACTER VARYING(255),
+    name          VARCHAR,
     description   TEXT,
     component     BIGINT NOT NULL
 );
@@ -158,7 +158,7 @@ ALTER TABLE ww_knight
 
 CREATE TABLE ww_page (
     id            BIGINT NOT NULL,
-    name          CHARACTER VARYING(255) NOT NULL,
+    name          VARCHAR NOT NULL,
     description   TEXT,
     component     BIGINT NOT NULL
 );
@@ -177,7 +177,7 @@ CREATE UNIQUE INDEX idx_page__name ON ww_page(name);
 
 CREATE TABLE ww_brotherhood (
    id           BIGINT NOT NULL,
-   name         CHARACTER VARYING(255) NOT NULL,
+   name         VARCHAR NOT NULL,
    description  TEXT,
    component    BIGINT NOT NULL,
 );
@@ -196,7 +196,7 @@ CREATE UNIQUE INDEX idx_brotherhood__name ON ww_brotherhood(name);
 
 CREATE TABLE ww_fencingmaster (
     id          BIGINT NOT NULL,
-    name        CHARACTER VARYING(255),
+    name        VARCHAR,
     description TEXT,
     component   BIGINT NOT NULL,
     knight      BIGINT NOT NULL,
@@ -223,7 +223,7 @@ CREATE INDEX idx_fencingmaster__name ON ww_fencingmaster(name);
 
 CREATE TABLE ww_scribe (
     id           BIGINT NOT NULL,
-    name         CHARACTER VARYING(255) NOT NULL,
+    name         VARCHAR NOT NULL,
     description  TEXT,
     component    BIGINT NOT NULL,
 );
@@ -257,7 +257,7 @@ CREATE INDEX idx_cycle__creation ON ww_cycle(creation);
 
 CREATE TABLE ww_raceset (
     id          BIGINT NOT NULL,
-    name        CHARACTER VARYING(255) NOT NULL,
+    name        VARCHAR NOT NULL,
     description TEXT,
     cycle       BIGINT NOT NULL
 );
