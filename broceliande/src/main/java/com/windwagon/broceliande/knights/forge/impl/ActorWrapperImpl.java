@@ -25,6 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.windwagon.broceliande.knights.entities.ActorData;
 import com.windwagon.broceliande.knights.entities.Constant;
@@ -53,6 +55,9 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
 
     @Autowired
     private FileSystem fileSystem;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @Autowired
     private ConstantWrapperFactory constantWrapperFactory;
@@ -128,7 +133,16 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
         @Override
         public void run() {
             try {
-                this.value = fun.call();
+
+                this.value = new TransactionTemplate( transactionManager ).execute( ( status ) -> {
+                    try {
+                        return fun.call();
+                    } catch( Throwable ex ) {
+                        this.ex = ex;
+                        return null;
+                    }
+                } );
+
             } catch( Throwable ex ) {
                 this.ex = ex;
             }
