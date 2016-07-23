@@ -113,9 +113,7 @@ public abstract class ActorWrapperImpl<A extends Actor, Armored extends ArmoredA
                 this.value = new TransactionTemplate( transactionManager ).execute( ( status ) -> {
                     try {
 
-                        Cycle cycle = getCycle();
-
-                        Camp camp = armory.getCamp( cycle );
+                        Camp camp = armory.getCamp( getCycle(), getHerald() );
                         Armored armored = instanciate( camp );
 
                         return fun.apply( armored );

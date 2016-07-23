@@ -34,6 +34,12 @@ public class Casern {
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public Herald getHerald( Herald from ) {
+        return new Herald( from );
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
     public OfficialKnightWrapper getOfficialKnight( Herald herald, OfficialKnightData knightData ) {
         return new OfficialKnightWrapperImpl( herald, knightData );
     }

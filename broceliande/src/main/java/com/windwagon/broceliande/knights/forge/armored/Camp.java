@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.forge.BrotherhoodWrapper;
 import com.windwagon.broceliande.knights.forge.FencingMasterWrapper;
+import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
 import com.windwagon.broceliande.knights.forge.OfficialKnightWrapper;
 import com.windwagon.broceliande.knights.forge.PageWrapper;
@@ -19,6 +20,8 @@ public class Camp {
     private Armory armory;
 
     private Cycle cycle;
+
+    private Herald herald;
 
     private Map<KnightWrapper, ArmoredKnightWrapper> knights = new HashMap<>();
 
@@ -32,12 +35,17 @@ public class Camp {
 
     private Map<PageWrapper, ArmoredPageWrapper> pages = new HashMap<>();
 
-    public Camp( Cycle cycle ) {
+    public Camp( Cycle cycle, Herald herald ) {
         this.cycle = cycle;
+        this.herald = herald;
     }
 
     public Cycle getCycle() {
         return cycle;
+    }
+
+    public Herald getHerald() {
+        return this.herald;
     }
 
     public ArmoredKnightWrapper getKnight( KnightWrapper wrapper ) {

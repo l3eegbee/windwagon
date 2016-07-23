@@ -43,7 +43,7 @@ public abstract class ArmoredActorWrapperImpl<A extends Actor, W extends ActorWr
 
     @Override
     public Herald getHerald() {
-        return wrapper.getHerald();
+        return camp.getHerald();
     }
 
     @Override

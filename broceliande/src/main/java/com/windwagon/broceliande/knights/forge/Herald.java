@@ -21,24 +21,51 @@ public class Herald {
     @Autowired
     private Casern casern;
 
-    private Map<OfficialKnightData, OfficialKnightWrapper> officialKnights = new HashMap<>();
+    private Map<OfficialKnightData, OfficialKnightWrapper> officialKnights;
 
-    private Map<Cycle, Map<ActorData, KnightWrapper>> knights = new HashMap<>();
+    private Map<Cycle, Map<ActorData, KnightWrapper>> knights;
 
-    private Map<Cycle, Map<ActorData, FencingMasterWrapper>> fencingMasters = new HashMap<>();
+    private Map<Cycle, Map<ActorData, FencingMasterWrapper>> fencingMasters;
 
-    private Map<Cycle, Map<ActorData, BrotherhoodWrapper>> brotherhoods = new HashMap<>();
+    private Map<Cycle, Map<ActorData, BrotherhoodWrapper>> brotherhoods;
 
-    private Map<Cycle, Map<ActorData, ScribeWrapper>> scribes = new HashMap<>();
+    private Map<Cycle, Map<ActorData, ScribeWrapper>> scribes;
 
-    private Map<Cycle, Map<ActorData, PageWrapper>> pages = new HashMap<>();
+    private Map<Cycle, Map<ActorData, PageWrapper>> pages;
 
-    private Map<ComponentClass, ComponentWrapper> components = new HashMap<>();
+    private Map<ComponentClass, ComponentWrapper> components;
 
-    private LazyInitializer<NullComponentWrapper> nullWrapper =
-            new LazyInitializer<>( () -> casern.getNullComponent( this ) );
+    private LazyInitializer<NullComponentWrapper> nullWrapper;
 
-    private Map<RaceSet, DrillHallWrapper> drillHalls = new HashMap<>();
+    private Map<RaceSet, DrillHallWrapper> drillHalls;
+
+    public Herald() {
+
+        this.officialKnights = new HashMap<>();
+        this.knights = new HashMap<>();
+        this.fencingMasters = new HashMap<>();
+        this.brotherhoods = new HashMap<>();
+        this.scribes = new HashMap<>();
+        this.pages = new HashMap<>();
+        this.components = new HashMap<>();
+        this.nullWrapper = new LazyInitializer<>( () -> casern.getNullComponent( this ) );
+        this.drillHalls = new HashMap<>();
+
+    }
+
+    public Herald( Herald from ) {
+
+        this.officialKnights = new HashMap<>( from.officialKnights );
+        this.knights = new HashMap<>( from.knights );
+        this.fencingMasters = new HashMap<>( from.fencingMasters );
+        this.brotherhoods = new HashMap<>( from.brotherhoods );
+        this.scribes = new HashMap<>( from.scribes );
+        this.pages = new HashMap<>( from.pages );
+        this.components = new HashMap<>( from.components );
+        this.nullWrapper = from.nullWrapper;
+        this.drillHalls = new HashMap<>( from.drillHalls );
+
+    }
 
     private <K, V> Map<K, V> newhash( Cycle cycle ) {
         return new HashMap<>();
