@@ -1,6 +1,7 @@
 package com.windwagon.broceliande.knights.forge.impl.constant;
 
-import com.windwagon.broceliande.knights.forge.Herald;
+import com.windwagon.broceliande.knights.entities.Constant;
+import com.windwagon.broceliande.knights.forge.armored.ArmoredActorWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapperVisitor;
 import com.windwagon.broceliande.knights.forge.constant.EnumConstantWrapper;
 import com.windwagon.broceliande.knights.forge.constant.EnumConstraints;
@@ -9,6 +10,10 @@ import com.windwagon.broceliande.knights.forge.errors.ConstraintsFormatException
 
 public class EnumConstantWrapperImpl extends ConstantWrapperImpl implements EnumConstantWrapper {
 
+    public EnumConstantWrapperImpl( Constant constant ) {
+        super( constant );
+    }
+
     @Override
     public EnumConstraints getEnumConstraints() throws ConstraintsFormatException {
         return readConstraints( EnumConstraints.class );
@@ -16,13 +21,13 @@ public class EnumConstantWrapperImpl extends ConstantWrapperImpl implements Enum
 
     @Override
     @SuppressWarnings( { "unchecked", "rawtypes" } )
-    protected Object resolveValue( Herald herald ) throws ConstantException {
+    protected Object resolveValue( ArmoredActorWrapper<?> armored ) throws ConstantException {
 
         try {
 
             EnumConstraints constraints = getEnumConstraints();
 
-            Class enumClass = actor.getClassLoader().loadClass( constraints.getClassName() );
+            Class enumClass = Class.forName( constraints.getClassName() );
 
             return Enum.valueOf( enumClass, constant.getValue() );
 

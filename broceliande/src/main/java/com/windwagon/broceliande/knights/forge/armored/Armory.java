@@ -1,66 +1,67 @@
 package com.windwagon.broceliande.knights.forge.armored;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.forge.BrotherhoodWrapper;
 import com.windwagon.broceliande.knights.forge.FencingMasterWrapper;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
+import com.windwagon.broceliande.knights.forge.OfficialKnightWrapper;
 import com.windwagon.broceliande.knights.forge.PageWrapper;
 import com.windwagon.broceliande.knights.forge.ScribeWrapper;
 import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredBrotherhoodWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredFencingMasterWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredKnightWrapperImpl;
+import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredOfficialKnightWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredPageWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredScribeWrapperImpl;
-import com.windwagon.kaamelott.Brotherhood;
-import com.windwagon.kaamelott.FencingMaster;
-import com.windwagon.kaamelott.Knight;
-import com.windwagon.kaamelott.Page;
-import com.windwagon.kaamelott.Scribe;
 
 @Configuration
-public class Foundry {
+public class Armory {
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public ArmoredKnightWrapper getArmoredKnight( KnightWrapper wrapper, Knight instance ) {
-        return new ArmoredKnightWrapperImpl( wrapper, instance );
+    public Camp getCamp( Cycle cycle ) {
+        return new Camp( cycle );
     }
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public ArmoredFencingMasterWrapper getArmoredFencingMaster(
-            FencingMasterWrapper wrapper,
-            FencingMaster instance,
-            ArmoredKnightWrapper armoredKnight ) {
-        return new ArmoredFencingMasterWrapperImpl( wrapper, instance, armoredKnight );
+    public ArmoredKnightWrapper getArmoredKnight( Camp camp, KnightWrapper wrapper ) {
+        return new ArmoredKnightWrapperImpl( camp, wrapper );
     }
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public ArmoredBrotherhoodWrapper getArmoredBrotherhood(
-            BrotherhoodWrapper wrapper,
-            Brotherhood instance,
-            Set<? extends ArmoredFencingMasterWrapper> fencingMasters,
-            ArmoredFencingMasterWrapper theone ) {
-        return new ArmoredBrotherhoodWrapperImpl( wrapper, instance, fencingMasters, theone );
+    public ArmoredOfficialKnightWrapper getArmoredOfficialKnight( Camp camp, OfficialKnightWrapper wrapper ) {
+        return new ArmoredOfficialKnightWrapperImpl( camp, wrapper );
     }
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public ArmoredScribeWrapper getArmoredScribe( ScribeWrapper wrapper, Scribe instance ) {
-        return new ArmoredScribeWrapperImpl( wrapper, instance );
+    public ArmoredFencingMasterWrapper getArmoredFencingMaster( Camp camp, FencingMasterWrapper wrapper ) {
+        return new ArmoredFencingMasterWrapperImpl( camp, wrapper );
     }
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public ArmoredPageWrapper getArmoredPage( PageWrapper wrapper, Page instance ) {
-        return new ArmoredPageWrapperImpl( wrapper, instance );
+    public ArmoredBrotherhoodWrapper getArmoredBrotherhood( Camp camp, BrotherhoodWrapper wrapper ) {
+        return new ArmoredBrotherhoodWrapperImpl( camp, wrapper );
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public ArmoredScribeWrapper getArmoredScribe( Camp camp, ScribeWrapper wrapper ) {
+        return new ArmoredScribeWrapperImpl( camp, wrapper );
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public ArmoredPageWrapper getArmoredPage( Camp camp, PageWrapper wrapper ) {
+        return new ArmoredPageWrapperImpl( camp, wrapper );
     }
 
 }

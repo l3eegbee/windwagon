@@ -6,20 +6,16 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.Vector;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,25 +25,30 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.windwagon.broceliande.knights.entities.ActorData;
+import com.windwagon.broceliande.knights.entities.ComponentClass;
+import com.windwagon.broceliande.knights.entities.ComponentData;
 import com.windwagon.broceliande.knights.entities.Constant;
+import com.windwagon.broceliande.knights.entities.ConstantType;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.JARFile;
 import com.windwagon.broceliande.knights.forge.ActorVisitor;
 import com.windwagon.broceliande.knights.forge.ActorWrapper;
 import com.windwagon.broceliande.knights.forge.ComponentWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
-import com.windwagon.broceliande.knights.forge.constant.ComponentConstantWrapper;
+import com.windwagon.broceliande.knights.forge.Tavern;
+import com.windwagon.broceliande.knights.forge.armored.ArmoredActorWrapper;
+import com.windwagon.broceliande.knights.forge.armored.Armory;
+import com.windwagon.broceliande.knights.forge.armored.Camp;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapperFactory;
-import com.windwagon.broceliande.knights.forge.constant.ConstantWrapperVisitor;
 import com.windwagon.broceliande.knights.forge.errors.ActorExecutionException;
-import com.windwagon.broceliande.knights.forge.errors.ConstantException;
+import com.windwagon.broceliande.knights.forge.errors.ForgeError;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.forge.errors.LoadJARException;
 import com.windwagon.kaamelott.Actor;
 
-public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> extends ComponentWrapperImpl
-        implements ActorWrapper<A, D> {
+public abstract class ActorWrapperImpl<A extends Actor, Armored extends ArmoredActorWrapper<A>, D extends ActorData>
+        extends ComponentWrapperImpl implements ActorWrapper<Armored, D> {
 
     private static final Logger logger = LoggerFactory.getLogger( ActorWrapperImpl.class );
 
@@ -55,25 +56,23 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
     protected String jarRootPathName;
 
     @Autowired
-    private FileSystem fileSystem;
+    protected FileSystem fileSystem;
 
     @Autowired
-    private PlatformTransactionManager transactionManager;
+    protected PlatformTransactionManager transactionManager;
+
+    @Autowired
+    protected Tavern tavern;
+
+    @Autowired
+    protected Armory armory;
 
     @Autowired
     private ConstantWrapperFactory constantWrapperFactory;
 
     protected D actorData;
 
-    protected A actorInstance;
-
-    protected List<ConstantWrapper> allConstants;
-
-    protected List<ComponentConstantWrapper> componentConstants;
-
-    protected Set<ConstantWrapper> visibleConstants;
-
-    protected Map<String, ConstantWrapper> visibleConstantsMap;
+    protected Set<ConstantWrapper> constants = new HashSet<>();
 
     protected ActorWrapperImpl( Herald herald, D actorData ) {
 
@@ -84,34 +83,10 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
     }
 
     @PostConstruct
-    public void initialize() {
+    public void postConstruct() {
 
-        allConstants = new Vector<>();
         for( Constant constant : actorData.getComponent().getConstants() )
-            allConstants.add( constantWrapperFactory.getConstantWrapper( this, constant ) );
-        Collections.sort( allConstants, Comparator.comparing( ConstantWrapper::getAttribute ) );
-
-        componentConstants = new Vector<>();
-        for( ConstantWrapper constant : allConstants )
-            constant.accept( new ConstantWrapperVisitor<Runnable>() {
-
-                @Override
-                public Runnable visitConstant( ConstantWrapper constant ) {
-                    return () -> {};
-                }
-
-                @Override
-                public Runnable visitComponent( ComponentConstantWrapper constant ) {
-                    return () -> componentConstants.add( constant );
-                }
-
-            } ).run();
-
-        SortedSet<ConstantWrapper> visible = new TreeSet<>( Comparator.comparingInt( ConstantWrapper::getOrder ) );
-        allConstants.stream().filter( c -> !c.isHidden() ).map( visible::add );
-        visibleConstants = Collections.unmodifiableSet( visible );
-
-        visibleConstantsMap = visibleConstants.stream().collect( Collectors.toMap( c -> c.getName(), c -> c ) );
+            constants.add( constantWrapperFactory.getConstantWrapper( constant ) );
 
     }
 
@@ -121,13 +96,13 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
 
     private class ValuableRunnable<V> implements Runnable {
 
-        private Function<V> fun;
+        private Function<? super Armored, V> fun;
 
         private V value;
 
         private Throwable ex;
 
-        public ValuableRunnable( Function<V> fun ) {
+        public ValuableRunnable( Function<? super Armored, V> fun ) {
             this.fun = fun;
         }
 
@@ -137,7 +112,14 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
 
                 this.value = new TransactionTemplate( transactionManager ).execute( ( status ) -> {
                     try {
-                        return fun.call();
+
+                        Cycle cycle = getCycle();
+
+                        Camp camp = armory.getCamp( cycle );
+                        Armored armored = instanciate( camp );
+
+                        return fun.apply( armored );
+
                     } catch( Throwable ex ) {
                         this.ex = ex;
                         return null;
@@ -160,9 +142,12 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
     }
 
     @Override
-    public <V> V call( Function<V> func ) throws ActorExecutionException {
+    public <V> V call( Function<? super Armored, V> func ) throws ForgeException {
 
-        ValuableRunnable<V> runnable = new ValuableRunnable<>( func );
+        ValuableRunnable<V> runnable = new ValuableRunnable<V>( func );
+
+        URLClassLoader classLoader = constructClassLoader();
+
         Thread thread = new Thread( runnable );
         thread.setContextClassLoader( classLoader );
 
@@ -171,73 +156,82 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
             thread.join();
         } catch( InterruptedException ex ) {
             throw new ActorExecutionException( ex );
+        } finally {
+            try {
+                classLoader.close();
+            } catch( IOException ex ) {
+                logger.error( "Error during closing class loader.", ex );
+            }
         }
 
-        if( runnable.getException() != null )
-            throw new ActorExecutionException( runnable.getException() );
+        try {
+            if( runnable.getException() != null )
+                throw runnable.getException();
+        } catch( ForgeException ex ) {
+            throw ex;
+        } catch( ForgeError ex ) {
+            throw ex.getCause();
+        } catch( Throwable ex ) {
+            throw new ActorExecutionException( ex );
+        }
 
         return runnable.getValue();
 
     }
 
-    @Override
-    public void call( Script script ) throws ActorExecutionException {
-        call( () -> {
-            script.call();
-            return null;
-        } );
+    protected Cycle getCycle() {
+        return null;
     }
 
     /*
      * CLASS LOADER
      */
 
-    @Override
-    public Set<ComponentWrapper> getComponentDependances() throws ConstantException {
-
-        Set<ComponentWrapper> components = new HashSet<>();
-        components.add( this );
-
-        for( ComponentConstantWrapper constant : componentConstants )
-            components.add( constant.getComponent( herald ) );
-
-        return components;
-
-    }
-
-    @Override
     public Set<? extends ActorWrapper<?, ?>> getActorDependances() {
         return Collections.emptySet();
     }
 
-    private void addAllActorDependances( Set<ActorWrapper<?, ?>> actors, ActorWrapper<?, ?> actor ) {
+    private void searchComponents(
+            Set<ComponentClass> componentClasses,
+            Set<ActorWrapper<?, ?>> actors,
+            Herald herald,
+            ActorWrapper<?, ?> actor ) throws ForgeException {
 
-        if( actors.add( actor ) )
-            for( ActorWrapper<?, ?> dep : actor.getActorDependances() )
-                addAllActorDependances( actors, dep );
+        if( actors.add( actor ) ) {
+
+            ComponentData actorComponent = actor.getActorData().getComponent();
+            componentClasses.add( actorComponent.getComponentClass() );
+
+            for( Constant constant : actorComponent.getConstants() ) {
+                if( constant.getType() == ConstantType.COMPONENT ) {
+
+                    String value = constant.getValue();
+                    ComponentWrapper constantWrapper = tavern.findComponent( herald, getCycle(), value );
+
+                    if( constantWrapper instanceof ActorWrapper )
+                        searchComponents( componentClasses, actors, herald, (ActorWrapper<?, ?>) constantWrapper );
+                    else
+                        componentClasses.add( constantWrapper.getComponentClass() );
+
+                }
+            }
+
+            for( ActorWrapper<?, ?> actorDep : actor.getActorDependances() )
+                searchComponents( componentClasses, actors, herald, actorDep );
+
+        }
 
     }
 
-    @Override
-    public Set<JARFile> getAllJarDependances() throws ConstantException {
+    public URLClassLoader constructClassLoader() throws ForgeException {
 
-        Set<ActorWrapper<?, ?>> actors = new HashSet<>();
-        addAllActorDependances( actors, this );
+        // get all component classes
+        Set<ComponentClass> componentClasses = new HashSet<>();
+        searchComponents( componentClasses, new HashSet<>(), herald, this );
 
         Set<JARFile> jarFiles = new HashSet<>();
-
-        for( ActorWrapper<?, ?> actor : actors )
-            for( ComponentWrapper component : actor.getComponentDependances() )
-                jarFiles.addAll( component.getComponentClass().getJarFiles() );
-
-        return jarFiles;
-
-    }
-
-    @Override
-    public void constructClassLoader() throws ConstantException, LoadJARException {
-
-        Set<JARFile> allJarFiles = getAllJarDependances();
+        for( ComponentClass componentClass : componentClasses )
+            jarFiles.addAll( componentClass.getJarFiles() );
 
         Path jarRootPath = fileSystem.getPath( jarRootPathName );
 
@@ -245,33 +239,17 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
 
             // convert paths to URLs
             Set<URL> urls = new HashSet<>();
-            for( JARFile jarFile : allJarFiles )
+            for( JARFile jarFile : jarFiles )
                 urls.add( jarRootPath.resolve( jarFile.getPath() ).toUri().toURL() );
 
             logger.trace( "Class loader urls: {}", urls );
 
             // create the new class loader
-            classLoader = new URLClassLoader( urls.toArray( new URL[] {} ) );
+            return new URLClassLoader( urls.toArray( new URL[] {} ) );
 
         } catch( MalformedURLException ex ) {
             throw new LoadJARException( "Can't create class loader", ex );
         }
-
-    }
-
-    @Override
-    public void close() {
-
-        actorInstance = null;
-
-        if( classLoader != null )
-            try {
-                classLoader.close();
-            } catch( IOException ex ) {
-                logger.error( "Can't close actor {}", actorData.getName(), ex );
-            } finally {
-                classLoader = null;
-            }
 
     }
 
@@ -280,23 +258,28 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
      */
 
     @Override
+    public Armored instanciate( Camp camp ) throws ForgeException {
+        Armored armored = createArmor( camp );
+        initialize( armored );
+        return armored;
+    }
+
+    protected abstract Armored createArmor( Camp camp );
+
     @SuppressWarnings( "unchecked" )
-    public void inClasspathInstanciate() throws ForgeException {
-
-        super.inClasspathInstanciate();
-
-        actorInstance = (A) componentInstance;
+    public void initialize( Armored armored ) throws ForgeException {
 
         try {
 
-            for( ConstantWrapper constant : allConstants )
-                constant.affectValue( herald );
+            A instance = (A) instanciateComponent();
+            armored.setActor( instance );
 
-            actorPreInitialize();
+            List<ConstantWrapper> sorted = new ArrayList<>( constants );
+            Collections.sort( sorted, Comparator.comparing( ConstantWrapper::getAttribute ) );
+            for( ConstantWrapper constant : sorted )
+                constant.affectValue( armored );
 
-            actorInstance.initialize();
-
-            actorPostInitialize();
+            actorInitialize( armored );
 
         } catch( ForgeException ex ) {
             throw ex;
@@ -306,62 +289,20 @@ public abstract class ActorWrapperImpl<A extends Actor, D extends ActorData> ext
 
     }
 
-    @Override
-    @Transactional
-    public void instanciate() throws ForgeException {
-
-        if( classLoader == null )
-            this.constructClassLoader();
-
-        call( this::inClasspathInstanciate );
-
-    }
-
-    protected void actorPreInitialize() throws ForgeException {}
-
-    protected void actorPostInitialize() throws ForgeException {}
-
-    /*
-     * ARMORED INTERFACE
-     */
-
-    @Override
-    public String getName() {
-        return actorData.getName();
-    }
-
-    @Override
-    public String getDescription() {
-        return actorData.getDescription();
-    }
-
-    @Override
-    public Set<ConstantWrapper> getConstantProps() {
-        return visibleConstants;
-    }
-
-    @Override
-    public ConstantWrapper getConstantProp( String name ) {
-        return visibleConstantsMap.get( name );
-    }
-
-    @Override
-    public A getActor() {
-        return actorInstance;
-    }
+    protected abstract void actorInitialize( Armored armored ) throws ForgeException;
 
     /*
      * OTHER
      */
 
     @Override
-    public D getActorData() {
-        return actorData;
+    public Set<ConstantWrapper> getConstants() {
+        return constants;
     }
 
     @Override
-    public Cycle getCycle() {
-        return null;
+    public D getActorData() {
+        return actorData;
     }
 
     @Override

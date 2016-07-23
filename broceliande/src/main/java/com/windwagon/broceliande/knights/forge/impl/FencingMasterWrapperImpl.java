@@ -5,11 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 
-import org.h2.tools.Script;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.windwagon.broceliande.knights.entities.FencingMasterData;
@@ -23,24 +19,23 @@ import com.windwagon.broceliande.knights.forge.FencingMasterWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
 import com.windwagon.broceliande.knights.forge.TaskWrapper;
-import com.windwagon.broceliande.knights.forge.errors.ActorExecutionException;
+import com.windwagon.broceliande.knights.forge.armored.ArmoredFencingMasterWrapper;
+import com.windwagon.broceliande.knights.forge.armored.Camp;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.repositories.FencingMasterRunRepository;
 import com.windwagon.kaamelott.FencingMaster;
-import com.windwagon.kaamelott.race.Race;
-import com.windwagon.kaamelott.words.Words;
+import com.windwagon.kaamelott.Knight;
 
-public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, FencingMasterData, FencingMasterRun>
+public class FencingMasterWrapperImpl
+        extends TaskWrapperImpl<FencingMaster, ArmoredFencingMasterWrapper, FencingMasterData, FencingMasterRun>
         implements FencingMasterWrapper {
-
-    private static final Logger logger = LoggerFactory.getLogger( FencingMasterWrapper.class );
 
     @Autowired
     private FencingMasterRunRepository fencingMasterRunRepository;
 
-    private KnightWrapper knight;
+    private KnightWrapper knightWrapper;
 
-    private BrotherhoodWrapper brotherhood;
+    private BrotherhoodWrapper brotherhoodWrapper;
 
     public FencingMasterWrapperImpl( Herald herald, FencingMasterRun runData ) {
         super( herald, runData.getFencingMaster(), runData );
@@ -48,16 +43,26 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
 
     @PostConstruct
     public void init() {
-        knight = herald.getKnight( runData );
+
+        knightWrapper = herald.getKnight( runData );
+
+        brotherhoodWrapper = herald.getBrotherhood( runData.getBrotherhood() );
+
     }
 
-    private BrotherhoodWrapper brotherhood() {
+    @Override
+    public KnightWrapper getKnight() {
+        return knightWrapper;
+    }
 
-        if( brotherhood == null && runData.getBrotherhood() != null )
-            brotherhood = herald.getBrotherhood( runData.getBrotherhood() );
+    @Override
+    public BrotherhoodWrapper getBrotherhood() {
+        return brotherhoodWrapper;
+    }
 
-        return brotherhood;
-
+    @Override
+    protected ArmoredFencingMasterWrapper createArmor( Camp camp ) {
+        return camp.getFencingMaster( this );
     }
 
     @Override
@@ -66,14 +71,14 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
     }
 
     @Override
-    public Set<? extends ActorWrapper<?,?>> getActorDependances() {
-        return new HashSet<>( Arrays.asList( knight, brotherhood() ) );
+    public Set<? extends ActorWrapper<?, ?>> getActorDependances() {
+        return new HashSet<>( Arrays.asList( knightWrapper, brotherhoodWrapper ) );
     }
 
     @Override
-    public Set<? extends TaskWrapper<?,?,?>> getRequiredTasks() throws ForgeException {
+    public Set<? extends TaskWrapper<?, ?, ?>> getRequiredTasks() throws ForgeException {
 
-        Set<TaskWrapper<?,?,?>> tasks = new HashSet<>();
+        Set<TaskWrapper<?, ?, ?>> tasks = new HashSet<>();
 
         addRequiredTasksFromConstants( tasks );
 
@@ -82,11 +87,11 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
     }
 
     @Override
-    public Set<? extends TaskWrapper<?,?,?>> getDependantTasks() throws ForgeException {
+    public Set<? extends TaskWrapper<?, ?, ?>> getDependantTasks() throws ForgeException {
 
-        Set<TaskWrapper<?,?,?>> tasks = new HashSet<>();
+        Set<TaskWrapper<?, ?, ?>> tasks = new HashSet<>();
 
-        tasks.add( brotherhood() );
+        tasks.add( brotherhoodWrapper );
 
         addDependantTasksFromConstants( tasks, ComponentPatterns.getTrainedKnightName( this ) );
         addDependantTasksFromConstants( tasks, ComponentPatterns.getFencingMasterName( this ) );
@@ -96,37 +101,15 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
     }
 
     @Override
-    public void actorPreInitialize() throws ForgeException {
+    public void actorInitialize( ArmoredFencingMasterWrapper armored ) throws ForgeException {
 
-        knight.setClassLoader( classLoader );
-        knight.inClasspathInstanciate();
+        FencingMaster fencingMaster = armored.getActor();
 
-        try {
-            actorInstance.setKnight( knight );
-        } catch( Throwable ex ) {
-            throw new ActorExecutionException( ex );
-        }
+        fencingMaster.setKnight( armored.getKnight() );
+        fencingMaster.setBrotherhood( armored.getBrotherhood() );
 
-    }
+        fencingMaster.initialize();
 
-    @Override
-    public void close() {
-
-        if( knight != null )
-            knight.close();
-
-        super.close();
-
-    }
-
-    @Override
-    public KnightWrapper getKnight() {
-        return knight;
-    }
-
-    @Override
-    public Words getWords( Race race ) {
-        return knight.getWords( race );
     }
 
     @Override
@@ -136,46 +119,25 @@ public class FencingMasterWrapperImpl extends TaskWrapperImpl<FencingMaster, Fen
     }
 
     @Override
-    @Transactional
-    public RunStatus run() {
+    public RunStatus fail( Throwable ex ) {
 
-        logger.info( "Run task {}", this );
+        runData.setKnightSerialization( null );
+        return super.fail( ex );
 
-        try {
+    }
 
-            instanciate();
+    @Override
+    public void execute( ArmoredFencingMasterWrapper armored ) {
 
-            call( new Script() {
+        FencingMaster fencingMaster = armored.getActor();
+        Knight knight = armored.getKnight().getActor();
 
-                @Override
-                public void call() {
+        // train
+        fencingMaster.train();
 
-                    // train
-                    actorInstance.train();
-
-                    // save
-                    knight.marshal();
-                    marshal();
-
-                }
-
-            } );
-
-            return done();
-
-        } catch( Throwable ex ) {
-
-            runData.setKnightSerialization( null );
-
-            return fail( ex );
-
-        } finally {
-
-            this.close();
-
-            logger.info( "Task {} finished", this );
-
-        }
+        // save
+        runData.setKnightSerialization( base64encode( knight.marshal() ) );
+        runData.setSerialization( base64encode( fencingMaster.marshal() ) );
 
     }
 

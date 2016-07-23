@@ -29,7 +29,12 @@ public class Stud {
     private long offset;
 
     public Reference createReference( Race race ) {
-        return new Reference( Date.from( race.getStart().toInstant().minusSeconds( offset ) ) );
+
+        Date now = new Date();
+        Date ref = Date.from( race.getStart().toInstant().minusSeconds( offset ) );
+
+        return new Reference( now.before( ref ) ? now : ref );
+
     }
 
     @Bean

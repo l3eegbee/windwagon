@@ -4,18 +4,22 @@ public class ComponentConstraints {
     
     private String type;
 
-    /**
-     * @return the type
-     */
+    private boolean armored;
+
     public String getType() {
         return type;
     }
 
-    /**
-     * @param type the type to set
-     */
     public void setType( String type ) {
         this.type = type;
+    }
+
+    public boolean isArmored() {
+        return this.armored;
+    }
+
+    public void setArmored( boolean armored ) {
+        this.armored = armored;
     }
 
 }

@@ -14,6 +14,7 @@ import com.windwagon.broceliande.knights.entities.OfficialKnightData;
 import com.windwagon.broceliande.knights.entities.PageData;
 import com.windwagon.broceliande.knights.entities.RaceSet;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
+import com.windwagon.logres.collection.LazyInitializer;
 
 public class Herald {
 
@@ -33,6 +34,9 @@ public class Herald {
     private Map<Cycle, Map<ActorData, PageWrapper>> pages = new HashMap<>();
 
     private Map<ComponentClass, ComponentWrapper> components = new HashMap<>();
+
+    private LazyInitializer<NullComponentWrapper> nullWrapper =
+            new LazyInitializer<>( () -> casern.getNullComponent( this ) );
 
     private Map<RaceSet, DrillHallWrapper> drillHalls = new HashMap<>();
 
@@ -76,6 +80,10 @@ public class Herald {
 
     public ComponentWrapper getComponent( ComponentClass componentClass ) {
         return components.computeIfAbsent( componentClass, data -> casern.getComponent( this, componentClass ) );
+    }
+
+    public NullComponentWrapper getNull() {
+        return nullWrapper.get();
     }
 
     public DrillHallWrapper getDrillHall( RaceSet raceSet ) {

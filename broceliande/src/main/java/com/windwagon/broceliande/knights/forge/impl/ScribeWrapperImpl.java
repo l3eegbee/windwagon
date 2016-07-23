@@ -3,12 +3,8 @@ package com.windwagon.broceliande.knights.forge.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.h2.tools.Script;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.windwagon.broceliande.knights.entities.RunStatus;
 import com.windwagon.broceliande.knights.entities.ScribeData;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.broceliande.knights.forge.ActorVisitor;
@@ -16,13 +12,14 @@ import com.windwagon.broceliande.knights.forge.ComponentPatterns;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.ScribeWrapper;
 import com.windwagon.broceliande.knights.forge.TaskWrapper;
+import com.windwagon.broceliande.knights.forge.armored.ArmoredScribeWrapper;
+import com.windwagon.broceliande.knights.forge.armored.Camp;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.repositories.ScribeRunRepository;
 import com.windwagon.kaamelott.Scribe;
 
-public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ScribeData, ScribeRun> implements ScribeWrapper {
-
-    private static final Logger logger = LoggerFactory.getLogger( ScribeWrapper.class );
+public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ArmoredScribeWrapper, ScribeData, ScribeRun>
+        implements ScribeWrapper {
 
     @Autowired
     private ScribeRunRepository scribeRunRepository;
@@ -37,9 +34,9 @@ public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ScribeData, Scrib
     }
 
     @Override
-    public Set<TaskWrapper<?,?,?>> getRequiredTasks() throws ForgeException {
+    public Set<TaskWrapper<?, ?, ?>> getRequiredTasks() throws ForgeException {
 
-        Set<TaskWrapper<?,?,?>> tasks = new HashSet<>();
+        Set<TaskWrapper<?, ?, ?>> tasks = new HashSet<>();
 
         addRequiredTasksFromConstants( tasks );
 
@@ -48,9 +45,9 @@ public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ScribeData, Scrib
     }
 
     @Override
-    public Set<TaskWrapper<?,?,?>> getDependantTasks() {
+    public Set<TaskWrapper<?, ?, ?>> getDependantTasks() {
 
-        Set<TaskWrapper<?,?,?>> tasks = new HashSet<>();
+        Set<TaskWrapper<?, ?, ?>> tasks = new HashSet<>();
 
         addDependantTasksFromConstants( tasks, ComponentPatterns.getScribeName( this ) );
 
@@ -59,44 +56,28 @@ public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ScribeData, Scrib
     }
 
     @Override
-    public RunStatus run() {
+    public void actorInitialize( ArmoredScribeWrapper armored ) throws ForgeException {
 
-        logger.info( "Run task {}", this );
+        armored.getActor().initialize();
 
-        try {
+    }
 
-            // instanciates actors
-            instanciate();
+    @Override
+    public void execute( ArmoredScribeWrapper armored ) {
 
-            call( new Script() {
+        Scribe scribe = armored.getActor();
 
-                @Override
-                public void call() {
+        // evaluate
+        scribe.evaluate();
 
-                    // evaluate
-                    actorInstance.evaluate();
+        // save the scribe
+        runData.setSerialization( base64encode( scribe.marshal() ) );
 
-                    // save the scribe
-                    marshal();
+    }
 
-                }
-
-            } );
-
-            return done();
-
-        } catch( Throwable ex ) {
-
-            return fail( ex );
-
-        } finally {
-
-            this.close();
-
-            logger.info( "Task {} finished", this );
-
-        }
-
+    @Override
+    protected ArmoredScribeWrapper createArmor( Camp camp ) {
+        return camp.getScribe( this );
     }
 
     @Override

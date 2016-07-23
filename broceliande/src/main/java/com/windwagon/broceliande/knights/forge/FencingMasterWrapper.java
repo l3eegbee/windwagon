@@ -2,13 +2,13 @@ package com.windwagon.broceliande.knights.forge;
 
 import com.windwagon.broceliande.knights.entities.FencingMasterData;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
-import com.windwagon.kaamelott.ArmoredFencingMaster;
-import com.windwagon.kaamelott.FencingMaster;
+import com.windwagon.broceliande.knights.forge.armored.ArmoredFencingMasterWrapper;
 
 public interface FencingMasterWrapper
-        extends TaskWrapper<FencingMaster, FencingMasterData, FencingMasterRun>, ArmoredFencingMaster {
+        extends TaskWrapper<ArmoredFencingMasterWrapper, FencingMasterData, FencingMasterRun> {
 
-    @Override
     public KnightWrapper getKnight();
+
+    public BrotherhoodWrapper getBrotherhood();
 
 }

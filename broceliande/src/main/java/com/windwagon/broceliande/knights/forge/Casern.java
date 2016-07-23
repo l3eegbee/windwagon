@@ -18,6 +18,7 @@ import com.windwagon.broceliande.knights.forge.impl.ComponentWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.DrillHallWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.FencingMasterWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.KnightWrapperImpl;
+import com.windwagon.broceliande.knights.forge.impl.NullComponentWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.OfficialKnightWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.PageWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.ScribeWrapperImpl;
@@ -71,6 +72,12 @@ public class Casern {
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
     public ComponentWrapper getComponent( Herald herald, ComponentClass componentClass ) {
         return new ComponentWrapperImpl( herald, componentClass );
+    }
+
+    @Bean
+    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
+    public NullComponentWrapper getNullComponent( Herald herald ) {
+        return new NullComponentWrapperImpl( herald );
     }
 
     @Bean

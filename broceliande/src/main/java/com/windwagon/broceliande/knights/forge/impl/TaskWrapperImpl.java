@@ -3,11 +3,15 @@ package com.windwagon.broceliande.knights.forge.impl;
 import java.util.Set;
 import java.util.regex.Matcher;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.windwagon.broceliande.knights.entities.BrotherhoodRun;
+import com.windwagon.broceliande.knights.entities.Constant;
+import com.windwagon.broceliande.knights.entities.ConstantType;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.Run;
@@ -20,22 +24,17 @@ import com.windwagon.broceliande.knights.forge.ComponentPatterns.SelectedKnightE
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.TrainedKnightElements;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.TaskWrapper;
-import com.windwagon.broceliande.knights.forge.Tavern;
-import com.windwagon.broceliande.knights.forge.constant.ComponentConstantWrapper;
+import com.windwagon.broceliande.knights.forge.armored.ArmoredTaskWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.repositories.BrotherhoodRunRepository;
 import com.windwagon.broceliande.knights.repositories.FencingMasterRunRepository;
 import com.windwagon.broceliande.knights.repositories.ScribeRunRepository;
 import com.windwagon.kaamelott.Actor;
-import com.windwagon.kaamelott.Marshallable;
 
-public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends Task, R extends Run>
-        extends ActorWrapperImpl<A, D> implements TaskWrapper<A, D, R> {
+public abstract class TaskWrapperImpl<A extends Actor, Armored extends ArmoredTaskWrapper<A, R>, D extends Task, R extends Run>
+        extends ActorWrapperImpl<A, Armored, D> implements TaskWrapper<Armored, D, R> {
 
     private static final Logger logger = LoggerFactory.getLogger( TaskWrapper.class );
-
-    @Autowired
-    private Tavern tavern;
 
     @Autowired
     protected FencingMasterRunRepository fencingMasterRunRepository;
@@ -54,12 +53,36 @@ public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends 
     }
 
     /*
-     * STATUS
+     * STATUS & EXECUTION
      */
 
+    protected abstract void execute( Armored armored );
+
     @Override
-    public RunStatus getStatus() {
-        return runData.getStatus();
+    @Transactional
+    public RunStatus run() {
+
+        logger.info( "Run task {}", this );
+
+        try {
+
+            call( armored -> {
+                this.execute( armored );
+                return null;
+            } );
+
+            return done();
+
+        } catch( Throwable ex ) {
+
+            return fail( ex );
+
+        } finally {
+
+            logger.info( "Task {} finished", this );
+
+        }
+
     }
 
     protected abstract void saveRun();
@@ -73,17 +96,14 @@ public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends 
 
     }
 
-    @Override
     public void todo() {
         resetStatus( RunStatus.TODO );
     }
 
-    @Override
     public void waiting() {
         resetStatus( RunStatus.WAITING );
     }
 
-    @Override
     public void skip() {
         resetStatus( RunStatus.SKIPPED );
     }
@@ -112,60 +132,46 @@ public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends 
     }
 
     /*
-     * Marshal
-     */
-
-    @Override
-    public void marshal() {
-        runData.setSerialization( base64encode( actorInstance.marshal() ) );
-    }
-
-    @Override
-    public void unmarshal() {
-        String serialization = runData.getSerialization();
-        if( serialization != null )
-            actorInstance.unmarshal( base64decode( serialization ) );
-    }
-
-    /*
      * DEPENDENCES
      */
 
     protected void addRequiredTasksFromConstants( Set<TaskWrapper<?, ?, ?>> tasks ) throws ForgeException {
 
-        for( ComponentConstantWrapper constant : componentConstants ) {
+        for( Constant constant : actorData.getComponent().getConstants() ) {
+            if( constant.getType() == ConstantType.COMPONENT ) {
 
-            String value = constant.getValue();
+                String value = constant.getValue();
 
-            Matcher trainedKnightMatcher = ComponentPatterns.TRAINED_KNIGHT_PATTERN.matcher( value );
-            if( trainedKnightMatcher.matches() ) {
-                TrainedKnightElements elts = ComponentPatterns.getTrainedKnightElements( trainedKnightMatcher );
-                tasks.add(
-                        tavern.getFencingMaster(
-                                herald,
-                                runData.getCycle(),
-                                elts.getKnightName(),
-                                elts.getFencingMasterName() ) );
+                Matcher trainedKnightMatcher = ComponentPatterns.TRAINED_KNIGHT_PATTERN.matcher( value );
+                if( trainedKnightMatcher.matches() ) {
+                    TrainedKnightElements elts = ComponentPatterns.getTrainedKnightElements( trainedKnightMatcher );
+                    tasks.add(
+                            tavern.getFencingMaster(
+                                    herald,
+                                    runData.getCycle(),
+                                    elts.getKnightName(),
+                                    elts.getFencingMasterName() ) );
+                }
+
+                Matcher selectedKnightMatcher = ComponentPatterns.SELECTED_KNIGHT_PATTERN.matcher( value );
+                if( selectedKnightMatcher.matches() ) {
+                    SelectedKnightElements elts = ComponentPatterns.getSelectedKnightElements( selectedKnightMatcher );
+                    tasks.add( tavern.getBrotherhood( herald, runData.getCycle(), elts.getKnightName() ) );
+                }
+
+                Matcher fencingMasterMatcher = ComponentPatterns.FENCING_MASTER_PATTERN.matcher( value );
+                if( fencingMasterMatcher.matches() )
+                    tasks.add( tavern.getFencingMaster( herald, runData.getCycle(), fencingMasterMatcher ) );
+
+                Matcher brotherhoodMatcher = ComponentPatterns.BROTHERHOOD_PATTERN.matcher( value );
+                if( brotherhoodMatcher.matches() )
+                    tasks.add( tavern.getBrotherhood( herald, runData.getCycle(), brotherhoodMatcher ) );
+
+                Matcher scribeMatcher = ComponentPatterns.SCRIBE_PATTERN.matcher( value );
+                if( scribeMatcher.matches() )
+                    tasks.add( tavern.getScribe( herald, runData.getCycle(), scribeMatcher ) );
+
             }
-
-            Matcher selectedKnightMatcher = ComponentPatterns.SELECTED_KNIGHT_PATTERN.matcher( value );
-            if( selectedKnightMatcher.matches() ) {
-                SelectedKnightElements elts = ComponentPatterns.getSelectedKnightElements( selectedKnightMatcher );
-                tasks.add( tavern.getBrotherhood( herald, runData.getCycle(), elts.getKnightName() ) );
-            }
-
-            Matcher fencingMasterMatcher = ComponentPatterns.FENCING_MASTER_PATTERN.matcher( value );
-            if( fencingMasterMatcher.matches() )
-                tasks.add( tavern.getFencingMaster( herald, runData.getCycle(), fencingMasterMatcher ) );
-
-            Matcher brotherhoodMatcher = ComponentPatterns.BROTHERHOOD_PATTERN.matcher( value );
-            if( brotherhoodMatcher.matches() )
-                tasks.add( tavern.getBrotherhood( herald, runData.getCycle(), brotherhoodMatcher ) );
-
-            Matcher scribeMatcher = ComponentPatterns.SCRIBE_PATTERN.matcher( value );
-            if( scribeMatcher.matches() )
-                tasks.add( tavern.getScribe( herald, runData.getCycle(), scribeMatcher ) );
-
         }
 
     }
@@ -204,7 +210,7 @@ public abstract class TaskWrapperImpl<A extends Actor & Marshallable, D extends 
     }
 
     @Override
-    public <R> R accept( ActorVisitor<R> visitor ) {
+    public <Z> Z accept( ActorVisitor<Z> visitor ) {
         return visitor.visitTask( this );
     }
 

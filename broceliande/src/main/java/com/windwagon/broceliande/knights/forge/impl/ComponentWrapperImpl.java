@@ -1,7 +1,6 @@
 package com.windwagon.broceliande.knights.forge.impl;
 
 import java.lang.reflect.Constructor;
-import java.net.URLClassLoader;
 
 import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.forge.ActorVisitor;
@@ -15,51 +14,27 @@ public class ComponentWrapperImpl implements ComponentWrapper {
 
     protected Herald herald;
 
-    protected URLClassLoader classLoader;
-
     protected ComponentClass componentClass;
-
-    protected Object componentInstance;
 
     public ComponentWrapperImpl( Herald herald, ComponentClass componentClass ) {
         this.herald = herald;
         this.componentClass = componentClass;
     }
 
-    /*
-     * CLASS LOADER
-     */
-
     @Override
-    public void setClassLoader( URLClassLoader classLoader ) {
-        this.classLoader = classLoader;
-    }
-
-    @Override
-    public URLClassLoader getClassLoader() {
-        return classLoader;
-    }
-
-    /*
-     * INSTANCIATE
-     */
-
-    @Override
-    @SuppressWarnings( { "rawtypes", "unchecked" } )
-    public void inClasspathInstanciate() throws ForgeException {
+    public Object instanciateComponent() throws ForgeException {
 
         try {
 
             String mainClass = componentClass.getMainClass();
 
             // get class
-            Class clazz = classLoader.loadClass( mainClass );
+            Class<?> clazz = Class.forName( mainClass );
 
             // get constructor and instanciate
-            Constructor constructor = clazz.getConstructor();
-            componentInstance = constructor.newInstance();
+            Constructor<?> constructor = clazz.getConstructor();
 
-            // only actors affect constants
+            return constructor.newInstance();
 
         } catch( ClassNotFoundException | ClassCastException ex ) {
             throw new LoadClassException( ex );
@@ -69,14 +44,14 @@ public class ComponentWrapperImpl implements ComponentWrapper {
 
     }
 
-    @Override
-    public Object getInstance() {
-        return componentInstance;
-    }
-
     /*
      * OTHERS
      */
+
+    @Override
+    public Herald getHerald() {
+        return herald;
+    }
 
     @Override
     public ComponentClass getComponentClass() {

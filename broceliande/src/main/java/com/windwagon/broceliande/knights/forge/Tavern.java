@@ -50,16 +50,12 @@ public class Tavern {
     @Autowired
     private ComponentClassRepository componentClassRepository;
 
-    public ComponentWrapper findComponent( Herald herald, String completeName ) throws ForgeException {
-        return findComponent( herald, completeName, null );
-    }
-
-    public ComponentWrapper findComponent( Herald herald, String completeName, Cycle cycle ) throws ForgeException {
-
-        if( completeName == null || completeName.isEmpty() )
-            throw new ForgeException( "Empty component name." );
+    public ComponentWrapper findComponent( Herald herald, Cycle cycle, String completeName ) throws ForgeException {
 
         try {
+
+            if( completeName == null || completeName.isEmpty() )
+                return getNullComponent( herald );
 
             Matcher officialKnightMatcher = ComponentPatterns.OFFICIAL_KNIGHT_PATTERN.matcher( completeName );
             if( officialKnightMatcher.matches() )
@@ -270,6 +266,10 @@ public class Tavern {
 
         return herald.getComponent( componentClass );
 
+    }
+
+    public NullComponentWrapper getNullComponent( Herald herald ) throws ForgeException {
+        return herald.getNull();
     }
 
 }

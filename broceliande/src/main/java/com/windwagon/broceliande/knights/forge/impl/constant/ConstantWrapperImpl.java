@@ -10,35 +10,22 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.windwagon.broceliande.knights.entities.Constant;
-import com.windwagon.broceliande.knights.forge.ActorWrapper;
-import com.windwagon.broceliande.knights.forge.Herald;
+import com.windwagon.broceliande.knights.forge.armored.ArmoredActorWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ConstantException;
 import com.windwagon.broceliande.knights.forge.errors.ConstraintsFormatException;
+import com.windwagon.broceliande.knights.forge.errors.ForgeException;
+import com.windwagon.kaamelott.ConstantProp;
 
 public abstract class ConstantWrapperImpl implements ConstantWrapper {
 
-    protected ActorWrapper actor;
-
     protected Constant constant;
 
-    public void setActor( ActorWrapper actor ) {
-        this.actor = actor;
-    }
-
-    public void setConstant( Constant constant ) {
+    public ConstantWrapperImpl( Constant constant ) {
         this.constant = constant;
     }
 
-    protected abstract Object resolveValue( Herald herald ) throws ConstantException;
-
-    protected Object cachedValue;
-
-    protected Object getCached( Herald herald ) throws ConstantException {
-        if( cachedValue == null )
-            cachedValue = resolveValue( herald );
-        return cachedValue;
-    }
+    protected abstract Object resolveValue( ArmoredActorWrapper<?> armored ) throws ForgeException;
 
     @Override
     public String getName() {
@@ -71,16 +58,21 @@ public abstract class ConstantWrapperImpl implements ConstantWrapper {
     }
 
     @Override
-    public void affectValue( Herald herald ) throws ConstantException {
+    public int compareTo( ConstantProp constantProp ) {
+        return Integer.compare( constant.getOrder(), constantProp.getOrder() );
+    }
+
+    @Override
+    public void affectValue( ArmoredActorWrapper<?> armored ) throws ForgeException {
 
         ExpressionParser parser = new SpelExpressionParser();
         Expression exp = parser.parseExpression( constant.getAttribute() );
 
         StandardEvaluationContext context = new StandardEvaluationContext();
-        context.setRootObject( actor.getInstance() );
+        context.setRootObject( armored.getActor() );
 
         try {
-            exp.setValue( context, getCached( herald ) );
+            exp.setValue( context, resolveValue( armored ) );
         } catch( EvaluationException ex ) {
             throw new ConstantException( ex );
         }

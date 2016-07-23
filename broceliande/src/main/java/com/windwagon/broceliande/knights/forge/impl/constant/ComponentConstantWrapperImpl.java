@@ -2,55 +2,64 @@ package com.windwagon.broceliande.knights.forge.impl.constant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.windwagon.broceliande.knights.entities.Constant;
+import com.windwagon.broceliande.knights.forge.ActorVisitor;
+import com.windwagon.broceliande.knights.forge.ActorWrapper;
 import com.windwagon.broceliande.knights.forge.ComponentWrapper;
-import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.Tavern;
+import com.windwagon.broceliande.knights.forge.armored.ArmoredActorWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ComponentConstantWrapper;
 import com.windwagon.broceliande.knights.forge.constant.ComponentConstraints;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapperVisitor;
-import com.windwagon.broceliande.knights.forge.errors.ConstantException;
+import com.windwagon.broceliande.knights.forge.errors.ArmoredComponentException;
 import com.windwagon.broceliande.knights.forge.errors.ConstraintsFormatException;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 
-public class ComponentConstantWrapperImpl extends ConstantWrapperImpl
-        implements ComponentConstantWrapper {
+public class ComponentConstantWrapperImpl extends ConstantWrapperImpl implements ComponentConstantWrapper {
 
     @Autowired
     private Tavern tavern;
+
+    public ComponentConstantWrapperImpl( Constant constant ) {
+        super( constant );
+    }
 
     @Override
     public ComponentConstraints getComponentConstraints() throws ConstraintsFormatException {
         return readConstraints( ComponentConstraints.class );
     }
 
-    @Override
-    public ComponentWrapper getComponent( Herald herald ) throws ConstantException {
+    private interface Instanciator {
 
-        try {
-
-            return tavern.findComponent( herald, constant.getValue(), actor.getCycle() );
-
-        } catch( ForgeException ex ) {
-            throw new ConstantException( ex );
-        }
+        public Object instanciate() throws ForgeException;
 
     }
 
     @Override
-    protected Object resolveValue( Herald herald ) throws ConstantException {
+    protected Object resolveValue( ArmoredActorWrapper<?> armored ) throws ForgeException {
 
-        try {
+        ComponentConstraints constraints = readConstraints( ComponentConstraints.class );
 
-            ComponentWrapper wrapper = getComponent( herald );
+        ComponentWrapper wrapper = tavern.findComponent( armored.getHerald(), armored.getCycle(), constant.getValue() );
 
-            wrapper.setClassLoader( actor.getClassLoader() );
-            wrapper.inClasspathInstanciate();
+        return wrapper.accept( new ActorVisitor<Instanciator>() {
 
-            return wrapper.getInstance();
+            public Instanciator visitComponent( ComponentWrapper wrapper ) {
+                return () -> {
+                    if( constraints.isArmored() )
+                        throw new ArmoredComponentException();
+                    return wrapper.instanciateComponent();
+                };
+            }
 
-        } catch( ForgeException ex ) {
-            throw new ConstantException( ex );
-        }
+            public Instanciator visitActor( ActorWrapper<?, ?> wrapper ) {
+                return () -> {
+                    ArmoredActorWrapper<?> armoredValue = wrapper.instanciate( armored.getCamp() );
+                    return constraints.isArmored() ? armoredValue : armoredValue.getActor();
+                };
+            }
+
+        } ).instanciate();
 
     }
 

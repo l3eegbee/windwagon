@@ -1,6 +1,6 @@
 package com.windwagon.broceliande.knights.forge;
 
 import com.windwagon.broceliande.knights.entities.PageData;
-import com.windwagon.kaamelott.Page;
+import com.windwagon.broceliande.knights.forge.armored.ArmoredPageWrapper;
 
-public interface PageWrapper extends ActorWrapper<Page, PageData> {}
+public interface PageWrapper extends ActorWrapper<ArmoredPageWrapper, PageData> {}
