@@ -6,23 +6,19 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import com.windwagon.broceliande.knights.entities.ActorData;
 import com.windwagon.broceliande.knights.entities.ComponentClass;
@@ -94,86 +90,42 @@ public abstract class ActorWrapperImpl<A extends Actor, Armored extends ArmoredA
      * PROTECT CALLING
      */
 
-    private class ValuableRunnable<V> implements Runnable {
-
-        private Function<? super Armored, V> fun;
-
-        private V value;
-
-        private Throwable ex;
-
-        public ValuableRunnable( Function<? super Armored, V> fun ) {
-            this.fun = fun;
-        }
-
-        @Override
-        public void run() {
-            try {
-
-                this.value = new TransactionTemplate( transactionManager ).execute( ( status ) -> {
-                    try {
-
-                        Camp camp = armory.getCamp( getCycle(), getHerald() );
-                        Armored armored = instanciate( camp );
-
-                        return fun.apply( armored );
-
-                    } catch( Throwable ex ) {
-                        this.ex = ex;
-                        return null;
-                    }
-                } );
-
-            } catch( Throwable ex ) {
-                this.ex = ex;
-            }
-        }
-
-        public Throwable getException() {
-            return ex;
-        }
-
-        public V getValue() {
-            return value;
-        }
-
-    }
-
     @Override
+    @Transactional
     public <V> V call( Function<? super Armored, V> func ) throws ForgeException {
 
-        ValuableRunnable<V> runnable = new ValuableRunnable<V>( func );
+        Thread currentThread = Thread.currentThread();
+        ClassLoader currentClassLoader = currentThread.getContextClassLoader();
 
-        URLClassLoader classLoader = constructClassLoader();
+        URLClassLoader classLoader = constructClassLoader( currentClassLoader );
 
-        Thread thread = new Thread( runnable );
-        thread.setContextClassLoader( classLoader );
-
-        thread.start();
-        try {
-            thread.join();
-        } catch( InterruptedException ex ) {
-            throw new ActorExecutionException( ex );
-        } finally {
-            try {
-                classLoader.close();
-            } catch( IOException ex ) {
-                logger.error( "Error during closing class loader.", ex );
-            }
-        }
+        currentThread.setContextClassLoader( classLoader );
 
         try {
-            if( runnable.getException() != null )
-                throw runnable.getException();
+
+            Camp camp = armory.getCamp( getCycle(), getHerald() );
+
+            Armored armored = instanciate( camp );
+
+            return func.apply( armored );
+
         } catch( ForgeException ex ) {
             throw ex;
         } catch( ForgeError ex ) {
             throw ex.getCause();
         } catch( Throwable ex ) {
             throw new ActorExecutionException( ex );
-        }
+        } finally {
 
-        return runnable.getValue();
+            currentThread.setContextClassLoader( currentClassLoader );
+
+            try {
+                classLoader.close();
+            } catch( IOException ex ) {
+                logger.error( "Error during closing class loader.", ex );
+            }
+
+        }
 
     }
 
@@ -221,7 +173,7 @@ public abstract class ActorWrapperImpl<A extends Actor, Armored extends ArmoredA
 
     }
 
-    public URLClassLoader constructClassLoader() throws ForgeException {
+    public URLClassLoader constructClassLoader( ClassLoader parentClassLoader ) throws ForgeException {
 
         // get all component classes
         Set<ComponentClass> componentClasses = new HashSet<>();
@@ -243,51 +195,13 @@ public abstract class ActorWrapperImpl<A extends Actor, Armored extends ArmoredA
             logger.trace( "Class loader urls: {}", urls );
 
             // create the new class loader
-            return new URLClassLoader( urls.toArray( new URL[] {} ) );
+            return new URLClassLoader( urls.toArray( new URL[] {} ), parentClassLoader );
 
         } catch( MalformedURLException ex ) {
             throw new LoadJARException( "Can't create class loader", ex );
         }
 
     }
-
-    /*
-     * INSTANCIATION
-     */
-
-    @Override
-    public Armored instanciate( Camp camp ) throws ForgeException {
-        Armored armored = createArmor( camp );
-        initialize( armored );
-        return armored;
-    }
-
-    protected abstract Armored createArmor( Camp camp );
-
-    @SuppressWarnings( "unchecked" )
-    public void initialize( Armored armored ) throws ForgeException {
-
-        try {
-
-            A instance = (A) instanciateComponent();
-            armored.setActor( instance );
-
-            List<ConstantWrapper> sorted = new ArrayList<>( constants );
-            Collections.sort( sorted, Comparator.comparing( ConstantWrapper::getAttribute ) );
-            for( ConstantWrapper constant : sorted )
-                constant.affectValue( armored );
-
-            actorInitialize( armored );
-
-        } catch( ForgeException ex ) {
-            throw ex;
-        } catch( Throwable ex ) {
-            throw new ActorExecutionException( ex );
-        }
-
-    }
-
-    protected abstract void actorInitialize( Armored armored ) throws ForgeException;
 
     /*
      * OTHER
@@ -306,18 +220,6 @@ public abstract class ActorWrapperImpl<A extends Actor, Armored extends ArmoredA
     @Override
     public <R> R accept( ActorVisitor<R> visitor ) {
         return visitor.visitActor( this );
-    }
-
-    /*
-     * UTILITIES
-     */
-
-    protected String base64encode( byte[] bytes ) {
-        return bytes == null ? null : Base64.getEncoder().encodeToString( bytes );
-    }
-
-    protected byte[] base64decode( String string ) {
-        return string == null ? null : Base64.getDecoder().decode( string );
     }
 
 }

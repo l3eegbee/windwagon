@@ -35,10 +35,22 @@ public class ComponentConstantWrapperImpl extends ConstantWrapperImpl implements
 
     }
 
+    private boolean testIfArmored() throws ForgeException {
+
+        boolean isArmored = false;
+        if( constant.getConstraints() != null ) {
+            ComponentConstraints constraints = readConstraints( ComponentConstraints.class );
+            isArmored = constraints.isArmored();
+        }
+
+        return isArmored;
+
+    }
+
     @Override
     protected Object resolveValue( ArmoredActorWrapper<?> armored ) throws ForgeException {
 
-        ComponentConstraints constraints = readConstraints( ComponentConstraints.class );
+        boolean isArmored = testIfArmored();
 
         ComponentWrapper wrapper = tavern.findComponent( armored.getHerald(), armored.getCycle(), constant.getValue() );
 
@@ -46,7 +58,7 @@ public class ComponentConstantWrapperImpl extends ConstantWrapperImpl implements
 
             public Instanciator visitComponent( ComponentWrapper wrapper ) {
                 return () -> {
-                    if( constraints.isArmored() )
+                    if( isArmored )
                         throw new ArmoredComponentException();
                     return wrapper.instanciateComponent();
                 };
@@ -55,7 +67,7 @@ public class ComponentConstantWrapperImpl extends ConstantWrapperImpl implements
             public Instanciator visitActor( ActorWrapper<?, ?> wrapper ) {
                 return () -> {
                     ArmoredActorWrapper<?> armoredValue = wrapper.instanciate( armored.getCamp() );
-                    return constraints.isArmored() ? armoredValue : armoredValue.getActor();
+                    return isArmored ? armoredValue : armoredValue.getActor();
                 };
             }
 

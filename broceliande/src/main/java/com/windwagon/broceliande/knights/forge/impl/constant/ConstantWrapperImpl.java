@@ -1,7 +1,5 @@
 package com.windwagon.broceliande.knights.forge.impl.constant;
 
-import java.io.IOException;
-
 import org.springframework.expression.EvaluationException;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -84,18 +82,40 @@ public abstract class ConstantWrapperImpl implements ConstantWrapper {
         try {
 
             String constraints = constant.getConstraints();
+            if( constraints == null )
+                constraints = "";
 
             T constraintsValue = new ObjectMapper().readValue( constraints, contraintsClass );
 
             if( constraintsValue == null )
-                throw new ConstraintsFormatException(
-                        "Can not cast [" + constraints + "] to " + contraintsClass.getName() );
+                throw new ConstraintsFormatException( "Can not cast " + this + " to " + contraintsClass.getName() );
 
             return constraintsValue;
 
-        } catch( IOException ex ) {
-            throw new ConstraintsFormatException( ex );
+        } catch( Throwable ex ) {
+            throw new ConstraintsFormatException( "Can not read constraints " + this, ex );
         }
+
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder builder = new StringBuilder();
+
+        builder
+                .append( "\"" )
+                .append( constant.getName() )
+                .append( "\"" )
+                .append( ":" )
+                .append( constant.getType() )
+                .append( ":" )
+                .append( constant.getAttribute() );
+        builder.append( "=" ).append( constant.getValue() );
+        if( constant.getConstraints() != null )
+            builder.append( "{{" ).append( constant.getConstraints() ).append( "}}" );
+
+        return builder.toString();
 
     }
 

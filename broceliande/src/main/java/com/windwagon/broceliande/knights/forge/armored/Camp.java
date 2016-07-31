@@ -13,6 +13,7 @@ import com.windwagon.broceliande.knights.forge.KnightWrapper;
 import com.windwagon.broceliande.knights.forge.OfficialKnightWrapper;
 import com.windwagon.broceliande.knights.forge.PageWrapper;
 import com.windwagon.broceliande.knights.forge.ScribeWrapper;
+import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 
 public class Camp {
 
@@ -48,28 +49,47 @@ public class Camp {
         return this.herald;
     }
 
-    public ArmoredKnightWrapper getKnight( KnightWrapper wrapper ) {
-        return knights.computeIfAbsent( wrapper, data -> armory.getArmoredKnight( this, wrapper ) );
+    private interface ArmoredMaker<A> {
+
+        public A create() throws ForgeException;
+
     }
 
-    public ArmoredOfficialKnightWrapper getOfficialKnight( OfficialKnightWrapper wrapper ) {
-        return officialKnights.computeIfAbsent( wrapper, data -> armory.getArmoredOfficialKnight( this, wrapper ) );
+    private <W, A extends ArmoredActorWrapper<?>> A get( Map<W, A> map, W wrapper, ArmoredMaker<A> maker )
+            throws ForgeException {
+
+        if( !map.containsKey( wrapper ) ) {
+            A armored = maker.create();
+            map.put( wrapper, armored );
+            armored.initialize();
+            return armored;
+        } else
+            return map.get( wrapper );
+
     }
 
-    public ArmoredFencingMasterWrapper getFencingMaster( FencingMasterWrapper wrapper ) {
-        return fencingMasters.computeIfAbsent( wrapper, data -> armory.getArmoredFencingMaster( this, wrapper ) );
+    public ArmoredKnightWrapper getKnight( KnightWrapper wrapper ) throws ForgeException {
+        return get( knights, wrapper, () -> armory.getArmoredKnight( this, wrapper ) );
     }
 
-    public ArmoredBrotherhoodWrapper getBrotherhood( BrotherhoodWrapper wrapper ) {
-        return brotherhoods.computeIfAbsent( wrapper, data -> armory.getArmoredBrotherhood( this, wrapper ) );
+    public ArmoredOfficialKnightWrapper getOfficialKnight( OfficialKnightWrapper wrapper ) throws ForgeException {
+        return get( officialKnights, wrapper, () -> armory.getArmoredOfficialKnight( this, wrapper ) );
     }
 
-    public ArmoredScribeWrapper getScribe( ScribeWrapper wrapper ) {
-        return scribes.computeIfAbsent( wrapper, data -> armory.getArmoredScribe( this, wrapper ) );
+    public ArmoredFencingMasterWrapper getFencingMaster( FencingMasterWrapper wrapper ) throws ForgeException {
+        return get( fencingMasters, wrapper, () -> armory.getArmoredFencingMaster( this, wrapper ) );
     }
 
-    public ArmoredPageWrapper getPage( PageWrapper wrapper ) {
-        return pages.computeIfAbsent( wrapper, data -> armory.getArmoredPage( this, wrapper ) );
+    public ArmoredBrotherhoodWrapper getBrotherhood( BrotherhoodWrapper wrapper ) throws ForgeException {
+        return get( brotherhoods, wrapper, () -> armory.getArmoredBrotherhood( this, wrapper ) );
+    }
+
+    public ArmoredScribeWrapper getScribe( ScribeWrapper wrapper ) throws ForgeException {
+        return get( scribes, wrapper, () -> armory.getArmoredScribe( this, wrapper ) );
+    }
+
+    public ArmoredPageWrapper getPage( PageWrapper wrapper ) throws ForgeException {
+        return get( pages, wrapper, () -> armory.getArmoredPage( this, wrapper ) );
     }
 
 }

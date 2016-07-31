@@ -3,8 +3,6 @@ package com.windwagon.broceliande.knights.forge.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.windwagon.broceliande.knights.entities.BrotherhoodData;
@@ -22,6 +20,7 @@ import com.windwagon.broceliande.knights.forge.armored.Camp;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.repositories.BrotherhoodRunRepository;
 import com.windwagon.kaamelott.Brotherhood;
+import com.windwagon.logres.collection.LazyInitializer;
 
 public class BrotherhoodWrapperImpl
         extends TaskWrapperImpl<Brotherhood, ArmoredBrotherhoodWrapper, BrotherhoodData, BrotherhoodRun>
@@ -30,33 +29,29 @@ public class BrotherhoodWrapperImpl
     @Autowired
     private BrotherhoodRunRepository brotherhoodRunRepository;
 
-    private Set<FencingMasterWrapper> fencingMasters = new HashSet<>();
+    private LazyInitializer<Set<FencingMasterWrapper>> fencingMasters = new LazyInitializer<>( () -> {
+        Set<FencingMasterWrapper> set = new HashSet<>();
+        for( FencingMasterRun fmrun : runData.getFencingMasters() )
+            set.add( herald.getFencingMaster( fmrun ) );
+        return set;
+    } );
 
-    private FencingMasterWrapper theone;
+    private LazyInitializer<FencingMasterWrapper> theone = new LazyInitializer<>( () -> {
+        return runData.getSelected() != null ? herald.getFencingMaster( runData.getSelected() ) : null;
+    } );
 
     public BrotherhoodWrapperImpl( Herald herald, BrotherhoodRun runData ) {
         super( herald, runData.getBrotherhood(), runData );
     }
 
-    @PostConstruct
-    public void init() {
-
-        for( FencingMasterRun fmrun : runData.getFencingMasters() )
-            fencingMasters.add( herald.getFencingMaster( fmrun ) );
-
-        if( runData.getSelected() != null )
-            theone = herald.getFencingMaster( runData.getSelected() );
-
-    }
-
     @Override
     public Set<FencingMasterWrapper> getFencingMasterWrappers() {
-        return fencingMasters;
+        return fencingMasters.get();
     }
 
     @Override
     public FencingMasterWrapper getSelectedWrapper() {
-        return theone;
+        return theone.get();
     }
 
     @Override
@@ -66,7 +61,7 @@ public class BrotherhoodWrapperImpl
 
     @Override
     public Set<? extends ActorWrapper<?, ?>> getActorDependances() {
-        return fencingMasters;
+        return fencingMasters.get();
     }
 
     @Override
@@ -74,7 +69,7 @@ public class BrotherhoodWrapperImpl
 
         Set<TaskWrapper<?, ?, ?>> tasks = new HashSet<>();
 
-        for( FencingMasterWrapper fencingMaster : fencingMasters )
+        for( FencingMasterWrapper fencingMaster : fencingMasters.get() )
             tasks.add( fencingMaster );
 
         addRequiredTasksFromConstants( tasks );
@@ -96,32 +91,7 @@ public class BrotherhoodWrapperImpl
     }
 
     @Override
-    public void actorInitialize( ArmoredBrotherhoodWrapper armored ) throws ForgeException {
-
-        Brotherhood brotherhood = armored.getActor();
-
-        brotherhood.setFencingMasters( armored.getFencingMasters() );
-
-        brotherhood.initialize();
-
-    }
-
-    @Override
-    public void execute( ArmoredBrotherhoodWrapper armored ) {
-
-        Brotherhood brotherhood = armored.getActor();
-
-        // get best knight
-        FencingMasterWrapper theone = (FencingMasterWrapper) brotherhood.getBest();
-
-        // save
-        runData.setSelected( theone.getRunData() );
-        runData.setSerialization( base64encode( brotherhood.marshal() ) );
-
-    }
-
-    @Override
-    protected ArmoredBrotherhoodWrapper createArmor( Camp camp ) {
+    public ArmoredBrotherhoodWrapper instanciate( Camp camp ) throws ForgeException {
         return camp.getBrotherhood( this );
     }
 

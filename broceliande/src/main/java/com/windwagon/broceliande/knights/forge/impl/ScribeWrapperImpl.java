@@ -56,27 +56,7 @@ public class ScribeWrapperImpl extends TaskWrapperImpl<Scribe, ArmoredScribeWrap
     }
 
     @Override
-    public void actorInitialize( ArmoredScribeWrapper armored ) throws ForgeException {
-
-        armored.getActor().initialize();
-
-    }
-
-    @Override
-    public void execute( ArmoredScribeWrapper armored ) {
-
-        Scribe scribe = armored.getActor();
-
-        // evaluate
-        scribe.evaluate();
-
-        // save the scribe
-        runData.setSerialization( base64encode( scribe.marshal() ) );
-
-    }
-
-    @Override
-    protected ArmoredScribeWrapper createArmor( Camp camp ) {
+    public ArmoredScribeWrapper instanciate( Camp camp ) throws ForgeException {
         return camp.getScribe( this );
     }
 

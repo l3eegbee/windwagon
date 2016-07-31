@@ -1,6 +1,8 @@
 package com.windwagon.broceliande.knights.forge.impl;
 
 import java.lang.reflect.Constructor;
+import java.net.URLClassLoader;
+import java.util.Arrays;
 
 import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.forge.ActorVisitor;
@@ -24,19 +26,29 @@ public class ComponentWrapperImpl implements ComponentWrapper {
     @Override
     public Object instanciateComponent() throws ForgeException {
 
+        String mainClass = componentClass.getMainClass();
+
         try {
 
-            String mainClass = componentClass.getMainClass();
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
             // get class
-            Class<?> clazz = Class.forName( mainClass );
+            Class<?> clazz = classLoader.loadClass( mainClass );
 
             // get constructor and instanciate
             Constructor<?> constructor = clazz.getConstructor();
 
             return constructor.newInstance();
 
-        } catch( ClassNotFoundException | ClassCastException ex ) {
+        } catch( ClassNotFoundException ex ) {
+            throw new LoadClassException(
+                    "Class '"
+                            + mainClass
+                            + "' not found in classpath "
+                            + Arrays.asList(
+                                    ( (URLClassLoader) Thread.currentThread().getContextClassLoader() ).getURLs() ),
+                    ex );
+        } catch( ClassCastException ex ) {
             throw new LoadClassException( ex );
         } catch( Throwable ex ) {
             throw new ConstructorException( ex );

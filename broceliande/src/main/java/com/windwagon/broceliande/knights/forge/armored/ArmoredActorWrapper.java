@@ -6,10 +6,13 @@ import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.forge.ActorWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.constant.ConstantWrapper;
+import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.kaamelott.Actor;
 import com.windwagon.kaamelott.ArmoredActor;
 
 public interface ArmoredActorWrapper<A extends Actor> extends ArmoredActor<A> {
+
+    public void initialize() throws ForgeException;
 
     public Herald getHerald();
 
@@ -18,8 +21,6 @@ public interface ArmoredActorWrapper<A extends Actor> extends ArmoredActor<A> {
     public Camp getCamp();
 
     public ActorWrapper<?, ?> getWrapper();
-
-    public void setActor( A actor );
 
     @Override
     public SortedSet<? extends ConstantWrapper> getConstantProps();

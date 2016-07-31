@@ -94,7 +94,9 @@ public class Tavern {
                 return getComponent( herald, componentMatcher );
 
         } catch( ForgeException ex ) {
-            throw new ForgeException( "Exception during getting component [" + completeName + "]", ex );
+            throw new ForgeException(
+                    "Exception during getting component [" + completeName + "]: " + ex.getMessage(),
+                    ex );
         }
 
         throw new ForgeException( "No component match syntax [" + completeName + "]" );
@@ -112,7 +114,7 @@ public class Tavern {
                 officialKnightDataRepository.findByNameAndComponentComponentClassOfficialId( kname, offid );
 
         if( knightData == null )
-            throw new ForgeException( "Official knight [" + kname + "][" + offid + "] not found" );
+            throw new ForgeException( "Official knight [" + kname + "][" + offid + "] not found." );
 
         return herald.getOfficialKnight( knightData );
 
@@ -123,7 +125,8 @@ public class Tavern {
         return getTrainedKnight( herald, cycle, elts.getKnightName(), elts.getFencingMasterName() );
     }
 
-    public KnightWrapper getTrainedKnight( Herald herald, Cycle cycle, String kname, String fmname ) throws ForgeException {
+    public KnightWrapper getTrainedKnight( Herald herald, Cycle cycle, String kname, String fmname )
+            throws ForgeException {
 
         if( cycle == null )
             throw new ForgeException( "Cycle must be defined." );
@@ -133,7 +136,7 @@ public class Tavern {
                         .findByCycleAndFencingMasterBrotherhoodNameAndFencingMasterName( cycle, kname, fmname );
 
         if( fencingMasterRun == null )
-            throw new ForgeException( "Trained knight [" + kname + "][" + fmname + "] not found" );
+            throw new ForgeException( "Trained knight [" + kname + "][" + fmname + "] not found." );
 
         return herald.getKnight( fencingMasterRun );
 
@@ -152,7 +155,9 @@ public class Tavern {
         BrotherhoodRun brotherhoodRun = brotherhoodRunRepository.findByCycleAndBrotherhoodName( cycle, kname );
 
         if( brotherhoodRun == null )
-            throw new ForgeException( "Selected knight [" + kname + "] not found" );
+            throw new ForgeException( "Selected knight [" + kname + "] not found." );
+        if( brotherhoodRun.getSelected() == null )
+            throw new ForgeException( "Knight [" + kname + "] not selected yet." );
 
         return herald.getKnight( brotherhoodRun.getSelected() );
 
@@ -163,7 +168,8 @@ public class Tavern {
         return getFencingMaster( herald, cycle, elts.getKnightName(), elts.getFencingMasterName() );
     }
 
-    public FencingMasterWrapper getFencingMaster( Herald herald, Cycle cycle, String kname, String fmname ) throws ForgeException {
+    public FencingMasterWrapper getFencingMaster( Herald herald, Cycle cycle, String kname, String fmname )
+            throws ForgeException {
 
         if( cycle == null )
             throw new ForgeException( "Cycle must be defined." );
@@ -173,7 +179,7 @@ public class Tavern {
                         .findByCycleAndFencingMasterBrotherhoodNameAndFencingMasterName( cycle, kname, fmname );
 
         if( fencingMasterRun == null )
-            throw new ForgeException( "Fencing master [" + kname + "][" + fmname + "] not found" );
+            throw new ForgeException( "Fencing master [" + kname + "][" + fmname + "] not found." );
 
         return herald.getFencingMaster( fencingMasterRun );
 
@@ -192,7 +198,7 @@ public class Tavern {
         BrotherhoodRun brotherhoodRun = brotherhoodRunRepository.findByCycleAndBrotherhoodName( cycle, kname );
 
         if( brotherhoodRun == null )
-            throw new ForgeException( "Brotherhood [" + kname + "] not found" );
+            throw new ForgeException( "Brotherhood [" + kname + "] not found." );
 
         return herald.getBrotherhood( brotherhoodRun );
 
@@ -211,7 +217,7 @@ public class Tavern {
         ScribeRun scribeRun = scribeRunRepository.findByCycleAndScribeName( cycle, sname );
 
         if( scribeRun == null )
-            throw new ForgeException( "Scribe [" + sname + "] not found" );
+            throw new ForgeException( "Scribe [" + sname + "] not found." );
 
         return herald.getScribe( scribeRun );
 
@@ -230,7 +236,7 @@ public class Tavern {
         PageData pageData = pageDataRepository.findByName( pname );
 
         if( pageData == null )
-            throw new ForgeException( "Page [" + pname + "] not found" );
+            throw new ForgeException( "Page [" + pname + "] not found." );
 
         return herald.getPage( cycle, pageData );
 
@@ -246,7 +252,7 @@ public class Tavern {
         ComponentClass componentClass = componentClassRepository.findByMainClassAndOfficialId( mainName, offid );
 
         if( componentClass == null )
-            throw new ForgeException( "Official component class [" + mainName + "][" + offid + "] not found" );
+            throw new ForgeException( "Official component class [" + mainName + "][" + offid + "] not found." );
 
         return herald.getComponent( componentClass );
 
@@ -262,7 +268,7 @@ public class Tavern {
         ComponentClass componentClass = componentClassRepository.findByMainClassAndOfficialId( mainName, null );
 
         if( componentClass == null )
-            throw new ForgeException( "Component class [" + mainName + "] not found" );
+            throw new ForgeException( "Component class [" + mainName + "] not found." );
 
         return herald.getComponent( componentClass );
 

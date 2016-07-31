@@ -23,21 +23,12 @@ public class PageWrapperImpl extends ActorWrapperImpl<Page, ArmoredPageWrapper, 
     }
 
     @Override
-    public void actorInitialize( ArmoredPageWrapper armored ) throws ForgeException {
-
-        Page page = armored.getActor();
-
-        page.initialize();
-
-    }
-
-    @Override
     public Cycle getCycle() {
         return cycle;
     }
 
     @Override
-    protected ArmoredPageWrapper createArmor( Camp camp ) {
+    public ArmoredPageWrapper instanciate( Camp camp ) throws ForgeException {
         return camp.getPage( this );
     }
 

@@ -56,8 +56,6 @@ public abstract class TaskWrapperImpl<A extends Actor, Armored extends ArmoredTa
      * STATUS & EXECUTION
      */
 
-    protected abstract void execute( Armored armored );
-
     @Override
     @Transactional
     public RunStatus run() {
@@ -67,7 +65,7 @@ public abstract class TaskWrapperImpl<A extends Actor, Armored extends ArmoredTa
         try {
 
             call( armored -> {
-                this.execute( armored );
+                armored.execute();
                 return null;
             } );
 

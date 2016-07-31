@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.windwagon.broceliande.knights.entities.FencingMasterData;
@@ -24,7 +22,7 @@ import com.windwagon.broceliande.knights.forge.armored.Camp;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.repositories.FencingMasterRunRepository;
 import com.windwagon.kaamelott.FencingMaster;
-import com.windwagon.kaamelott.Knight;
+import com.windwagon.logres.collection.LazyInitializer;
 
 public class FencingMasterWrapperImpl
         extends TaskWrapperImpl<FencingMaster, ArmoredFencingMasterWrapper, FencingMasterData, FencingMasterRun>
@@ -33,35 +31,27 @@ public class FencingMasterWrapperImpl
     @Autowired
     private FencingMasterRunRepository fencingMasterRunRepository;
 
-    private KnightWrapper knightWrapper;
+    private LazyInitializer<KnightWrapper> knightWrapper = new LazyInitializer<>( () -> herald.getKnight( runData ) );
 
-    private BrotherhoodWrapper brotherhoodWrapper;
+    private LazyInitializer<BrotherhoodWrapper> brotherhoodWrapper =
+            new LazyInitializer<>( () -> herald.getBrotherhood( runData.getBrotherhood() ) );
 
     public FencingMasterWrapperImpl( Herald herald, FencingMasterRun runData ) {
         super( herald, runData.getFencingMaster(), runData );
     }
 
-    @PostConstruct
-    public void init() {
-
-        knightWrapper = herald.getKnight( runData );
-
-        brotherhoodWrapper = herald.getBrotherhood( runData.getBrotherhood() );
-
-    }
-
     @Override
     public KnightWrapper getKnight() {
-        return knightWrapper;
+        return knightWrapper.get();
     }
 
     @Override
     public BrotherhoodWrapper getBrotherhood() {
-        return brotherhoodWrapper;
+        return brotherhoodWrapper.get();
     }
 
     @Override
-    protected ArmoredFencingMasterWrapper createArmor( Camp camp ) {
+    public ArmoredFencingMasterWrapper instanciate( Camp camp ) throws ForgeException {
         return camp.getFencingMaster( this );
     }
 
@@ -72,7 +62,7 @@ public class FencingMasterWrapperImpl
 
     @Override
     public Set<? extends ActorWrapper<?, ?>> getActorDependances() {
-        return new HashSet<>( Arrays.asList( knightWrapper, brotherhoodWrapper ) );
+        return new HashSet<>( Arrays.asList( knightWrapper.get(), brotherhoodWrapper.get() ) );
     }
 
     @Override
@@ -91,24 +81,12 @@ public class FencingMasterWrapperImpl
 
         Set<TaskWrapper<?, ?, ?>> tasks = new HashSet<>();
 
-        tasks.add( brotherhoodWrapper );
+        tasks.add( brotherhoodWrapper.get() );
 
         addDependantTasksFromConstants( tasks, ComponentPatterns.getTrainedKnightName( this ) );
         addDependantTasksFromConstants( tasks, ComponentPatterns.getFencingMasterName( this ) );
 
         return tasks;
-
-    }
-
-    @Override
-    public void actorInitialize( ArmoredFencingMasterWrapper armored ) throws ForgeException {
-
-        FencingMaster fencingMaster = armored.getActor();
-
-        fencingMaster.setKnight( armored.getKnight() );
-        fencingMaster.setBrotherhood( armored.getBrotherhood() );
-
-        fencingMaster.initialize();
 
     }
 
@@ -123,21 +101,6 @@ public class FencingMasterWrapperImpl
 
         runData.setKnightSerialization( null );
         return super.fail( ex );
-
-    }
-
-    @Override
-    public void execute( ArmoredFencingMasterWrapper armored ) {
-
-        FencingMaster fencingMaster = armored.getActor();
-        Knight knight = armored.getKnight().getActor();
-
-        // train
-        fencingMaster.train();
-
-        // save
-        runData.setKnightSerialization( base64encode( knight.marshal() ) );
-        runData.setSerialization( base64encode( fencingMaster.marshal() ) );
 
     }
 
