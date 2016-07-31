@@ -17,4 +17,20 @@
 
     <packaging>jar</packaging>
 
+    <dependencies>
+
+        <!-- COMPLEX COMPONENT -->
+        <dependency>
+            <groupId>windwagon</groupId>
+            <artifactId>avalon-complex-component</artifactId>
+        </dependency>
+
+        <!-- SIMPLE KNIGHT -->
+        <dependency>
+            <groupId>windwagon</groupId>
+            <artifactId>avalon-simple</artifactId>
+        </dependency>
+
+    </dependencies>
+
 </project>

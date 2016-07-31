@@ -5,12 +5,8 @@ import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import java.util.Date;
-import java.util.TreeSet;
-
 import javax.transaction.Transactional;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +17,12 @@ import com.windwagon.broceliande.Broceliande;
 import com.windwagon.broceliande.knights.builders.BrokenKnightsBuilder;
 import com.windwagon.broceliande.knights.builders.Environment;
 import com.windwagon.broceliande.knights.entities.BrotherhoodRun;
-import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.RunStatus;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.broceliande.knights.forge.Casern;
-import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
-import com.windwagon.broceliande.knights.forge.builder.CycleBuilder;
-import com.windwagon.broceliande.knights.forge.builder.KnightBuilderFactory;
 import com.windwagon.broceliande.knights.forge.errors.ActorExecutionException;
-import com.windwagon.broceliande.race.builders.Meeting_20150813_M1;
-import com.windwagon.broceliande.race.entities.Meeting;
-import com.windwagon.broceliande.race.repositories.MeetingRepository;
 import com.windwagon.broceliande.race.turf.RaceWrapper;
 import com.windwagon.broceliande.race.turf.Stud;
 import com.windwagon.broceliande.utils.MeetingNavigator;
@@ -48,70 +37,33 @@ import com.windwagon.kaamelott.words.Words;
 public class BrokenKnightsTest {
 
     @Autowired
-    private MeetingRepository meetingRepository;
-
-    @Autowired
     private Casern casern;
 
     @Autowired
     private Stud stud;
 
     @Autowired
-    private KnightBuilderFactory knightBuilderFactory;
-
-    @Autowired
     private BrokenKnightsBuilder brokenKnightsBuilder;
-    
-    private Herald herald;
-
-    private Meeting meeting;
-    
-    @Before
-    public void createHerald() {
-        this.herald = casern.getHerald();
-    }
-
-    public Environment setUp() {
-
-        meeting = Meeting_20150813_M1.build();
-        meetingRepository.save( meeting );
-
-        CycleBuilder cycleBuilder = knightBuilderFactory.getCycleBuilder();
-        cycleBuilder.creation( new Date() ).raceSet().description( "Meeting races" ).races(
-                new TreeSet<>( meeting.getRaces() ) );
-        Cycle cycle = cycleBuilder.build();
-
-        return brokenKnightsBuilder.createEnv().createRuns( cycle ).saveAll();
-
-    }
 
     @Test( expected = ActorExecutionException.class )
     @Transactional
     public void testBrokenKnight() throws Exception {
 
-        Environment env = setUp();
-        
+        Environment env = brokenKnightsBuilder.createEnv().createRuns().saveAll();
+
         // instanciate
-        KnightWrapper knight = herald.getKnight( env.getFencingMasterRun() );
-        knight.instanciate();
+        KnightWrapper knight = casern.getHerald().getKnight( env.getFencingMasterRun() );
+        assertThat( knight.getName(), is( "BrokenBrotherhood" ) );
 
-        try {
+        // check words
 
-            // check words
+        RaceWrapper kaamRace = stud.getRace( MeetingNavigator.getRace( env.getMeeting(), 1 ) );
+        Words words = knight.call( armored -> armored.getWords( kaamRace ) );
 
-            RaceWrapper kaamRace = stud.getRace( MeetingNavigator.getRace( meeting, 1 ) );
-            Words words = knight.call( () -> knight.getWords( kaamRace ) );
+        Horse horse = kaamRace.getHorses().first();
+        Words expectedWord = new BetWords( new Bet( BetType.SIMPLE_GAGNANT, horse ) );
 
-            Horse horse = kaamRace.getHorses().first();
-            Words expectedWord = new BetWords( new Bet( BetType.SIMPLE_GAGNANT, horse ) );
-
-            assertThat( words, sameBeanAs( expectedWord ) );
-
-        } finally {
-
-            knight.close();
-
-        }
+        assertThat( words, sameBeanAs( expectedWord ) );
 
     }
 
@@ -119,9 +71,12 @@ public class BrokenKnightsTest {
     @Transactional
     public void testBrokenFencingMaster() throws Exception {
 
-        FencingMasterRun fencingMasterRun = setUp().getFencingMasterRun();
+        Environment env = brokenKnightsBuilder.createEnv().createRuns().saveAll();
 
-        herald.getFencingMaster( fencingMasterRun ).run();
+        FencingMasterRun fencingMasterRun = env.getFencingMasterRun();
+        assertThat( fencingMasterRun.getFencingMaster().getName(), is( "BrokenFencingMaster" ) );
+
+        casern.getHerald().getFencingMaster( fencingMasterRun ).run();
 
         assertThat( fencingMasterRun.getStatus(), is( RunStatus.FAILED ) );
 
@@ -131,9 +86,12 @@ public class BrokenKnightsTest {
     @Transactional
     public void testBrokenBrotherhood() throws Exception {
 
-        BrotherhoodRun brotherhoodRun = setUp().getBrotherhoodRun();
+        Environment env = brokenKnightsBuilder.createEnv().createRuns().saveAll();
 
-        herald.getBrotherhood( brotherhoodRun ).run();
+        BrotherhoodRun brotherhoodRun = env.getBrotherhoodRun();
+        assertThat( brotherhoodRun.getBrotherhood().getName(), is( "BrokenBrotherhood" ) );
+
+        casern.getHerald().getBrotherhood( brotherhoodRun ).run();
 
         assertThat( brotherhoodRun.getStatus(), is( RunStatus.FAILED ) );
 
@@ -143,9 +101,12 @@ public class BrokenKnightsTest {
     @Transactional
     public void testBrokenScribe() throws Exception {
 
-        ScribeRun scribeRun = setUp().getScribeRun();
+        Environment env = brokenKnightsBuilder.createEnv().createRuns().saveAll();
 
-        herald.getScribe( scribeRun ).run();
+        ScribeRun scribeRun = env.getScribeRun();
+        assertThat( scribeRun.getScribe().getName(), is( "BrokenScribe" ) );
+
+        casern.getHerald().getScribe( scribeRun ).run();
 
         assertThat( scribeRun.getStatus(), is( RunStatus.FAILED ) );
 

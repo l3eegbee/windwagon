@@ -18,6 +18,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>component</module>
         <module>knight</module>
         <module>fencingmaster</module>
         <module>brotherhood</module>

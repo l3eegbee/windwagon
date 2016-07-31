@@ -7,23 +7,14 @@
 
     <parent>
         <groupId>windwagon</groupId>
-        <artifactId>avalon</artifactId>
+        <artifactId>avalon-complex</artifactId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>avalon-simple</artifactId>
+    <artifactId>avalon-complex-component</artifactId>
 
-    <name>windwagon avalon-simple</name>
+    <name>windwagon avalon-complex-component</name>
 
     <packaging>jar</packaging>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-
-    </dependencies>
 
 </project>

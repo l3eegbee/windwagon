@@ -115,6 +115,36 @@
                 <artifactId>avalon-broken</artifactId>
                 <version>1.0</version>
             </dependency>
+            <dependency>
+                <groupId>windwagon</groupId>
+                <artifactId>avalon-complex</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>windwagon</groupId>
+                <artifactId>avalon-complex-component</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>windwagon</groupId>
+                <artifactId>avalon-complex-knight</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>windwagon</groupId>
+                <artifactId>avalon-complex-fencingmaster</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>windwagon</groupId>
+                <artifactId>avalon-complex-brotherhood</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>windwagon</groupId>
+                <artifactId>avalon-complex-scribe</artifactId>
+                <version>1.0</version>
+            </dependency>
 
             <!-- BROCELIANDE -->
             <dependency>

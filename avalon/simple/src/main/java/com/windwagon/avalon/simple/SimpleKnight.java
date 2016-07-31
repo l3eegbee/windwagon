@@ -1,11 +1,11 @@
 package com.windwagon.avalon.simple;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.windwagon.kaamelott.Knight;
 import com.windwagon.kaamelott.race.BetType;
@@ -18,7 +18,11 @@ public class SimpleKnight implements Knight {
 
     private Parameters constants = new Parameters();
 
-    private Parameters variables = new Parameters();
+    private List<SimpleParameter> listConstant = new ArrayList<>();
+
+    private Map<String, SimpleParameter> mapConstant = new HashMap<>();
+
+    private SimpleParameter parameter = new SimpleParameter();
 
     @Override
     public BetWords getWords( Race race ) {
@@ -31,57 +35,99 @@ public class SimpleKnight implements Knight {
     @Override
     public byte[] marshal() {
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        if( parameter == null )
+            return null;
 
-        try( ObjectOutputStream out = new ObjectOutputStream( stream ) ) {
-            out.writeObject( variables );
-        } catch( IOException ex ) {
-            throw new IllegalArgumentException( ex );
-        }
+        String value = parameter.getValue();
+        if( value == null )
+            return null;
 
-        return stream.toByteArray();
+        return value.getBytes();
 
     }
 
     @Override
     public void unmarshal( byte[] data ) {
-
-        InputStream stream = new ByteArrayInputStream( data );
-
-        try( ObjectInputStream in = new ObjectInputStream( stream ) ) {
-            variables = (Parameters) in.readObject();
-        } catch( ClassNotFoundException | IOException ex ) {
-            throw new IllegalArgumentException( ex );
-        }
-
+        parameter = new SimpleParameter();
+        parameter.setValue( new String( data ) );
     }
 
-    /**
-     * @return the constants
-     */
     public Parameters getConstants() {
         return constants;
     }
 
-    /**
-     * @param constants the constants to set
-     */
     public void setConstants( Parameters constants ) {
         this.constants = constants;
     }
 
-    /**
-     * @return the variables
-     */
-    public Parameters getVariables() {
-        return variables;
+    public List<SimpleParameter> getListConstant() {
+        return this.listConstant;
     }
 
-    /**
-     * @param variables the variables to set
-     */
-    public void setVariables( Parameters variables ) {
-        this.variables = variables;
+    public void setListConstant( List<SimpleParameter> listConstant ) {
+        this.listConstant = listConstant;
+    }
+
+    public Map<String, SimpleParameter> getMapConstant() {
+        return this.mapConstant;
+    }
+
+    public void setMapConstant( Map<String, SimpleParameter> mapConstant ) {
+        this.mapConstant = mapConstant;
+    }
+
+    public SimpleParameter getParameter() {
+        return this.parameter;
+    }
+
+    public void setParameter( SimpleParameter parameter ) {
+        this.parameter = parameter;
+    }
+
+    @Override
+    public String toString() {
+
+        String listValue = listConstant == null ? "null" : new StringBuilder()
+                .append( "[" )
+                .append(
+                        String.join(
+                                ",",
+                                listConstant
+                                        .stream()
+                                        .map( SimpleParameter::toString )
+                                        .collect( Collectors.toList() ) ) )
+                .append( "]" )
+                .toString();
+
+        String mapValue = mapConstant == null ? "null" : new StringBuilder()
+                .append( "{" )
+                .append(
+                        String.join( ",", mapConstant
+                                .keySet()
+                                .stream()
+                                .sorted()
+                                .map(
+                                        k -> new StringBuilder()
+                                                .append( k )
+                                                .append( ":" )
+                                                .append( Objects.toString( mapConstant.get( k ) ) )
+                                                .toString() )
+                                .collect( Collectors.toList() ) ) )
+                .append( "}" )
+                .toString();
+
+        return new StringBuilder()
+                .append( "{constants:" )
+                .append( Objects.toString( constants ) )
+                .append( ",list:" )
+                .append( listValue )
+                .append( ",map:" )
+                .append( mapValue )
+                .append( ",parameter:" )
+                .append( Objects.toString( parameter ) )
+                .append( "}" )
+                .toString();
+
     }
 
 }

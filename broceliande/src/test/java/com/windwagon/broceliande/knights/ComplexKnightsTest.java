@@ -5,12 +5,8 @@ import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import java.util.Date;
-import java.util.TreeSet;
-
 import javax.transaction.Transactional;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +17,12 @@ import com.windwagon.broceliande.Broceliande;
 import com.windwagon.broceliande.knights.builders.ComplexKnightsBuilder;
 import com.windwagon.broceliande.knights.builders.Environment;
 import com.windwagon.broceliande.knights.entities.BrotherhoodRun;
-import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.RunStatus;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.broceliande.knights.forge.Casern;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
-import com.windwagon.broceliande.knights.forge.builder.CycleBuilder;
-import com.windwagon.broceliande.knights.forge.builder.KnightBuilderFactory;
-import com.windwagon.broceliande.race.builders.Meeting_20150813_M1;
-import com.windwagon.broceliande.race.entities.Meeting;
-import com.windwagon.broceliande.race.repositories.MeetingRepository;
 import com.windwagon.broceliande.race.turf.RaceWrapper;
 import com.windwagon.broceliande.race.turf.Stud;
 import com.windwagon.broceliande.utils.MeetingNavigator;
@@ -47,70 +37,72 @@ import com.windwagon.kaamelott.words.Words;
 public class ComplexKnightsTest {
 
     @Autowired
-    private MeetingRepository meetingRepository;
-
-    @Autowired
     private Casern casern;
 
     @Autowired
     private Stud stud;
 
     @Autowired
-    private KnightBuilderFactory knightBuilderFactory;
-
-    @Autowired
     private ComplexKnightsBuilder complexKnightsBuilder;
-    
-    private Herald herald;
-
-    private Meeting meeting;
-    
-    @Before
-    public void createHerald() {
-        this.herald = casern.getHerald();
-    }
-
-    public Environment setUp() {
-
-        meeting = Meeting_20150813_M1.build();
-        meetingRepository.save( meeting );
-
-        CycleBuilder cycleBuilder = knightBuilderFactory.getCycleBuilder();
-        cycleBuilder.creation( new Date() ).raceSet().description( "Meeting races" ).races(
-                new TreeSet<>( meeting.getRaces() ) );
-        Cycle cycle = cycleBuilder.build();
-
-        return complexKnightsBuilder.createEnv().createRuns( cycle ).saveAll();
-
-    }
 
     @Test
     @Transactional
     public void testComplexKnight() throws Exception {
 
-        Environment env = setUp();
+        Environment env = complexKnightsBuilder.createEnv().createRuns().saveAll();
+
+        Herald herald = casern.getHerald();
+
+        // run simple things
+        herald.getBrotherhood( env.getBrotherhoodRun( 0 ) ).run();
 
         // instanciate
-        KnightWrapper knight = herald.getKnight( env.getFencingMasterRun() );
-        knight.instanciate();
+        KnightWrapper knight = herald.getKnight( env.getFencingMasterRun( 1 ) );
+        assertThat( knight.getName(), is( "ComplexBrotherhood" ) );
 
-        try {
+        // check constants
 
-            // check words
+        String string = knight.call( armored -> armored.getActor().toString() );
 
-            RaceWrapper kaamRace = stud.getRace( MeetingNavigator.getRace( meeting, 1 ) );
-            Words words = knight.call( () -> knight.getWords( kaamRace ) );
+        String expected = new StringBuilder( "{" )
+                .append( "component:{component:'Hello, World!'}," )
+                .append( "knight:{" )
+                .append( "constants:{" )
+                .append( "boolean:'true'," )
+                .append( "string:'My name is Arnold.'," )
+                .append( "int:'42'," )
+                .append( "double:'3.14159'," )
+                .append( "enum:'BLUE'}," )
+                .append( "list:[" )
+                .append( "{value:'sifa'}," )
+                .append( "{value:'siaedng'}]," )
+                .append( "map:{" )
+                .append( "green:{value:'sikhiav'}," )
+                .append( "yellow:{value:'siheuong'}}," )
+                .append( "parameter:{value:null}}," )
+                .append( "hidden:{" )
+                .append( "constants:{" )
+                .append( "boolean:'false'," )
+                .append( "string:null," )
+                .append( "int:'0'," )
+                .append( "double:'0.0'," )
+                .append( "enum:null}," )
+                .append( "list:[]," )
+                .append( "map:{}," )
+                .append( "parameter:{value:null}}}" )
+                .toString();
 
-            Horse horse = kaamRace.getHorses().first();
-            Words expectedWord = new BetWords( new Bet( BetType.SIMPLE_GAGNANT, horse ) );
+        assertThat( string, is( expected ) );
 
-            assertThat( words, sameBeanAs( expectedWord ) );
+        // check words
 
-        } finally {
+        RaceWrapper kaamRace = stud.getRace( MeetingNavigator.getRace( env.getMeeting(), 1 ) );
+        Words words = knight.call( armored -> armored.getWords( kaamRace ) );
 
-            knight.close();
+        Horse horse = kaamRace.getHorses().first();
+        Words expectedWord = new BetWords( new Bet( BetType.SIMPLE_GAGNANT, horse ) );
 
-        }
+        assertThat( words, sameBeanAs( expectedWord ) );
 
     }
 
@@ -118,7 +110,15 @@ public class ComplexKnightsTest {
     @Transactional
     public void testComplexFencingMaster() throws Exception {
 
-        FencingMasterRun fencingMasterRun = setUp().getFencingMasterRun();
+        Environment env = complexKnightsBuilder.createEnv().createRuns().saveAll();
+
+        Herald herald = casern.getHerald();
+
+        // run simple things
+        herald.getBrotherhood( env.getBrotherhoodRun( 0 ) ).run();
+
+        FencingMasterRun fencingMasterRun = env.getFencingMasterRun( 1 );
+        assertThat( fencingMasterRun.getFencingMaster().getName(), is( "ComplexFencingMaster" ) );
 
         herald.getFencingMaster( fencingMasterRun ).run();
 
@@ -130,7 +130,15 @@ public class ComplexKnightsTest {
     @Transactional
     public void testComplexBrotherhood() throws Exception {
 
-        BrotherhoodRun brotherhoodRun = setUp().getBrotherhoodRun();
+        Environment env = complexKnightsBuilder.createEnv().createRuns().saveAll();
+
+        Herald herald = casern.getHerald();
+
+        // run simple things
+        herald.getBrotherhood( env.getBrotherhoodRun( 0 ) ).run();
+
+        BrotherhoodRun brotherhoodRun = env.getBrotherhoodRun( 1 );
+        assertThat( brotherhoodRun.getBrotherhood().getName(), is( "ComplexBrotherhood" ) );
 
         herald.getBrotherhood( brotherhoodRun ).run();
 
@@ -142,7 +150,15 @@ public class ComplexKnightsTest {
     @Transactional
     public void testComplexScribe() throws Exception {
 
-        ScribeRun scribeRun = setUp().getScribeRun();
+        Environment env = complexKnightsBuilder.createEnv().createRuns().saveAll();
+
+        Herald herald = casern.getHerald();
+
+        // run simple things
+        herald.getBrotherhood( env.getBrotherhoodRun( 0 ) ).run();
+
+        ScribeRun scribeRun = env.getScribeRun( 1 );
+        assertThat( scribeRun.getScribe().getName(), is( "ComplexScribe" ) );
 
         herald.getScribe( scribeRun ).run();
 

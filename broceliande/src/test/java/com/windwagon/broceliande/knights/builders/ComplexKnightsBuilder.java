@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.windwagon.broceliande.knights.entities.BrotherhoodData;
+import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.entities.ComponentData;
+import com.windwagon.broceliande.knights.entities.ConstantType;
 import com.windwagon.broceliande.knights.entities.FencingMasterData;
 import com.windwagon.broceliande.knights.entities.KnightData;
 import com.windwagon.broceliande.knights.entities.ScribeData;
+import com.windwagon.broceliande.knights.forge.builder.ComponentClassBuilder;
 import com.windwagon.broceliande.knights.forge.builder.ComponentDataBuilder;
 import com.windwagon.broceliande.knights.forge.builder.KnightBuilderFactory;
 
@@ -18,9 +21,31 @@ public class ComplexKnightsBuilder {
     private KnightBuilderFactory knightBuilderFactory;
 
     @Autowired
+    private SimpleKnightsBuilder simpleKnightsBuilder;
+
+    @Autowired
     private EnvironmentFactory environmentFactory;
 
     public Environment createEnv() {
+        Environment env = environmentFactory.getEnvironment();
+        buildActors( env );
+        return env;
+    }
+
+    public void buildActors( Environment env ) {
+
+        simpleKnightsBuilder.buildActors( env );
+
+        // create component
+
+        ComponentClassBuilder complexComponentClassBuilder = knightBuilderFactory.getComponentClassBuilder();
+        complexComponentClassBuilder
+                .mainClass( "com.windwagon.avalon.complex.component.ComplexComponent" )
+                .addType( "com.windwagon.avalon.complex.component.ComplexComponent" )
+                .addType( "java.lang.Object" )
+                .jarFile()
+                .resource( "classpath:/complex/component/target/avalon-complex-component-1.0.jar" );
+        ComponentClass componentClass = complexComponentClassBuilder.build();
 
         // create knight
 
@@ -36,6 +61,24 @@ public class ComplexKnightsBuilder {
                 .description( "It's a complex knight" )
                 .jarFile()
                 .resource( "classpath:/complex/knight/target/avalon-complex-knight-1.0.jar" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Component" )
+                .type( ConstantType.COMPONENT )
+                .attribute( "component" )
+                .value( "com.windwagon.avalon.complex.component.ComplexComponent" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Component - Value" )
+                .type( ConstantType.STRING )
+                .attribute( "component.value" )
+                .value( "Hello, World!" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Knight" )
+                .type( ConstantType.COMPONENT )
+                .attribute( "knight" )
+                .value( "kn:SimpleBrotherhood" );
         ComponentData knightComponent = knightComponentBuilder.build();
 
         KnightData knightData =
@@ -120,8 +163,8 @@ public class ComplexKnightsBuilder {
                         .component( scribeComponent )
                         .build();
 
-        return environmentFactory
-                .getEnvironment()
+        env
+                .addComponentClass( componentClass )
                 .addKnightData( knightData )
                 .addFencingMasterData( fencingMasterData )
                 .addBrotherhoodData( brotherhoodData )

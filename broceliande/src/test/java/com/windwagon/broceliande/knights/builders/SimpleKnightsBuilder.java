@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 import com.windwagon.avalon.simple.SimpleBrotherhood;
 import com.windwagon.avalon.simple.SimpleFencingMaster;
 import com.windwagon.avalon.simple.SimpleKnight;
+import com.windwagon.avalon.simple.SimpleParameter;
 import com.windwagon.avalon.simple.SimpleScribe;
 import com.windwagon.broceliande.knights.entities.BrotherhoodData;
+import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.entities.ComponentData;
 import com.windwagon.broceliande.knights.entities.ConstantType;
 import com.windwagon.broceliande.knights.entities.FencingMasterData;
@@ -21,10 +23,6 @@ import com.windwagon.broceliande.knights.forge.builder.KnightBuilderFactory;
 @Component
 public class SimpleKnightsBuilder {
 
-    public final static String SIMPLE_STING_VALUE = "My name is Arnold.";
-
-    public final static String SIMPLE_INT_VALUE = "42";
-
     @Autowired
     private KnightBuilderFactory knightBuilderFactory;
 
@@ -32,12 +30,28 @@ public class SimpleKnightsBuilder {
     private EnvironmentFactory environmentFactory;
 
     public Environment createEnv() {
+        Environment env = environmentFactory.getEnvironment();
+        buildActors( env );
+        return env;
+    }
+
+    public void buildActors( Environment env ) {
 
         // create actors
 
         JARFileBuilder jarFileBuilder = knightBuilderFactory.getJARFileBuilder();
         jarFileBuilder.resource( "classpath:/simple/target/avalon-simple-1.0.jar" );
         JARFile jarFile = jarFileBuilder.build();
+
+        // create SimpleParameter components
+
+        ComponentClass simpleParameterClass =
+                knightBuilderFactory
+                        .getComponentClassBuilder()
+                        .mainClass( SimpleParameter.class )
+                        .description( "It's a simple component" )
+                        .addJarFile( jarFile )
+                        .build();
 
         // create knight
 
@@ -51,16 +65,97 @@ public class SimpleKnightsBuilder {
                 .addJarFile( jarFile );
         knightComponentBuilder
                 .constant()
-                .name( "Simple String" )
-                .type( ConstantType.STRING )
-                .attribute( "constants.simpleString" )
-                .value( SIMPLE_STING_VALUE );
+                .name( "Constant - Boolean" )
+                .type( ConstantType.BOOLEAN )
+                .attribute( "constants.paramBoolean" )
+                .value( "true" );
         knightComponentBuilder
                 .constant()
-                .name( "Simple Int" )
+                .name( "Constant - String" )
+                .type( ConstantType.STRING )
+                .attribute( "constants.paramString" )
+                .value( "My name is Arnold." );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Integer" )
                 .type( ConstantType.INTEGER )
-                .attribute( "constants.simpleInt" )
-                .value( SIMPLE_INT_VALUE );
+                .attribute( "constants.paramInt" )
+                .value( "42" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Double" )
+                .type( ConstantType.DOUBLE )
+                .attribute( "constants.paramDouble" )
+                .value( "3.14159" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Enum" )
+                .type( ConstantType.ENUM )
+                .enumConstraints( "com.windwagon.avalon.simple.EnumParameter", "RED", "BLUE", "YELLOW", "GREEN" )
+                .attribute( "constants.paramEnum" )
+                .value( "BLUE" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - List" )
+                .type( ConstantType.LIST )
+                .listConstraints( "com.windwagon.avalon.simple.SimpleParameter" )
+                .attribute( "listConstant" )
+                .value( "2" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - List - 1" )
+                .type( ConstantType.COMPONENT )
+                .attribute( "listConstant[0]" )
+                .value( "com.windwagon.avalon.simple.SimpleParameter" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - List - 1 - value" )
+                .type( ConstantType.STRING )
+                .attribute( "listConstant[0].value" )
+                .value( "sifa" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - List - 2" )
+                .type( ConstantType.COMPONENT )
+                .attribute( "listConstant[1]" )
+                .value( "com.windwagon.avalon.simple.SimpleParameter" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - List - 2 - value" )
+                .type( ConstantType.STRING )
+                .attribute( "listConstant[1].value" )
+                .value( "siaedng" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Map" )
+                .type( ConstantType.MAP )
+                .mapConstraints( "com.windwagon.avalon.simple.SimpleParameter" )
+                .attribute( "mapConstant" )
+                .value( "2" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Map - 1" )
+                .type( ConstantType.COMPONENT )
+                .attribute( "mapConstant['yellow']" )
+                .value( "com.windwagon.avalon.simple.SimpleParameter" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Map - 1 - value" )
+                .type( ConstantType.STRING )
+                .attribute( "mapConstant['yellow'].value" )
+                .value( "siheuong" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Map - 2" )
+                .type( ConstantType.COMPONENT )
+                .attribute( "mapConstant['green']" )
+                .value( "com.windwagon.avalon.simple.SimpleParameter" );
+        knightComponentBuilder
+                .constant()
+                .name( "Constant - Map - 2 - value" )
+                .type( ConstantType.STRING )
+                .attribute( "mapConstant['green'].value" )
+                .value( "sikhiav" );
         ComponentData knightComponent = knightComponentBuilder.build();
 
         KnightData knightData =
@@ -81,6 +176,24 @@ public class SimpleKnightsBuilder {
                 .mainClass( SimpleFencingMaster.class )
                 .description( "It's a simple fencingMaster" )
                 .addJarFile( jarFile );
+        fencingMasterComponentBuilder
+                .constant()
+                .name( "Constant" )
+                .type( ConstantType.COMPONENT )
+                .attribute( "parameter" )
+                .value( "com.windwagon.avalon.simple.SimpleParameter" );
+        fencingMasterComponentBuilder
+                .constant()
+                .name( "Constant value" )
+                .type( ConstantType.STRING )
+                .attribute( "parameter.value" )
+                .value( "Hey, I'm in the band!" );
+        fencingMasterComponentBuilder
+                .constant()
+                .name( "Drill hall" )
+                .type( ConstantType.DRILL_HALL )
+                .attribute( "drillHall" )
+                .value( "all.drill.hall" );
         ComponentData fencingMasterComponent = fencingMasterComponentBuilder.build();
 
         FencingMasterData fencingMasterData =
@@ -133,8 +246,8 @@ public class SimpleKnightsBuilder {
                         .component( scribeComponent )
                         .build();
 
-        return environmentFactory
-                .getEnvironment()
+        env
+                .addComponentClass( simpleParameterClass )
                 .addKnightData( knightData )
                 .addFencingMasterData( fencingMasterData )
                 .addBrotherhoodData( brotherhoodData )

@@ -23,6 +23,12 @@ public class BrokenKnightsBuilder {
     private EnvironmentFactory environmentFactory;
 
     public Environment createEnv() {
+        Environment env = environmentFactory.getEnvironment();
+        buildEnv( env );
+        return env;
+    }
+
+    public void buildEnv( Environment env ) {
 
         // create actors
 
@@ -124,8 +130,7 @@ public class BrokenKnightsBuilder {
                         .component( scribeComponent )
                         .build();
 
-        return environmentFactory
-                .getEnvironment()
+        env
                 .addKnightData( knightData )
                 .addFencingMasterData( fencingMasterData )
                 .addBrotherhoodData( brotherhoodData )

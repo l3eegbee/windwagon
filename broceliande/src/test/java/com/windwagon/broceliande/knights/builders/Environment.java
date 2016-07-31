@@ -1,5 +1,6 @@
 package com.windwagon.broceliande.knights.builders;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,30 +8,95 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.windwagon.broceliande.knights.entities.BrotherhoodData;
 import com.windwagon.broceliande.knights.entities.BrotherhoodRun;
+import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.FencingMasterData;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.KnightData;
+import com.windwagon.broceliande.knights.entities.RaceSet;
 import com.windwagon.broceliande.knights.entities.RunStatus;
 import com.windwagon.broceliande.knights.entities.ScribeData;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.broceliande.knights.forge.builder.KnightBuilderFactory;
 import com.windwagon.broceliande.knights.repositories.BrotherhoodDataRepository;
 import com.windwagon.broceliande.knights.repositories.BrotherhoodRunRepository;
+import com.windwagon.broceliande.knights.repositories.ComponentClassRepository;
+import com.windwagon.broceliande.knights.repositories.CycleRepository;
 import com.windwagon.broceliande.knights.repositories.FencingMasterDataRepository;
 import com.windwagon.broceliande.knights.repositories.FencingMasterRunRepository;
 import com.windwagon.broceliande.knights.repositories.KnightDataRepository;
+import com.windwagon.broceliande.knights.repositories.RaceSetRepository;
 import com.windwagon.broceliande.knights.repositories.ScribeDataRepository;
 import com.windwagon.broceliande.knights.repositories.ScribeRunRepository;
+import com.windwagon.broceliande.race.builders.Meeting_20150813_M1;
+import com.windwagon.broceliande.race.entities.Meeting;
+import com.windwagon.broceliande.race.repositories.MeetingRepository;
 
 public class Environment {
 
     @Autowired
     private KnightBuilderFactory knightBuilderFactory;
+
+    @PostConstruct
+    public void init() {
+
+        cycle = knightBuilderFactory.getCycleBuilder().creation( new Date() ).build();
+
+        meeting = Meeting_20150813_M1.build();
+        allRaceSet =
+                knightBuilderFactory
+                        .getRaceSetBuilder()
+                        .name( "all.drill.hall" )
+                        .races( new TreeSet<>( meeting.getRaces() ) )
+                        .cycle( getCycle() )
+                        .build();
+
+    }
+
+    /*
+     * Cycle
+     */
+
+    @Autowired
+    private CycleRepository cycleRepository;
+
+    private Cycle cycle;
+
+    public Cycle getCycle() {
+        return cycle;
+    }
+
+    /*
+     * RaceSet
+     */
+
+    @Autowired
+    private MeetingRepository meetingRepository;
+
+    @Autowired
+    private RaceSetRepository raceSetRepository;
+
+    private Meeting meeting;
+
+    private RaceSet allRaceSet;
+
+    public Meeting getMeeting() {
+        return this.meeting;
+    }
+
+    /*
+     * Actors
+     */
+
+    @Autowired
+    private ComponentClassRepository componentClassRepository;
 
     @Autowired
     private KnightDataRepository knightDataRepository;
@@ -53,6 +119,8 @@ public class Environment {
     @Autowired
     private ScribeRunRepository scribeRunRepository;
 
+    private List<ComponentClass> listComponentClass = new LinkedList<>();
+
     private List<KnightData> listKnightData = new LinkedList<>();
 
     private List<FencingMasterData> listFencingMasterData = new LinkedList<>();
@@ -66,6 +134,11 @@ public class Environment {
     private List<BrotherhoodRun> listBrotherhoodRun = new LinkedList<>();
 
     private List<ScribeRun> listScribeRun = new LinkedList<>();
+
+    public Environment addComponentClass( ComponentClass componentClass ) {
+        listComponentClass.add( componentClass );
+        return this;
+    }
 
     public Environment addKnightData( KnightData knightData ) {
         listKnightData.add( knightData );
@@ -143,7 +216,9 @@ public class Environment {
         return listScribeRun.get( i );
     }
 
-    public Environment createRuns( Cycle cycle ) {
+    public Environment createRuns() {
+
+        Cycle cycle = getCycle();
 
         Map<FencingMasterData, FencingMasterRun> fencingMasterMap = new HashMap<>();
 
@@ -191,17 +266,47 @@ public class Environment {
 
     }
 
+    @Transactional
     public Environment saveAll() {
 
+        meetingRepository.save( meeting );
+
+        componentClassRepository.save( listComponentClass );
+
         knightDataRepository.save( listKnightData );
-        fencingMasterDataRepository.save( listFencingMasterData );
         brotherhoodDataRepository.save( listBrotherhoodData );
+        fencingMasterDataRepository.save( listFencingMasterData );
         scribeDataRepository.save( listScribeData );
-        fencingMasterRunRepository.save( listFencingMasterRun );
+
+        cycleRepository.save( getCycle() );
+        raceSetRepository.save( allRaceSet );
+
         brotherhoodRunRepository.save( listBrotherhoodRun );
+        fencingMasterRunRepository.save( listFencingMasterRun );
         scribeRunRepository.save( listScribeRun );
 
         return this;
+
+    }
+
+    @Transactional
+    public void deleteAll() {
+
+        scribeRunRepository.deleteAll();
+        fencingMasterRunRepository.deleteAll();
+        brotherhoodRunRepository.deleteAll();
+
+        raceSetRepository.deleteAll();
+        cycleRepository.deleteAll();
+
+        scribeDataRepository.deleteAll();
+        fencingMasterDataRepository.deleteAll();
+        brotherhoodDataRepository.deleteAll();
+        knightDataRepository.deleteAll();
+
+        componentClassRepository.deleteAll();
+
+        meetingRepository.deleteAll();
 
     }
 
