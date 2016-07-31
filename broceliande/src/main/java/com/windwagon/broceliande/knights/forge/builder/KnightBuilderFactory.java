@@ -76,8 +76,8 @@ public class KnightBuilderFactory {
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public PageDataBuilder getPageDataBuilder() {
-        return new PageDataBuilder();
+    public SquireDataBuilder getSquireDataBuilder() {
+        return new SquireDataBuilder();
     }
 
     @Bean

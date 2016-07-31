@@ -10,14 +10,14 @@ import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.OfficialKnightData;
-import com.windwagon.broceliande.knights.entities.PageData;
+import com.windwagon.broceliande.knights.entities.SquireData;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.BrotherhoodElements;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.ComponentElements;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.FencingMasterElements;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.OfficialComponentElements;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.OfficialKnightElements;
-import com.windwagon.broceliande.knights.forge.ComponentPatterns.PageElements;
+import com.windwagon.broceliande.knights.forge.ComponentPatterns.SquireElements;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.ScribeElements;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.SelectedKnightElements;
 import com.windwagon.broceliande.knights.forge.ComponentPatterns.TrainedKnightElements;
@@ -26,7 +26,7 @@ import com.windwagon.broceliande.knights.repositories.BrotherhoodRunRepository;
 import com.windwagon.broceliande.knights.repositories.ComponentClassRepository;
 import com.windwagon.broceliande.knights.repositories.FencingMasterRunRepository;
 import com.windwagon.broceliande.knights.repositories.OfficialKnightDataRepository;
-import com.windwagon.broceliande.knights.repositories.PageDataRepository;
+import com.windwagon.broceliande.knights.repositories.SquireDataRepository;
 import com.windwagon.broceliande.knights.repositories.ScribeRunRepository;
 
 @Component
@@ -45,7 +45,7 @@ public class Tavern {
     private ScribeRunRepository scribeRunRepository;
 
     @Autowired
-    private PageDataRepository pageDataRepository;
+    private SquireDataRepository squireDataRepository;
 
     @Autowired
     private ComponentClassRepository componentClassRepository;
@@ -81,9 +81,9 @@ public class Tavern {
             if( scribeMatcher.matches() )
                 return getScribe( herald, cycle, scribeMatcher );
 
-            Matcher pageMatcher = ComponentPatterns.PAGE_PATTERN.matcher( completeName );
-            if( pageMatcher.matches() )
-                return getPage( herald, cycle, pageMatcher );
+            Matcher squireMatcher = ComponentPatterns.SQUIRE_PATTERN.matcher( completeName );
+            if( squireMatcher.matches() )
+                return getSquire( herald, cycle, squireMatcher );
 
             Matcher officialComponentMatcher = ComponentPatterns.OFFICIAL_COMPONENT_PATTERN.matcher( completeName );
             if( officialComponentMatcher.matches() )
@@ -223,22 +223,22 @@ public class Tavern {
 
     }
 
-    public PageWrapper getPage( Herald herald, Cycle cycle, Matcher matcher ) throws ForgeException {
-        PageElements elts = ComponentPatterns.getPageElements( matcher );
-        return getPage( herald, cycle, elts.getName() );
+    public SquireWrapper getSquire( Herald herald, Cycle cycle, Matcher matcher ) throws ForgeException {
+        SquireElements elts = ComponentPatterns.getSquireElements( matcher );
+        return getSquire( herald, cycle, elts.getName() );
     }
 
-    public PageWrapper getPage( Herald herald, Cycle cycle, String pname ) throws ForgeException {
+    public SquireWrapper getSquire( Herald herald, Cycle cycle, String pname ) throws ForgeException {
 
         if( cycle == null )
             throw new ForgeException( "Cycle must be defined." );
 
-        PageData pageData = pageDataRepository.findByName( pname );
+        SquireData squireData = squireDataRepository.findByName( pname );
 
-        if( pageData == null )
-            throw new ForgeException( "Page [" + pname + "] not found." );
+        if( squireData == null )
+            throw new ForgeException( "Squire [" + pname + "] not found." );
 
-        return herald.getPage( cycle, pageData );
+        return herald.getSquire( cycle, squireData );
 
     }
 

@@ -1,20 +1,20 @@
 package com.windwagon.broceliande.knights.forge.impl;
 
 import com.windwagon.broceliande.knights.entities.Cycle;
-import com.windwagon.broceliande.knights.entities.PageData;
+import com.windwagon.broceliande.knights.entities.SquireData;
 import com.windwagon.broceliande.knights.forge.ActorVisitor;
 import com.windwagon.broceliande.knights.forge.Herald;
-import com.windwagon.broceliande.knights.forge.PageWrapper;
-import com.windwagon.broceliande.knights.forge.armored.ArmoredPageWrapper;
+import com.windwagon.broceliande.knights.forge.SquireWrapper;
+import com.windwagon.broceliande.knights.forge.armored.ArmoredSquireWrapper;
 import com.windwagon.broceliande.knights.forge.armored.Camp;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
-import com.windwagon.kaamelott.Page;
+import com.windwagon.kaamelott.Squire;
 
-public class PageWrapperImpl extends ActorWrapperImpl<Page, ArmoredPageWrapper, PageData> implements PageWrapper {
+public class SquireWrapperImpl extends ActorWrapperImpl<Squire, ArmoredSquireWrapper, SquireData> implements SquireWrapper {
 
     private Cycle cycle;
 
-    public PageWrapperImpl( Herald herald, Cycle cycle, PageData actorData ) {
+    public SquireWrapperImpl( Herald herald, Cycle cycle, SquireData actorData ) {
 
         super( herald, actorData );
 
@@ -28,13 +28,13 @@ public class PageWrapperImpl extends ActorWrapperImpl<Page, ArmoredPageWrapper, 
     }
 
     @Override
-    public ArmoredPageWrapper instanciate( Camp camp ) throws ForgeException {
-        return camp.getPage( this );
+    public ArmoredSquireWrapper instanciate( Camp camp ) throws ForgeException {
+        return camp.getSquire( this );
     }
 
     @Override
     public <R> R accept( ActorVisitor<R> visitor ) {
-        return visitor.visitPage( this );
+        return visitor.visitSquire( this );
     }
 
 }

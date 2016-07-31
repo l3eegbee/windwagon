@@ -150,23 +150,23 @@ ALTER TABLE ww_knight
     ADD CONSTRAINT fk_knight__component FOREIGN KEY (component) REFERENCES ww_component(id);
 
 --
--- ww_page
+-- ww_squire
 --
 
-CREATE TABLE ww_page (
+CREATE TABLE ww_squire (
     id            BIGINT NOT NULL,
     name          VARCHAR NOT NULL,
     description   TEXT,
     component     BIGINT NOT NULL
 );
 
-ALTER TABLE ww_page
-    ADD CONSTRAINT pk_ww_page PRIMARY KEY (id);
+ALTER TABLE ww_squire
+    ADD CONSTRAINT pk_ww_squire PRIMARY KEY (id);
 
-ALTER TABLE ww_page
-    ADD CONSTRAINT fk_page__component FOREIGN KEY (component) REFERENCES ww_component(id);
+ALTER TABLE ww_squire
+    ADD CONSTRAINT fk_squire__component FOREIGN KEY (component) REFERENCES ww_component(id);
 
-CREATE UNIQUE INDEX idx_page__name ON ww_page(name);
+CREATE UNIQUE INDEX idx_squire__name ON ww_squire(name);
 
 --
 -- ww_brotherhood

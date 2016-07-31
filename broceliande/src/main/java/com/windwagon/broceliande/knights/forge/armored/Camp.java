@@ -11,7 +11,7 @@ import com.windwagon.broceliande.knights.forge.FencingMasterWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
 import com.windwagon.broceliande.knights.forge.OfficialKnightWrapper;
-import com.windwagon.broceliande.knights.forge.PageWrapper;
+import com.windwagon.broceliande.knights.forge.SquireWrapper;
 import com.windwagon.broceliande.knights.forge.ScribeWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 
@@ -34,7 +34,7 @@ public class Camp {
 
     private Map<ScribeWrapper, ArmoredScribeWrapper> scribes = new HashMap<>();
 
-    private Map<PageWrapper, ArmoredPageWrapper> pages = new HashMap<>();
+    private Map<SquireWrapper, ArmoredSquireWrapper> squires = new HashMap<>();
 
     public Camp( Cycle cycle, Herald herald ) {
         this.cycle = cycle;
@@ -88,8 +88,8 @@ public class Camp {
         return get( scribes, wrapper, () -> armory.getArmoredScribe( this, wrapper ) );
     }
 
-    public ArmoredPageWrapper getPage( PageWrapper wrapper ) throws ForgeException {
-        return get( pages, wrapper, () -> armory.getArmoredPage( this, wrapper ) );
+    public ArmoredSquireWrapper getSquire( SquireWrapper wrapper ) throws ForgeException {
+        return get( squires, wrapper, () -> armory.getArmoredSquire( this, wrapper ) );
     }
 
 }

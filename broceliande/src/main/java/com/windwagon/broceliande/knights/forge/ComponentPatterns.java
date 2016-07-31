@@ -9,7 +9,7 @@ import com.windwagon.broceliande.knights.entities.ComponentData;
 import com.windwagon.broceliande.knights.entities.FencingMasterData;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.OfficialKnightData;
-import com.windwagon.broceliande.knights.entities.PageData;
+import com.windwagon.broceliande.knights.entities.SquireData;
 import com.windwagon.broceliande.knights.entities.ScribeData;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 
@@ -275,20 +275,20 @@ public class ComponentPatterns {
     }
 
     /*
-     * PAGE
+     * SQUIRE
      */
 
-    public static final Pattern PAGE_PATTERN = Pattern.compile( "^pg:(?<pname>.*)$" );
+    public static final Pattern SQUIRE_PATTERN = Pattern.compile( "^pg:(?<pname>.*)$" );
 
-    public static Matcher pageMatcher( String name ) {
-        return PAGE_PATTERN.matcher( name );
+    public static Matcher squireMatcher( String name ) {
+        return SQUIRE_PATTERN.matcher( name );
     }
 
-    public static class PageElements {
+    public static class SquireElements {
 
         private String name;
 
-        public PageElements( String name ) {
+        public SquireElements( String name ) {
             this.name = name;
         }
 
@@ -298,16 +298,16 @@ public class ComponentPatterns {
 
     }
 
-    public static PageElements getPageElements( Matcher matcher ) {
-        return new PageElements( matcher.group( "pname" ) );
+    public static SquireElements getSquireElements( Matcher matcher ) {
+        return new SquireElements( matcher.group( "pname" ) );
     }
 
-    public static String getPageName( PageData data ) {
+    public static String getSquireName( SquireData data ) {
         return "pg:" + data.getName();
     }
 
-    public static String getPageName( PageWrapper wrapper ) {
-        return getPageName( wrapper.getActorData() );
+    public static String getSquireName( SquireWrapper wrapper ) {
+        return getSquireName( wrapper.getActorData() );
     }
 
     /*
@@ -392,7 +392,7 @@ public class ComponentPatterns {
                 || fencingMasterMatcher( name ).matches()
                 || brotherhoodMatcher( name ).matches()
                 || scribeMatcher( name ).matches()
-                || pageMatcher( name ).matches();
+                || squireMatcher( name ).matches();
 
     }
 

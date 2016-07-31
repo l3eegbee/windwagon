@@ -11,7 +11,7 @@ import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.OfficialKnightData;
-import com.windwagon.broceliande.knights.entities.PageData;
+import com.windwagon.broceliande.knights.entities.SquireData;
 import com.windwagon.broceliande.knights.entities.RaceSet;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.logres.collection.LazyInitializer;
@@ -31,7 +31,7 @@ public class Herald {
 
     private Map<Cycle, Map<ActorData, ScribeWrapper>> scribes;
 
-    private Map<Cycle, Map<ActorData, PageWrapper>> pages;
+    private Map<Cycle, Map<ActorData, SquireWrapper>> squires;
 
     private Map<ComponentClass, ComponentWrapper> components;
 
@@ -46,7 +46,7 @@ public class Herald {
         this.fencingMasters = new HashMap<>();
         this.brotherhoods = new HashMap<>();
         this.scribes = new HashMap<>();
-        this.pages = new HashMap<>();
+        this.squires = new HashMap<>();
         this.components = new HashMap<>();
         this.nullWrapper = new LazyInitializer<>( () -> casern.getNullComponent( this ) );
         this.drillHalls = new HashMap<>();
@@ -60,7 +60,7 @@ public class Herald {
         this.fencingMasters = new HashMap<>( from.fencingMasters );
         this.brotherhoods = new HashMap<>( from.brotherhoods );
         this.scribes = new HashMap<>( from.scribes );
-        this.pages = new HashMap<>( from.pages );
+        this.squires = new HashMap<>( from.squires );
         this.components = new HashMap<>( from.components );
         this.nullWrapper = from.nullWrapper;
         this.drillHalls = new HashMap<>( from.drillHalls );
@@ -99,10 +99,10 @@ public class Herald {
                 data -> casern.getScribe( this, scribeRun ) );
     }
 
-    public PageWrapper getPage( Cycle cycle, PageData pageData ) {
-        return pages.computeIfAbsent( cycle, this::newhash ).computeIfAbsent(
-                pageData,
-                data -> casern.getPage( this, cycle, pageData ) );
+    public SquireWrapper getSquire( Cycle cycle, SquireData squireData ) {
+        return squires.computeIfAbsent( cycle, this::newhash ).computeIfAbsent(
+                squireData,
+                data -> casern.getSquire( this, cycle, squireData ) );
     }
 
     public ComponentWrapper getComponent( ComponentClass componentClass ) {

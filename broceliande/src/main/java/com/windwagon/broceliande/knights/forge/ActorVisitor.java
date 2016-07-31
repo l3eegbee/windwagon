@@ -26,7 +26,7 @@ public interface ActorVisitor<R> {
         return visitWrappedKnight( wrapper );
     }
 
-    default public R visitPage( PageWrapper wrapper ) {
+    default public R visitSquire( SquireWrapper wrapper ) {
         return visitActor( wrapper );
     }
 

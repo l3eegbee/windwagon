@@ -13,14 +13,14 @@ import com.windwagon.broceliande.knights.forge.FencingMasterWrapper;
 import com.windwagon.broceliande.knights.forge.Herald;
 import com.windwagon.broceliande.knights.forge.KnightWrapper;
 import com.windwagon.broceliande.knights.forge.OfficialKnightWrapper;
-import com.windwagon.broceliande.knights.forge.PageWrapper;
+import com.windwagon.broceliande.knights.forge.SquireWrapper;
 import com.windwagon.broceliande.knights.forge.ScribeWrapper;
 import com.windwagon.broceliande.knights.forge.errors.ForgeException;
 import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredBrotherhoodWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredFencingMasterWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredKnightWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredOfficialKnightWrapperImpl;
-import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredPageWrapperImpl;
+import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredSquireWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.armored.ArmoredScribeWrapperImpl;
 
 @Configuration
@@ -70,8 +70,8 @@ public class Armory {
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public ArmoredPageWrapper getArmoredPage( Camp camp, PageWrapper wrapper ) throws ForgeException {
-        return new ArmoredPageWrapperImpl( camp, wrapper );
+    public ArmoredSquireWrapper getArmoredSquire( Camp camp, SquireWrapper wrapper ) throws ForgeException {
+        return new ArmoredSquireWrapperImpl( camp, wrapper );
     }
 
 }

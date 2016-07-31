@@ -1,9 +1,9 @@
 package com.windwagon.avalon.simple;
 
-import com.windwagon.kaamelott.Page;
+import com.windwagon.kaamelott.Squire;
 import com.windwagon.kaamelott.race.Race;
 
-public class SimplePage implements Page {
+public class SimpleSquire implements Squire {
 
     @Override
     public void setRace( Race race ) {}

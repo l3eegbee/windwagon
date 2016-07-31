@@ -10,7 +10,7 @@ import com.windwagon.broceliande.knights.entities.ComponentClass;
 import com.windwagon.broceliande.knights.entities.Cycle;
 import com.windwagon.broceliande.knights.entities.FencingMasterRun;
 import com.windwagon.broceliande.knights.entities.OfficialKnightData;
-import com.windwagon.broceliande.knights.entities.PageData;
+import com.windwagon.broceliande.knights.entities.SquireData;
 import com.windwagon.broceliande.knights.entities.RaceSet;
 import com.windwagon.broceliande.knights.entities.ScribeRun;
 import com.windwagon.broceliande.knights.forge.impl.BrotherhoodWrapperImpl;
@@ -20,7 +20,7 @@ import com.windwagon.broceliande.knights.forge.impl.FencingMasterWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.KnightWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.NullComponentWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.OfficialKnightWrapperImpl;
-import com.windwagon.broceliande.knights.forge.impl.PageWrapperImpl;
+import com.windwagon.broceliande.knights.forge.impl.SquireWrapperImpl;
 import com.windwagon.broceliande.knights.forge.impl.ScribeWrapperImpl;
 
 @Configuration
@@ -70,8 +70,8 @@ public class Casern {
 
     @Bean
     @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public PageWrapper getPage( Herald herald, Cycle cycle, PageData pageData ) {
-        return new PageWrapperImpl( herald, cycle, pageData );
+    public SquireWrapper getSquire( Herald herald, Cycle cycle, SquireData squireData ) {
+        return new SquireWrapperImpl( herald, cycle, squireData );
     }
 
     @Bean
