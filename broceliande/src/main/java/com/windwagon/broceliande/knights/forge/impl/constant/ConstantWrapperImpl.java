@@ -69,11 +69,13 @@ public abstract class ConstantWrapperImpl implements ConstantWrapper {
         StandardEvaluationContext context = new StandardEvaluationContext();
         context.setRootObject( armored.getActor() );
 
-        try {
-            exp.setValue( context, resolveValue( armored ) );
-        } catch( EvaluationException ex ) {
-            throw new ConstantException( ex );
-        }
+        Object value = resolveValue( armored );
+        if( value != null )
+            try {
+                exp.setValue( context, value );
+            } catch( EvaluationException ex ) {
+                throw new ConstantException( ex );
+            }
 
     }
 
