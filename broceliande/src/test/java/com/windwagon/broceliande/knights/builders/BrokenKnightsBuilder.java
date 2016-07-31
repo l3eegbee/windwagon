@@ -54,7 +54,6 @@ public class BrokenKnightsBuilder {
         KnightData knightData =
                 knightBuilderFactory
                         .getKnightDataBuilder()
-                        .name( "BrokenKnight" )
                         .description( "It's a broken knight" )
                         .component( knightComponent )
                         .build();
@@ -101,7 +100,7 @@ public class BrokenKnightsBuilder {
         BrotherhoodData brotherhoodData =
                 knightBuilderFactory
                         .getBrotherhoodDataBuilder()
-                        .name( "BrokenBrotherhood" )
+                        .name( "BrokenKnight" )
                         .description( "It's a broken brotherhood" )
                         .component( brotherhoodComponent )
                         .addFencingMaster( fencingMasterData )

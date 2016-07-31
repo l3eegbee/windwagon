@@ -58,7 +58,7 @@ public class ComplexKnightsTest {
 
         // instanciate
         KnightWrapper knight = herald.getKnight( env.getFencingMasterRun( 1 ) );
-        assertThat( knight.getName(), is( "ComplexBrotherhood" ) );
+        assertThat( knight.getName(), is( "ComplexKnight" ) );
 
         // check constants
 
@@ -138,7 +138,7 @@ public class ComplexKnightsTest {
         herald.getBrotherhood( env.getBrotherhoodRun( 0 ) ).run();
 
         BrotherhoodRun brotherhoodRun = env.getBrotherhoodRun( 1 );
-        assertThat( brotherhoodRun.getBrotherhood().getName(), is( "ComplexBrotherhood" ) );
+        assertThat( brotherhoodRun.getBrotherhood().getName(), is( "ComplexKnight" ) );
 
         herald.getBrotherhood( brotherhoodRun ).run();
 

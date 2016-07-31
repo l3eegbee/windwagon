@@ -53,7 +53,7 @@ public class SimpleKnightsTest {
 
         // instanciate
         KnightWrapper knight = casern.getHerald().getKnight( env.getFencingMasterRun() );
-        assertThat( knight.getName(), is( "SimpleBrotherhood" ) );
+        assertThat( knight.getName(), is( "SimpleKnight" ) );
 
         // check constants
 
@@ -145,7 +145,7 @@ public class SimpleKnightsTest {
         Environment env = simpleKnightsBuilder.createEnv().createRuns().saveAll();
 
         BrotherhoodRun brotherhoodRun = env.getBrotherhoodRun();
-        assertThat( brotherhoodRun.getBrotherhood().getName(), is( "SimpleBrotherhood" ) );
+        assertThat( brotherhoodRun.getBrotherhood().getName(), is( "SimpleKnight" ) );
 
         casern.getHerald().getBrotherhood( brotherhoodRun ).run();
 

@@ -161,7 +161,6 @@ public class SimpleKnightsBuilder {
         KnightData knightData =
                 knightBuilderFactory
                         .getKnightDataBuilder()
-                        .name( "SimpleKnight" )
                         .description( "It's a simple knight" )
                         .component( knightComponent )
                         .build();
@@ -220,7 +219,7 @@ public class SimpleKnightsBuilder {
         BrotherhoodData brotherhoodData =
                 knightBuilderFactory
                         .getBrotherhoodDataBuilder()
-                        .name( "SimpleBrotherhood" )
+                        .name( "SimpleKnight" )
                         .description( "It's a simple brotherhood" )
                         .component( brotherhoodComponent )
                         .addFencingMaster( fencingMasterData )

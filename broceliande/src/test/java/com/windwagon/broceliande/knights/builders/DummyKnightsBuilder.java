@@ -54,7 +54,6 @@ public class DummyKnightsBuilder {
         KnightData knightData =
                 knightBuilderFactory
                         .getKnightDataBuilder()
-                        .name( "DummyKnight" )
                         .description( "It's a dummy knight" )
                         .component( knightComponent )
                         .build();
@@ -101,7 +100,7 @@ public class DummyKnightsBuilder {
         BrotherhoodData brotherhoodData =
                 knightBuilderFactory
                         .getBrotherhoodDataBuilder()
-                        .name( "DummyBrotherhood" )
+                        .name( "DummyKnight" )
                         .description( "It's a dummy brotherhood" )
                         .component( brotherhoodComponent )
                         .addFencingMaster( fencingMasterData )

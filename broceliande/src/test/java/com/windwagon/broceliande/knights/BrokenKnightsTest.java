@@ -53,7 +53,7 @@ public class BrokenKnightsTest {
 
         // instanciate
         KnightWrapper knight = casern.getHerald().getKnight( env.getFencingMasterRun() );
-        assertThat( knight.getName(), is( "BrokenBrotherhood" ) );
+        assertThat( knight.getName(), is( "BrokenKnight" ) );
 
         // check words
 
@@ -89,7 +89,7 @@ public class BrokenKnightsTest {
         Environment env = brokenKnightsBuilder.createEnv().createRuns().saveAll();
 
         BrotherhoodRun brotherhoodRun = env.getBrotherhoodRun();
-        assertThat( brotherhoodRun.getBrotherhood().getName(), is( "BrokenBrotherhood" ) );
+        assertThat( brotherhoodRun.getBrotherhood().getName(), is( "BrokenKnight" ) );
 
         casern.getHerald().getBrotherhood( brotherhoodRun ).run();
 

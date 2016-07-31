@@ -52,7 +52,7 @@ public class DummyKnightsTest {
 
         // instanciate
         KnightWrapper knight = casern.getHerald().getKnight( env.getFencingMasterRun() );
-        assertThat( knight.getName(), is( "DummyBrotherhood" ) );
+        assertThat( knight.getName(), is( "DummyKnight" ) );
 
         // check words
 
@@ -88,7 +88,7 @@ public class DummyKnightsTest {
         Environment env = dummyKnightsBuilder.createEnv().createRuns().saveAll();
 
         BrotherhoodRun brotherhoodRun = env.getBrotherhoodRun();
-        assertThat( brotherhoodRun.getBrotherhood().getName(), is( "DummyBrotherhood" ) );
+        assertThat( brotherhoodRun.getBrotherhood().getName(), is( "DummyKnight" ) );
 
         casern.getHerald().getBrotherhood( brotherhoodRun ).run();
 

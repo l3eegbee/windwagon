@@ -78,13 +78,12 @@ public class ComplexKnightsBuilder {
                 .name( "Constant - Knight" )
                 .type( ConstantType.COMPONENT )
                 .attribute( "knight" )
-                .value( "kn:SimpleBrotherhood" );
+                .value( "kn:SimpleKnight" );
         ComponentData knightComponent = knightComponentBuilder.build();
 
         KnightData knightData =
                 knightBuilderFactory
                         .getKnightDataBuilder()
-                        .name( "ComplexKnight" )
                         .description( "It's a complex knight" )
                         .component( knightComponent )
                         .build();
@@ -133,7 +132,7 @@ public class ComplexKnightsBuilder {
         BrotherhoodData brotherhoodData =
                 knightBuilderFactory
                         .getBrotherhoodDataBuilder()
-                        .name( "ComplexBrotherhood" )
+                        .name( "ComplexKnight" )
                         .description( "It's a complex brotherhood" )
                         .component( brotherhoodComponent )
                         .addFencingMaster( fencingMasterData )
