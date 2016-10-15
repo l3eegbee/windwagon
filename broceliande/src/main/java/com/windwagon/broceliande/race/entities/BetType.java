@@ -5,7 +5,7 @@ import com.windwagon.broceliande.utils.pmu.PMUEnumNoValue;
 import com.windwagon.broceliande.utils.pmu.PMUEnumValue;
 
 // length = 6
-@PMUEnumNoValue( { "REPORT", "TIC_TROIS", "E_REPORT", "E_TIC_TROIS" } )
+@PMUEnumNoValue( { "REPORT", "TIC_TROIS", "E_REPORT", "E_REPORT_PLUS", "E_TIC_TROIS" } )
 public enum BetType {
 
     @PMUEnumValue( { "SIMPLE_GAGNANT", "E_SIMPLE_GAGNANT" } )
