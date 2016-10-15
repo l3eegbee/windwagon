@@ -13,6 +13,7 @@ import org.apache.velocity.tools.generic.AlternatorTool;
 import org.apache.velocity.tools.generic.ClassTool;
 import org.apache.velocity.tools.generic.ComparisonDateTool;
 import org.apache.velocity.tools.generic.ConversionTool;
+import org.apache.velocity.tools.generic.DateTool;
 import org.apache.velocity.tools.generic.DisplayTool;
 import org.apache.velocity.tools.generic.EscapeTool;
 import org.apache.velocity.tools.generic.FieldTool;
@@ -78,6 +79,7 @@ public class TemplateMailSenderFactory {
         addVelocityTool( defaultContext, ClassTool.class );
         addVelocityTool( defaultContext, ComparisonDateTool.class );
         addVelocityTool( defaultContext, ConversionTool.class );
+        addVelocityTool( defaultContext, DateTool.class );
         addVelocityTool( defaultContext, DisplayTool.class );
         addVelocityTool( defaultContext, EscapeTool.class );
         addVelocityTool( defaultContext, FieldTool.class );
