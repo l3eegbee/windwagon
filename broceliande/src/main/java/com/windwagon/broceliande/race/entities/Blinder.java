@@ -17,6 +17,6 @@ public enum Blinder {
 
     @PMUEnumValue( "OEILLERES_AUSTRALIENNES" )
     @KaamelottEnumBlinderValue( com.windwagon.kaamelott.race.Blinder.AUSTRALIAN )
-    AUSTRALIAN;
+    AUSTRALIAN
 
 }

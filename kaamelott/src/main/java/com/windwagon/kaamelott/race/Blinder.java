@@ -3,18 +3,18 @@ package com.windwagon.kaamelott.race;
 public enum Blinder {
 
     /**
-     * Pas d'oeillères.
+     * Pas d'oeillÃ¨res.
      */
     NONE,
 
     /**
-     * Oeillères.
+     * OeillÃ¨res.
      */
     WITH,
 
     /**
-     * Oeillères australiennes.
+     * OeillÃ¨res australiennes.
      */
-    AUSTRALIAN;
+    AUSTRALIAN
 
 }

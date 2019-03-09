@@ -20,6 +20,6 @@ public enum Horseshoe {
 
     @PMUEnumValue( "DEFERRE_ANTERIEURS_POSTERIEURS" )
     @KaamelottEnumHorseshoeValue( com.windwagon.kaamelott.race.Horseshoe.NONE )
-    NONE;
+    NONE
 
 }

@@ -8,22 +8,22 @@ public enum BetType {
     SIMPLE_GAGNANT( 1, 1.5d ),
 
     /**
-     * Simple placé.
+     * Simple placÃ©.
      */
     SIMPLE_PLACE( 1, 1.5d ),
 
     /**
-     * Couplé ordre.
+     * CouplÃ© ordre.
      */
     COUPLE_ORDRE( 2, 1.5d ),
 
     /**
-     * Couplé gagnant.
+     * CouplÃ© gagnant.
      */
     COUPLE_GAGNANT( 2, 1.5d ),
 
     /**
-     * Couplé place.
+     * CouplÃ© place.
      */
     COUPLE_PLACE( 2, 1.5d ),
 
@@ -68,17 +68,17 @@ public enum BetType {
     PICK5( 5, 1d ),
 
     /**
-     * Tiercé.
+     * TiercÃ©.
      */
     TIERCE( 3, 1d ),
 
     /**
-     * Quarté.
+     * QuartÃ©.
      */
     QUARTE( 4, 1.3d ),
 
     /**
-     * Quinté.
+     * QuintÃ©.
      */
     QUINTE( 5, 2d );
 
@@ -86,7 +86,7 @@ public enum BetType {
 
     private double base;
 
-    private BetType( int ticketLength, double base ) {
+    BetType(int ticketLength, double base) {
         this.ticketLength = ticketLength;
         this.base = base;
     }

@@ -70,6 +70,6 @@ public enum Field {
     /**
      * Unknown.
      */
-    UNKNOWN;
+    UNKNOWN
 
 }

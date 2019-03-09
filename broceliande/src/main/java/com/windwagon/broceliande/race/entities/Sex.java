@@ -15,6 +15,6 @@ public enum Sex {
 
     @PMUEnumValue( "HONGRES" )
     @KaamelottEnumSexValue( com.windwagon.kaamelott.race.Sex.GELDING )
-    GELDING;
+    GELDING
 
 }

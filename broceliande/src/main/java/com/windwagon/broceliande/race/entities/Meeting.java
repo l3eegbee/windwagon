@@ -1,32 +1,22 @@
 package com.windwagon.broceliande.race.entities;
 
-import java.util.Comparator;
-import java.util.Date;
-import java.util.SortedSet;
+import android.annotation.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import com.windwagon.logres.date.*;
+import com.windwagon.logres.getset.*;
 
 import org.hibernate.annotations.SortNatural;
 
-import com.windwagon.logres.date.LazyDate;
-import com.windwagon.logres.getset.Getter;
+import java.util.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table( name = "ww_meeting" )
+@SuppressLint("NewApi")
 public class Meeting implements Comparable<Meeting> {
 
     public static final Comparator<Meeting> COMPARATOR =

@@ -1,18 +1,15 @@
 package com.windwagon.daemon;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.windwagon.logres.mail.*;
 
-import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
+import org.apache.commons.lang3.exception.*;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.transaction.annotation.*;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.*;
 
-import com.windwagon.logres.mail.TemplateMailSender;
-import com.windwagon.logres.mail.TemplateMailSenderFactory;
+import javax.annotation.*;
 
 public class TaskRunnerImpl implements TaskRunner {
 

@@ -109,6 +109,6 @@ public enum Coat {
     @PMUEnumDefaultValue
     @PMUEnumValue( "INDET" )
     @KaamelottEnumCoatValue( com.windwagon.kaamelott.race.Coat.INCONNU )
-    INCONNU;
+    INCONNU
 
 }

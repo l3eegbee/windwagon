@@ -74,7 +74,7 @@ public enum BetType {
 
     private double base;
 
-    private BetType( double base ) {
+    BetType(double base) {
         this.base = base;
     }
 

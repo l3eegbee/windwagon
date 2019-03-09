@@ -1,43 +1,18 @@
 package com.windwagon.broceliande.race.turf.impl;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import android.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.broceliande.race.turf.*;
+import com.windwagon.broceliande.race.turf.enumconverter.*;
+import com.windwagon.logres.collection.*;
 
-import com.windwagon.broceliande.race.entities.BetType;
-import com.windwagon.broceliande.race.entities.Horse;
-import com.windwagon.broceliande.race.entities.Odds;
-import com.windwagon.broceliande.race.entities.Place;
-import com.windwagon.broceliande.race.entities.Price;
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.broceliande.race.entities.RaceStatus;
-import com.windwagon.broceliande.race.entities.Type;
-import com.windwagon.broceliande.race.turf.BetChecker;
-import com.windwagon.broceliande.race.turf.FinishWrapper;
-import com.windwagon.broceliande.race.turf.HorseWrapper;
-import com.windwagon.broceliande.race.turf.MeetingWrapper;
-import com.windwagon.broceliande.race.turf.PriceWrapper;
-import com.windwagon.broceliande.race.turf.RaceWrapper;
-import com.windwagon.broceliande.race.turf.Reference;
-import com.windwagon.broceliande.race.turf.enumconverter.KaamelottEnumConverter;
-import com.windwagon.logres.collection.LazyInitializer;
-import com.windwagon.logres.collection.LazyLoadNavigableMap;
-import com.windwagon.logres.collection.LazyLoadNavigableSet;
+import org.springframework.beans.factory.annotation.*;
 
+import java.util.*;
+import java.util.regex.*;
+
+@SuppressLint("NewApi")
 public class RaceWrapperImpl extends ObjectWrapperImpl<Race> implements RaceWrapper {
 
     public final static Comparator<com.windwagon.kaamelott.race.Race> COMPARATOR =

@@ -8,27 +8,27 @@ public enum Coat {
     ALEZAN,
 
     /**
-     * Alezan brulé. Code = 002.
+     * Alezan brulÃ©. Code = 002.
      */
     ALEZAN_BRULE,
 
     /**
-     * Alezan crin lavé. Code = 003.
+     * Alezan crin lavÃ©. Code = 003.
      */
     ALEZAN_CRIN_LAVE,
 
     /**
-     * Alezan cuivré. Code = 009.
+     * Alezan cuivrÃ©. Code = 009.
      */
     ALEZAN_CUIVRE,
 
     /**
-     * Alezan foncé. Code = 005.
+     * Alezan foncÃ©. Code = 005.
      */
     ALEZAN_FONCE,
 
     /**
-     * Alezan mélengé. Code = 017.
+     * Alezan mÃ©lengÃ©. Code = 017.
      */
     ALEZAN_MELANGE,
 
@@ -38,7 +38,7 @@ public enum Coat {
     ALEZAN_PIE,
 
     /**
-     * Aubère. Code = 010.
+     * AubÃ¨re. Code = 010.
      */
     AUBERE,
 
@@ -48,7 +48,7 @@ public enum Coat {
     BAI,
 
     /**
-     * Bai brun / Alezan brulé. Code = 037.
+     * Bai brun / Alezan brulÃ©. Code = 037.
      */
     BAI_BRUN_ALEZAN_BRULE,
 
@@ -58,7 +58,7 @@ public enum Coat {
     BAI_BRUN,
 
     /**
-     * Bai brun foncé. Code = 084.
+     * Bai brun foncÃ©. Code = 084.
      */
     BAI_BRUN_RUBICAN,
 
@@ -73,12 +73,12 @@ public enum Coat {
     BAI_CLAIR,
 
     /**
-     * Bai foncé. Code = 021.
+     * Bai foncÃ©. Code = 021.
      */
     BAI_FONCE,
 
     /**
-     * Bai mélangé. Code = 073.
+     * Bai mÃ©langÃ©. Code = 073.
      */
     BAI_MELANGE,
 
@@ -108,7 +108,7 @@ public enum Coat {
     GRIS_FER,
 
     /**
-     * Gris foncé. Code = 041.
+     * Gris foncÃ©. Code = 041.
      */
     GRIS_FONCE,
 
@@ -130,6 +130,6 @@ public enum Coat {
     /**
      * Robe inconnue. Code = 099.
      */
-    INCONNU;
+    INCONNU
 
 }

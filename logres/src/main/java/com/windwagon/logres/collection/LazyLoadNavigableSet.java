@@ -1,5 +1,7 @@
 package com.windwagon.logres.collection;
 
+import android.annotation.*;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -7,11 +9,12 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+@SuppressLint("NewApi")
 public class LazyLoadNavigableSet<E> {
 
     public interface Initializer<E> {
 
-        public void init( NavigableSet<E> navigableSet );
+        void init(NavigableSet<E> navigableSet);
 
     }
 

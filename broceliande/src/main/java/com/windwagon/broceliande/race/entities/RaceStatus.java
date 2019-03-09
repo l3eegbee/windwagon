@@ -20,6 +20,6 @@ public enum RaceStatus {
     FINISHED,
 
     @PMUEnumValue( "INCONNUE" )
-    UNKNOWN;
+    UNKNOWN
 
 }

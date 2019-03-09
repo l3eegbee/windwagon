@@ -1,5 +1,7 @@
 package com.windwagon.logres.collection;
 
+import android.annotation.*;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -7,19 +9,20 @@ import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
+@SuppressLint("NewApi")
 public class Sets {
 
-    static public < T > NavigableSet<T> navigableSetFromList( List<T> list ) {
+	static public <T> NavigableSet<T> navigableSetFromList(List<T> list) {
 
-        Map<T, Integer> map = new HashMap<T, Integer>( list.size() );
-        for( int i = 0; i < list.size(); i++ )
-            map.put( list.get( i ), i );
+		Map<T, Integer> map = new HashMap<T, Integer>(list.size());
+		for (int i = 0; i < list.size(); i++)
+			map.put(list.get(i), i);
 
-        TreeSet<T> set = new TreeSet<T>( Comparator.comparingInt( o -> map.get( o ) ) );
-        set.addAll( list );
+		TreeSet<T> set = new TreeSet<T>(Comparator.comparingInt(map::get));
+		set.addAll(list);
 
-        return set;
+		return set;
 
-    }
+	}
 
 }

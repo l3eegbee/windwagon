@@ -1,31 +1,24 @@
 package com.windwagon.daemon.tasks;
 
-import java.time.Clock;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import android.annotation.*;
 
-import javax.annotation.PostConstruct;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.daemon.*;
+import com.windwagon.logres.triggers.*;
+import com.windwagon.pmuportal.*;
+import com.windwagon.pmuportal.exceptions.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
-import com.windwagon.broceliande.race.entities.Meeting;
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.daemon.Maestro;
-import com.windwagon.daemon.Task;
-import com.windwagon.daemon.TaskRunnerFactory;
-import com.windwagon.logres.triggers.TriggerParser;
-import com.windwagon.pmuportal.RaceLoader;
-import com.windwagon.pmuportal.exceptions.PMUError;
+import java.time.*;
+import java.util.*;
+
+import javax.annotation.*;
 
 @Component
+@SuppressLint("NewApi")
 public class ProgrammeLoader implements Task {
 
     public final static String NAME = "scan";
@@ -92,7 +85,7 @@ public class ProgrammeLoader implements Task {
     @Override
     public void run( Map<String, Object> reportContext ) {
 
-        LocalDate now = LocalDate.now( clock );
+       LocalDate now = LocalDate.now( clock );
 
         for( Integer offset : dayoffsets )
             scan( now.plusDays( offset ) );

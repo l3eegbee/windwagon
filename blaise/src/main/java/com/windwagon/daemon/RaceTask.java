@@ -1,20 +1,19 @@
 package com.windwagon.daemon;
 
-import java.util.Map;
+import com.windwagon.broceliande.race.entities.*;
 
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.broceliande.race.entities.RaceStatus;
+import java.util.*;
 
 public interface RaceTask {
 
-    public String getName();
+    String getName();
 
-    default public String getEnvKey() {
+    default String getEnvKey() {
         return Maestro.ENV_TASKS_PREFIX + getName();
     }
 
-    public RaceStatus getRaceStatus();
+    RaceStatus getRaceStatus();
 
-    public void run( Map<String, Object> reportContext, Race race ) throws Exception;
+    void run(Map<String, Object> reportContext, Race race) throws Exception;
 
 }

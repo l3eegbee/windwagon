@@ -1,36 +1,21 @@
 package com.windwagon.pmuportal;
 
-import static com.windwagon.logres.date.DateConverter.startOfTheYear;
-import static com.windwagon.logres.date.DateConverter.toDate;
+import android.annotation.*;
 
-import java.util.Date;
+import com.fasterxml.jackson.databind.*;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.broceliande.race.repositories.*;
+import com.windwagon.pmuportal.exceptions.*;
 
-import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.util.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.windwagon.broceliande.race.entities.Blinder;
-import com.windwagon.broceliande.race.entities.Breed;
-import com.windwagon.broceliande.race.entities.Coat;
-import com.windwagon.broceliande.race.entities.Horse;
-import com.windwagon.broceliande.race.entities.HorseID;
-import com.windwagon.broceliande.race.entities.Horseshoe;
-import com.windwagon.broceliande.race.entities.Jockey;
-import com.windwagon.broceliande.race.entities.Owner;
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.broceliande.race.entities.Rancher;
-import com.windwagon.broceliande.race.entities.Sex;
-import com.windwagon.broceliande.race.entities.Trainer;
-import com.windwagon.broceliande.race.repositories.HorseIDRepository;
-import com.windwagon.broceliande.race.repositories.HorseRepository;
-import com.windwagon.broceliande.race.repositories.JockeyRepository;
-import com.windwagon.broceliande.race.repositories.OwnerRepository;
-import com.windwagon.broceliande.race.repositories.RancherRepository;
-import com.windwagon.broceliande.race.repositories.TrainerRepository;
-import com.windwagon.pmuportal.exceptions.PMUError;
+import static com.windwagon.logres.date.DateConverter.*;
 
+@SuppressLint("NewApi")
 @Component
 public class HorseParser {
 
@@ -220,7 +205,7 @@ public class HorseParser {
             // weight
             JsonNode weightNode = horseNode.at( "/handicapPoids" );
             if( !weightNode.isMissingNode() )
-                horse.setWeight( weightNode.asDouble() / 10l );
+                horse.setWeight( weightNode.asDouble() / 10L);
 
             // distance
             JsonNode distanceNode = horseNode.at( "/handicapDistance" );

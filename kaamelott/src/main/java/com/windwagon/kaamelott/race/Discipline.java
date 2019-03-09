@@ -3,12 +3,12 @@ package com.windwagon.kaamelott.race;
 public enum Discipline {
 
     /**
-     * Trot attelé.
+     * Trot attelÃ©.
      */
     TROT_ATTELE,
 
     /**
-     * Trot monté.
+     * Trot montÃ©.
      */
     TROT_MONTE,
 
@@ -35,6 +35,6 @@ public enum Discipline {
     /**
      * Cross country.
      */
-    CROSS_COUNTRY;
+    CROSS_COUNTRY
 
 }

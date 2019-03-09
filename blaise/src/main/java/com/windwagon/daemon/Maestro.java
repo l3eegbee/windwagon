@@ -1,37 +1,28 @@
 package com.windwagon.daemon;
 
-import java.time.Clock;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Vector;
+import android.annotation.*;
 
-import javax.annotation.PostConstruct;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.broceliande.race.repositories.*;
+import com.windwagon.daemon.tasks.*;
+import com.windwagon.logres.date.*;
+import com.windwagon.logres.mail.*;
+import com.windwagon.logres.triggers.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.env.Environment;
-import org.springframework.scheduling.TaskScheduler;
-import org.springframework.stereotype.Component;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.*;
+import org.springframework.core.env.*;
+import org.springframework.scheduling.*;
+import org.springframework.stereotype.*;
 
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.broceliande.race.entities.RaceStatus;
-import com.windwagon.broceliande.race.repositories.MeetingRepository;
-import com.windwagon.broceliande.race.repositories.RaceRepository;
-import com.windwagon.daemon.tasks.ProgrammeLoader;
-import com.windwagon.logres.date.DateConverter;
-import com.windwagon.logres.date.LazyDate;
-import com.windwagon.logres.mail.TemplateMailSenderFactory;
-import com.windwagon.logres.triggers.FixRateTrigger;
-import com.windwagon.logres.triggers.OffsetTrigger;
-import com.windwagon.logres.triggers.TriggerParser;
+import java.time.*;
+import java.util.*;
+
+import javax.annotation.*;
 
 @Component
+@SuppressLint("NewApi")
 public class Maestro {
 
     public final static String ENV_LOAD_PROGRAMME_FROM = "reload.from";

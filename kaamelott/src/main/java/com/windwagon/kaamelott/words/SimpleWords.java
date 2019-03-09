@@ -1,13 +1,12 @@
 package com.windwagon.kaamelott.words;
 
-import java.util.Arrays;
+import com.windwagon.kaamelott.race.*;
 
-import com.windwagon.kaamelott.race.Horse;
-import com.windwagon.kaamelott.race.Race;
+import java.util.*;
 
 public class SimpleWords implements Words {
 
-    private final static long serialVersionUID = 1l;
+    private final static long serialVersionUID = 1L;
 
     protected double[] values;
 

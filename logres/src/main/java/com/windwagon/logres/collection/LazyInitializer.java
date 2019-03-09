@@ -4,7 +4,7 @@ public class LazyInitializer < T > {
 
     public interface Initializer < T > {
 
-        public T init();
+        T init();
 
     }
 

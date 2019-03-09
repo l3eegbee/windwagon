@@ -1,14 +1,13 @@
 package com.windwagon.logres.test;
 
-import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import android.annotation.*;
 
-import com.windwagon.logres.date.LazyDate;
+import com.windwagon.logres.date.*;
 
+import java.time.*;
+import java.time.format.*;
+
+@SuppressLint("NewApi")
 public class AdjustableClock extends Clock {
 
     private final static DateTimeFormatter DEFAULT_FORMAT = LazyDate.FORMAT_S;

@@ -8,7 +8,7 @@ import java.util.Vector;
 
 public class BetWords implements Words {
 
-    private final static long serialVersionUID = 1l;
+    private final static long serialVersionUID = 1L;
 
     protected List<Bet> bets;
 

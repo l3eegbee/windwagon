@@ -8,7 +8,7 @@ public enum RaceType {
     INTERNATIONALE,
 
     /**
-     * Course européenne.
+     * Course europÃ©enne.
      */
     EUROPEENNE,
 
@@ -43,12 +43,12 @@ public enum RaceType {
     SEMI_CLASSIQUE,
 
     /**
-     * Départ à l'autostart.
+     * DÃ©part Ã  l'autostart.
      */
     AUTOSTART,
 
     /**
-     * Course à handicap.
+     * Course Ã  handicap.
      *
      * @see RaceType#CATEGORIE
      * @see RaceType#DEDOUBLE
@@ -59,64 +59,64 @@ public enum RaceType {
     HANDICAP,
 
     /**
-     * Course à réclamer.
+     * Course Ã  rÃ©clamer.
      *
      * @see RaceType#MIXTE
      */
     RECLAMER,
 
     /**
-     * Course à handicap de catégorie. Obligatoirement associé avec {@link RaceType#HANDICAP}.
+     * Course Ã  handicap de catÃ©gorie. Obligatoirement associÃ© avec {@link RaceType#HANDICAP}.
      *
      * @see RaceType#HANDICAP
      */
     CATEGORIE,
 
     /**
-     * Course à handicap dédoublé. Obligatoirement associé avec {@link RaceType#HANDICAP}.
+     * Course Ã  handicap dÃ©doublÃ©. Obligatoirement associÃ© avec {@link RaceType#HANDICAP}.
      *
      * @see RaceType#HANDICAP
      */
     DEDOUBLE,
 
     /**
-     * Course à handicap divisé. Obligatoirement associé avec {@link RaceType#HANDICAP}.
+     * Course Ã  handicap divisÃ©. Obligatoirement associÃ© avec {@link RaceType#HANDICAP}.
      *
      * @see RaceType#HANDICAP
      */
     DIVISE,
 
     /**
-     * Course à handicap limité. Obligatoirement associé avec {@link RaceType#HANDICAP}.
+     * Course Ã  handicap limitÃ©. Obligatoirement associÃ© avec {@link RaceType#HANDICAP}.
      *
      * @see RaceType#HANDICAP
      */
     LIMITE,
 
     /**
-     * Course à handicap de requalification. Obligatoirement associé avec {@link RaceType#HANDICAP}.
+     * Course Ã  handicap de requalification. Obligatoirement associÃ© avec {@link RaceType#HANDICAP}.
      *
      * @see RaceType#HANDICAP
      */
     REQUALIFICATION,
 
     /**
-     * Course à conditions.
+     * Course Ã  conditions.
      *
      * @see RaceType#QUALIF_HP
      */
     CONDITIONS,
 
     /**
-     * Course à conditions "qualif HP". Obligatoirement associé avec {@link RaceType#CONDITIONS}.
+     * Course Ã  conditions "qualif HP". Obligatoirement associÃ© avec {@link RaceType#CONDITIONS}.
      *
      * @see RaceType#CONDITIONS
      */
     QUALIF_HP,
 
     /**
-     * Course mixte. Signifie qu'une partie seulement des chevaux sont à
-     * réclamer. Obligatoirement associé avec {@link RaceType#RECLAMER}.
+     * Course mixte. Signifie qu'une partie seulement des chevaux sont Ã 
+     * rÃ©clamer. Obligatoirement associÃ© avec {@link RaceType#RECLAMER}.
      *
      * @see RaceType#RECLAMER
      */
@@ -131,7 +131,7 @@ public enum RaceType {
     AMATEURS,
 
     /**
-     * Course amateur avec priorité aux propriétaires. Obligatoirement associé
+     * Course amateur avec prioritÃ© aux propriÃ©taires. Obligatoirement associÃ©
      * avec {@link RaceType#AMATEURS}.
      *
      * @see RaceType#AMATEURS
@@ -139,22 +139,22 @@ public enum RaceType {
     PROPRIETAIRES,
 
     /**
-     * Course amateurs réservé aux dames. Obligatoirement associé avec {@link RaceType#AMATEURS}.
+     * Course amateurs rÃ©servÃ© aux dames. Obligatoirement associÃ© avec {@link RaceType#AMATEURS}.
      *
      * @see RaceType#AMATEURS
      */
     DAMES,
 
     /**
-     * Course réservée aux apprentis. Par défaut, apprentis lad-driver, sauf en
-     * présence de {@link RaceType#LADS_JOCKEYS}.
+     * Course rÃ©servÃ©e aux apprentis. Par dÃ©faut, apprentis lad-driver, sauf en
+     * prÃ©sence de {@link RaceType#LADS_JOCKEYS}.
      *
      * @see RaceType#LADS_JOCKEYS
      */
     APPRENTIS,
 
     /**
-     * Course réservée aux apprentis lads-jockey. Obligatoirement associé avec
+     * Course rÃ©servÃ©e aux apprentis lads-jockey. Obligatoirement associÃ© avec
      * {@link RaceType#APPRENTIS}.
      *
      * @see RaceType#APPRENTIS
@@ -162,14 +162,14 @@ public enum RaceType {
     LADS_JOCKEYS,
 
     /**
-     * Courses en partie liée. Définition:
-     * "Course dont le résultat ne devient définitif qu'après plusieurs épreuves"
+     * Courses en partie liÃ©e. DÃ©finition:
+     * "Course dont le rÃ©sultat ne devient dÃ©finitif qu'aprÃ¨s plusieurs Ã©preuves"
      * .
      */
     LIEE,
 
     /**
-     * Course réservée à la race anglo-arabe.
+     * Course rÃ©servÃ©e Ã  la race anglo-arabe.
      *
      * @see RaceType#PREMIERE_SERIE
      * @see RaceType#DEUXIEME_SERIE
@@ -178,7 +178,7 @@ public enum RaceType {
     ANGLO_ARABES,
 
     /**
-     * Course d'anglo-arabes de première série. Obligatoirement associé avec
+     * Course d'anglo-arabes de premiÃ¨re sÃ©rie. Obligatoirement associÃ© avec
      * {@link RaceType#ANGLO_ARABES}.
      *
      * @see RaceType#ANGLO_ARABES
@@ -186,7 +186,7 @@ public enum RaceType {
     PREMIERE_SERIE,
 
     /**
-     * Course d'anglo-arabes de deuxième série. Obligatoirement associé avec
+     * Course d'anglo-arabes de deuxiÃ¨me sÃ©rie. Obligatoirement associÃ© avec
      * {@link RaceType#ANGLO_ARABES}.
      *
      * @see RaceType#ANGLO_ARABES
@@ -194,7 +194,7 @@ public enum RaceType {
     DEUXIEME_SERIE,
 
     /**
-     * Course d'anglo-arabes de troisième série. Obligatoirement associé avec
+     * Course d'anglo-arabes de troisiÃ¨me sÃ©rie. Obligatoirement associÃ© avec
      * {@link RaceType#ANGLO_ARABES}.
      *
      * @see RaceType#ANGLO_ARABES
@@ -202,17 +202,17 @@ public enum RaceType {
     TROISIEME_SERIE,
 
     /**
-     * Course réservée à la race arabe pure.
+     * Course rÃ©servÃ©e Ã  la race arabe pure.
      */
     ARABES_PURS,
 
     /**
-     * Course à ventes publiques.
+     * Course Ã  ventes publiques.
      */
     VENTES_PUBLIQUES,
 
     /**
-     * Course réservée aux AQPS. AQPS: Autre Que de Pur-Sang anglais.
+     * Course rÃ©servÃ©e aux AQPS. AQPS: Autre Que de Pur-Sang anglais.
      */
     AQPS,
 
@@ -232,7 +232,7 @@ public enum RaceType {
     CONCOURS,
 
     /**
-     * Course de démonstration.
+     * Course de dÃ©monstration.
      */
     DEMONSTRATION,
 
@@ -242,7 +242,7 @@ public enum RaceType {
     QUALIFICATION_ACCAF,
 
     /**
-     * Finale régionale ACCAF.
+     * Finale rÃ©gionale ACCAF.
      */
     FINALE_REG_ACCAF,
 
@@ -254,6 +254,6 @@ public enum RaceType {
     /**
      * Type de course inconnu.
      */
-    INCONNU;
+    INCONNU
 
 }

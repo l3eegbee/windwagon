@@ -1,17 +1,16 @@
 package com.windwagon.logres.triggers;
 
-import java.time.Clock;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
-import java.util.Objects;
+import android.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.TriggerContext;
+import com.windwagon.logres.date.*;
 
-import com.windwagon.logres.date.DateConverter;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.scheduling.*;
 
+import java.time.*;
+import java.util.*;
+
+@SuppressLint("NewApi")
 public class DailyTrigger extends FixRateTrigger {
 
     @Autowired
@@ -48,10 +47,7 @@ public class DailyTrigger extends FixRateTrigger {
 
         DailyTrigger other = (DailyTrigger) obj;
 
-        if( !Objects.equals( hour, other.hour ) )
-            return false;
-
-        return true;
+        return Objects.equals(hour, other.hour);
 
     }
 

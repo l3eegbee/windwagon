@@ -28,13 +28,13 @@ public enum PriceName {
     BONUS_QUATRE_SUR_CINQ,
 
     /**
-     * Dégradé.
+     * DÃ©gradÃ©.
      */
     DEGRADE,
 
     /**
      * Remboursement.
      */
-    REMBOURSEMENT;
+    REMBOURSEMENT
 
 }

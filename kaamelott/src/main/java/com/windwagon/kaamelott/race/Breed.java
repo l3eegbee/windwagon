@@ -3,12 +3,12 @@ package com.windwagon.kaamelott.race;
 public enum Breed {
 
     /**
-     * Trotteur étranger.
+     * Trotteur Ã©tranger.
      */
     TROTTEUR_ETRANGER,
 
     /**
-     * Trotteur français.
+     * Trotteur franÃ§ais.
      */
     TROTTEUR_FRANCAIS,
 
@@ -43,18 +43,18 @@ public enum Breed {
     CHEVAL_DE_SELLE,
 
     /**
-     * Cheval de selle français.
+     * Cheval de selle franÃ§ais.
      */
     CHEVAL_DE_SELLE_FRANCAIS,
 
     /**
-     * Origine étrangère.
+     * Origine Ã©trangÃ¨re.
      */
     ORIGINE_ETRANGERE,
 
     /**
      * Race inconnue.
      */
-    INCONNU;
+    INCONNU
 
 }

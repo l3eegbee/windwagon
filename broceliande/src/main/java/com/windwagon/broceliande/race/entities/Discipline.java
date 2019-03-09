@@ -35,7 +35,7 @@ public enum Discipline {
 
     private boolean trot;
 
-    private Discipline( boolean trot ) {
+    Discipline(boolean trot) {
         this.trot = trot;
     }
 

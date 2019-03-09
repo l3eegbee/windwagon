@@ -34,6 +34,6 @@ public enum PriceName {
     DEGRADE,
 
     @KaamelottEnumPriceNameValue( com.windwagon.kaamelott.race.PriceName.REMBOURSEMENT )
-    REMBOURSEMENT;
+    REMBOURSEMENT
 
 }

@@ -8,46 +8,46 @@ public interface HorseID {
     /**
      * @return the name
      */
-    public String getName();
+    String getName();
 
     /**
      * @return l'historique
      */
-    public Iterator<Horse> getHistory();
+    Iterator<Horse> getHistory();
 
     /**
-     * @return le père
+     * @return le pÃ¨re
      */
-    public HorseID getFather();
+    HorseID getFather();
 
     /**
-     * @return la mère
+     * @return la mÃ¨re
      */
-    public HorseID getMother();
+    HorseID getMother();
 
     /**
      * @return la date de naissance
      */
-    public Date getBirth();
+    Date getBirth();
 
     /**
      * @return the sex
      */
-    public Sex getSex();
+    Sex getSex();
 
     /**
-     * @return la date de la première course castré
+     * @return la date de la premiÃ¨re course castrÃ©
      */
-    public Date getGeldingDate();
+    Date getGeldingDate();
 
     /**
      * @return the breed
      */
-    public Breed getBreed();
+    Breed getBreed();
 
     /**
      * @return the coat
      */
-    public Coat getCoat();
+    Coat getCoat();
 
 }

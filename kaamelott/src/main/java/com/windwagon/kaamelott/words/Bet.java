@@ -1,18 +1,13 @@
 package com.windwagon.kaamelott.words;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Vector;
+import com.windwagon.kaamelott.race.*;
 
-import com.windwagon.kaamelott.race.BetType;
-import com.windwagon.kaamelott.race.Horse;
-import com.windwagon.kaamelott.race.Race;
+import java.io.*;
+import java.util.*;
 
 public class Bet implements Serializable {
 
-    private final static long serialVersionUID = 1l;
+    private final static long serialVersionUID = 1L;
 
     private BetType betType;
 

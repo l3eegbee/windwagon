@@ -1,19 +1,16 @@
 package com.windwagon.broceliande.race.entities;
 
-import java.util.Comparator;
+import android.annotation.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import com.windwagon.logres.getset.*;
 
-import com.windwagon.logres.getset.Getter;
+import java.util.*;
+
+import javax.persistence.*;
 
 @Entity
 @Table( name = "ww_owner" )
+@SuppressLint("NewApi")
 public class Owner implements Comparable<Owner> {
 
     public static final Comparator<Owner> COMPARATOR = Comparator.comparing( Owner::getName );

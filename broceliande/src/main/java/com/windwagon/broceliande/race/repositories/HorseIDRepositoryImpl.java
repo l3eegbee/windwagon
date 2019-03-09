@@ -1,16 +1,17 @@
 package com.windwagon.broceliande.race.repositories;
 
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
+import android.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import com.windwagon.broceliande.race.entities.*;
 
-import com.windwagon.broceliande.race.entities.HorseID;
-import com.windwagon.broceliande.race.entities.Sex;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+
+import java.time.temporal.*;
+import java.util.*;
 
 @Component
+@SuppressLint("NewApi")
 public class HorseIDRepositoryImpl implements HorseIDRepositoryCustom {
 
     @Value( "${entities.horseid.minBirthDelta}" )

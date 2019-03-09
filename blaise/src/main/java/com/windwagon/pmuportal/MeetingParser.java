@@ -1,25 +1,15 @@
 package com.windwagon.pmuportal;
 
-import java.util.Date;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import com.fasterxml.jackson.databind.*;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.broceliande.race.repositories.*;
+import com.windwagon.pmuportal.exceptions.*;
 
-import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.windwagon.broceliande.race.entities.Field;
-import com.windwagon.broceliande.race.entities.Meeting;
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.broceliande.race.entities.Racecourse;
-import com.windwagon.broceliande.race.entities.WindDirection;
-import com.windwagon.broceliande.race.repositories.MeetingRepository;
-import com.windwagon.broceliande.race.repositories.RacecourseRepository;
-import com.windwagon.pmuportal.exceptions.PMUError;
-import com.windwagon.pmuportal.exceptions.PMUMethodFailureResponse;
-import com.windwagon.pmuportal.exceptions.PMUNoContent;
+import java.util.*;
 
 @Component
 public class MeetingParser {
@@ -129,7 +119,7 @@ public class MeetingParser {
             for( JsonNode raceNode : meetingNode.at( "/courses" ) )
                 try {
                     races.add( raceParser.parseRace( meeting, raceNode ) );
-                } catch( PMUMethodFailureResponse ex ) {}
+                } catch( PMUMethodFailureResponse ignored) {}
 
             pmuUtils.updateSet( meeting::getRaces, meeting::setRaces, races );
 

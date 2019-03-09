@@ -1,21 +1,22 @@
 package com.windwagon.viviane.commands;
 
-import static com.windwagon.logres.date.LazyDate.FORMAT_D;
+import android.annotation.*;
 
-import java.io.IOException;
-import java.time.LocalDate;
+import com.windwagon.pmuportal.*;
 
-import org.fusesource.jansi.Ansi;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.shell.core.CommandMarker;
-import org.springframework.shell.core.annotation.CliCommand;
-import org.springframework.shell.core.annotation.CliOption;
-import org.springframework.stereotype.Component;
+import org.fusesource.jansi.*;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.shell.core.*;
+import org.springframework.shell.core.annotation.*;
+import org.springframework.stereotype.*;
 
-import com.windwagon.pmuportal.RaceLoader;
+import java.io.*;
+import java.time.*;
 
+import static com.windwagon.logres.date.LazyDate.*;
+
+@SuppressLint("NewApi")
 @Component
 public class PMUScanner implements CommandMarker {
 

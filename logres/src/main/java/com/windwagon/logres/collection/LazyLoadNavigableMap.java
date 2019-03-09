@@ -1,5 +1,7 @@
 package com.windwagon.logres.collection;
 
+import android.annotation.*;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -7,11 +9,12 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
+@SuppressLint("NewApi")
 public class LazyLoadNavigableMap<K, V> {
 
     public interface Initializer<K, V> {
 
-        public void init( NavigableMap<K, V> navigableMap );
+        void init(NavigableMap<K, V> navigableMap);
 
     }
 

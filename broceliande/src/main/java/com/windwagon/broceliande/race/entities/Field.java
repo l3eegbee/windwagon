@@ -60,6 +60,6 @@ public enum Field {
 
     @PMUEnumDefaultValue
     @KaamelottEnumFieldValue( com.windwagon.kaamelott.race.Field.UNKNOWN )
-    UNKNOWN;
+    UNKNOWN
 
 }

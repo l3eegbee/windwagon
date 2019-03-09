@@ -5,21 +5,21 @@ public interface Finish extends Comparable<Finish> {
     /**
      * @return the place number
      */
-    public int getPlace();
+    int getPlace();
 
     /**
      * @return the distance
      */
-    public String getDistance();
+    String getDistance();
 
     /**
      * @return the duration
      */
-    public Integer getDuration();
+    Integer getDuration();
 
     /**
      * @return the horse
      */
-    public Horse getHorse();
+    Horse getHorse();
 
 }

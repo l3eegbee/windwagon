@@ -1,27 +1,19 @@
 package com.windwagon.broceliande.race.turf.impl;
 
-import java.time.temporal.ChronoField;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import android.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.broceliande.race.repositories.*;
+import com.windwagon.broceliande.race.turf.*;
+import com.windwagon.broceliande.race.turf.enumconverter.*;
+import com.windwagon.logres.collection.*;
 
-import com.windwagon.broceliande.race.entities.Horse;
-import com.windwagon.broceliande.race.entities.Odds;
-import com.windwagon.broceliande.race.entities.Place;
-import com.windwagon.broceliande.race.entities.Sex;
-import com.windwagon.broceliande.race.entities.Simple;
-import com.windwagon.broceliande.race.repositories.HorseRepository;
-import com.windwagon.broceliande.race.turf.HorseIDWrapper;
-import com.windwagon.broceliande.race.turf.HorseWrapper;
-import com.windwagon.broceliande.race.turf.RaceWrapper;
-import com.windwagon.broceliande.race.turf.Reference;
-import com.windwagon.broceliande.race.turf.enumconverter.KaamelottEnumConverter;
-import com.windwagon.logres.collection.LazyInitializer;
+import org.springframework.beans.factory.annotation.*;
 
+import java.time.temporal.*;
+import java.util.*;
+
+@SuppressLint("NewApi")
 public class HorseWrapperImpl extends ObjectWrapperImpl<Horse> implements HorseWrapper {
 
     public final static Comparator<com.windwagon.kaamelott.race.Horse> COMPARATOR =

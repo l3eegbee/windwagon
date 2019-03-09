@@ -1,23 +1,22 @@
 package com.windwagon.logres.triggers;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import org.junit.*;
+import org.junit.runner.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.boot.test.context.*;
+import org.springframework.context.*;
+import org.springframework.test.context.junit4.*;
 
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
+import java.time.*;
+import java.time.temporal.*;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 @RunWith( SpringJUnit4ClassRunner.class )
-@SpringApplicationConfiguration( classes = TriggerTestsConfig.class )
+@SpringBootTest(classes = TriggerTestsConfig.class)
+//@SpringApplicationConfiguration( classes = TriggerTestsConfig.class )
 @EnableAutoConfiguration
 public class ParseTriggerTests {
 

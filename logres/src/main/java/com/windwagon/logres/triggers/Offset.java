@@ -1,13 +1,13 @@
 package com.windwagon.logres.triggers;
 
-import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
-import java.util.Objects;
+import android.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.*;
 
+import java.time.*;
+import java.util.*;
+
+@SuppressLint("NewApi")
 public class Offset implements Comparable<Offset> {
 
     @Autowired
@@ -71,10 +71,7 @@ public class Offset implements Comparable<Offset> {
 
         if( !Objects.equals( duration, other.duration ) )
             return false;
-        if( !Objects.equals( repeatly, other.repeatly ) )
-            return false;
-
-        return true;
+        return Objects.equals(repeatly, other.repeatly);
 
     }
 

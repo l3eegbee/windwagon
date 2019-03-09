@@ -1,16 +1,13 @@
 package com.windwagon.logres.triggers;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Vector;
-import java.util.stream.Collectors;
+import android.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.*;
 
+import java.util.*;
+import java.util.stream.*;
+
+@SuppressLint("NewApi")
 public class OffsetTrigger {
 
     @Autowired
@@ -57,10 +54,7 @@ public class OffsetTrigger {
 
         OffsetTrigger other = (OffsetTrigger) obj;
 
-        if( !Objects.equals( offsets, other.offsets ) )
-            return false;
-
-        return true;
+        return Objects.equals(offsets, other.offsets);
 
     }
 

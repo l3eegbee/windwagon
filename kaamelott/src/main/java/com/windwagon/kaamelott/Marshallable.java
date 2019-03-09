@@ -2,10 +2,10 @@ package com.windwagon.kaamelott;
 
 public interface Marshallable {
 
-    default public byte[] marshal() {
+    default byte[] marshal() {
         return null;
     }
 
-    default public void unmarshal( byte[] data ) {}
+    default void unmarshal(byte[] data) {}
 
 }

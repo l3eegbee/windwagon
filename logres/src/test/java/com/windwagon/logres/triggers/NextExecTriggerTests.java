@@ -1,30 +1,27 @@
 package com.windwagon.logres.triggers;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import com.windwagon.logres.date.*;
+import com.windwagon.logres.test.*;
 
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
+import org.junit.*;
+import org.junit.runner.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.boot.test.context.*;
+import org.springframework.context.*;
+import org.springframework.scheduling.*;
+import org.springframework.test.context.junit4.*;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.scheduling.TriggerContext;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import java.time.*;
+import java.time.temporal.*;
+import java.util.*;
 
-import com.windwagon.logres.date.DateConverter;
-import com.windwagon.logres.date.LazyDate;
-import com.windwagon.logres.test.AdjustableClock;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-@RunWith( SpringJUnit4ClassRunner.class )
-@SpringApplicationConfiguration( classes = TriggerTestsConfig.class )
+@RunWith( /*SpringJUnit4Class*/SpringRunner.class )
+@SpringBootTest(classes = TriggerTestsConfig.class)
+//@SpringApplicationConfiguration( classes = TriggerTestsConfig.class )
 @EnableAutoConfiguration
 public class NextExecTriggerTests {
 

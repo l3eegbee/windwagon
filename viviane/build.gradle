@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 26
+        targetSdkVersion 28
+        multiDexEnabled true
+        applicationId 'com.windwagon.viviane'
+        versionCode 1
+        versionName "1"
+//        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility '1.8'
+        targetCompatibility '1.8'
+    }
+    dependencies {
+        // Required -- JUnit 4 framework
+        testImplementation 'junit:junit:4.12'
+
+        modules {
+            module("org.dom4j:dom4j") {
+                replacedBy("dom4j:dom4j", "google-collections is now part of Guava")
+            }
+            module("commons-collections:commons-collections") {
+                replacedBy("commons-beanutils:commons-beanutils", "google-collections is now part of Guava")
+            }
+            module("com.google.guava:listenablefuture") {
+                replacedBy("com.google.guava:guava", "google-collections is now part of Guava")
+            }
+            module("org.springframework:spring-jcl") {
+                replacedBy("commons-logging:commons-logging", "google-collections is now part of Guava")
+            }
+        }
+
+        implementation 'androidx.multidex:multidex:2.0.1'
+        implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
+
+        implementation project(path: ':blaise')
+        implementation project(path: ':broceliande')
+        implementation project(path: ':logres')
+
+        implementation 'org.springframework:spring-tx:5.1.5.RELEASE'
+
+        implementation 'org.springframework.shell:spring-shell:1.2.0.RELEASE'
+
+        implementation 'org.springframework.boot:spring-boot-starter:2.2.0.M1'
+
+        implementation 'org.springframework.data:spring-data-jpa:2.2.0.M2'
+
+        implementation 'org.apache.velocity:velocity:1.7'
+    }
+}
+
+
+

@@ -49,6 +49,6 @@ public enum Breed {
     @PMUEnumDefaultValue
     @PMUEnumValue( "INCONNU" )
     @KaamelottEnumBreedValue( com.windwagon.kaamelott.race.Breed.INCONNU )
-    INCONNU;
+    INCONNU
 
 }

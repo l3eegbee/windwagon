@@ -7,21 +7,21 @@ public interface Price {
     /**
      * @return the bet
      */
-    public BetType getBetType();
+    BetType getBetType();
 
     /**
      * @return the priceName
      */
-    public PriceName getPriceName();
+    PriceName getPriceName();
 
     /**
      * @return the price
      */
-    public Double getPrice();
+    Double getPrice();
 
     /**
      * @return the ticketComposition
      */
-    public SortedSet<Horse> getTicket();
+    SortedSet<Horse> getTicket();
 
 }

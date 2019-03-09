@@ -1,50 +1,26 @@
 package com.windwagon.pmuportal;
 
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import android.annotation.*;
 
-import javax.transaction.Transactional;
+import com.fasterxml.jackson.databind.*;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.broceliande.race.repositories.*;
+import com.windwagon.broceliande.utils.pmu.*;
+import com.windwagon.pmuportal.exceptions.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.windwagon.broceliande.race.entities.BetType;
-import com.windwagon.broceliande.race.entities.Discipline;
-import com.windwagon.broceliande.race.entities.Horse;
-import com.windwagon.broceliande.race.entities.Meeting;
-import com.windwagon.broceliande.race.entities.Odds;
-import com.windwagon.broceliande.race.entities.Place;
-import com.windwagon.broceliande.race.entities.Price;
-import com.windwagon.broceliande.race.entities.PriceName;
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.broceliande.race.entities.RaceStatus;
-import com.windwagon.broceliande.race.entities.Simple;
-import com.windwagon.broceliande.race.entities.Type;
-import com.windwagon.broceliande.race.repositories.OddsRepository;
-import com.windwagon.broceliande.race.repositories.PlaceRepository;
-import com.windwagon.broceliande.race.repositories.PriceRepository;
-import com.windwagon.broceliande.race.repositories.RaceRepository;
-import com.windwagon.broceliande.race.repositories.SimpleRepository;
-import com.windwagon.broceliande.utils.pmu.PMUEnumNoValue;
-import com.windwagon.broceliande.utils.pmu.PMUEnumValue;
-import com.windwagon.pmuportal.exceptions.PMUError;
-import com.windwagon.pmuportal.exceptions.PMUMethodFailureResponse;
-import com.windwagon.pmuportal.exceptions.PMUNoContent;
+import java.util.*;
+import java.util.regex.*;
+import java.util.stream.*;
+
+//import javax.transaction.Transactional;
 
 @Component
+@SuppressLint("NewApi")
 public class RaceParser {
 
     private final Logger logger = LoggerFactory.getLogger( RaceParser.class );
@@ -74,7 +50,7 @@ public class RaceParser {
     private HorseParser horseParser;
 
     @PMUEnumNoValue( { "INCONNU" } )
-    public static enum Incident {
+    public enum Incident {
 
         @PMUEnumValue( { "NON_PARTANT", "REMBOURSE" } ) NOT_RUNNING,
 
@@ -89,11 +65,11 @@ public class RaceParser {
                 "DISQUALIFIE_POUR_ALLURE_IRREGULIERE",
                 "DISQUALIFIE_POTEAU_GALOP" } ) DISQUALIFIED,
 
-        @PMUEnumValue( { "TOMBE", "TOMBE_REMONTE", "ABATTU" } ) FALLEN;
+        @PMUEnumValue( { "TOMBE", "TOMBE_REMONTE", "ABATTU" } ) FALLEN
 
     }
 
-    public static enum PriceBetType {
+    public enum PriceBetType {
 
         @PMUEnumValue( { "SIMPLE_GAGNANT", "E_SIMPLE_GAGNANT" } ) SIMPLE_GAGNANT(
                 BetType.SIMPLE_GAGNANT ),
@@ -133,7 +109,7 @@ public class RaceParser {
 
         private BetType betType;
 
-        private PriceBetType( BetType betType ) {
+        PriceBetType(BetType betType) {
             this.betType = betType;
         }
 
@@ -143,7 +119,7 @@ public class RaceParser {
 
     }
 
-    public static enum MultiLibelle {
+    public enum MultiLibelle {
 
         @PMUEnumValue( {
                 "MINI MULTI EN 4",
@@ -213,11 +189,11 @@ public class RaceParser {
 
         private PriceName priceName = PriceName.DIRECT;
 
-        private MultiLibelle( BetType betType ) {
+        MultiLibelle(BetType betType) {
             this.betType = betType;
         }
 
-        private MultiLibelle( BetType betType, PriceName priceName ) {
+        MultiLibelle(BetType betType, PriceName priceName) {
             this.betType = betType;
             this.priceName = priceName;
         }
@@ -274,7 +250,7 @@ public class RaceParser {
 
     }
 
-    private synchronized void parse( Race race, JsonNode raceNode ) throws PMUError {
+    private synchronized void parse(Race race, JsonNode raceNode ) throws PMUError {
 
         logger.info( "Parse {}", race );
 

@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 26
+        targetSdkVersion 28
+//        applicationId 'com.windwagon.kaamelott'
+        multiDexEnabled true
+        versionCode 1
+        versionName "1"
+//        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility '1.8'
+        targetCompatibility '1.8'
+    }
+    dependencies {
+        // Required -- JUnit 4 framework
+        testImplementation 'junit:junit:4.12'
+        implementation 'com.android.support:multidex:1.0.3'
+
+        implementation 'org.hamcrest:hamcrest-all:1.3'
+    }
+}

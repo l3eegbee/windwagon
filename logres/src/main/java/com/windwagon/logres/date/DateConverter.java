@@ -1,5 +1,7 @@
 package com.windwagon.logres.date;
 
+import android.annotation.*;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,6 +10,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
+@SuppressLint("NewApi")
 public class DateConverter {
 
     private DateConverter() {}
@@ -16,7 +19,7 @@ public class DateConverter {
      * Convert to Date
      */
 
-    public static Date toDate( ZonedDateTime zonedDateTime ) {
+    public static Date toDate(ZonedDateTime zonedDateTime ) {
         return zonedDateTime == null ? null : Date.from( zonedDateTime.toInstant() );
     }
 

@@ -8,51 +8,51 @@ public interface Meeting extends Comparable<Meeting> {
     /**
      * @return the date
      */
-    public Date getDate();
+    Date getDate();
 
     /**
      * @return the racecourse
      */
-    public String getRacecourse();
+    String getRacecourse();
 
     /**
      * @return the country
      */
-    public String getCountry();
+    String getCountry();
 
     /**
      * @return the number
      */
-    public int getNumber();
+    int getNumber();
 
     /**
      * @return the windSpeed
      */
-    public Double getWindSpeed();
+    Double getWindSpeed();
 
     /**
      * @return the windDirection
      */
-    public WindDirection getWindDirection();
+    WindDirection getWindDirection();
 
     /**
      * @return the temperature
      */
-    public Double getTemperature();
+    Double getTemperature();
 
     /**
      * @return the climat
      */
-    public String getClimat();
+    String getClimat();
 
     /**
      * @return the field
      */
-    public Field getField();
+    Field getField();
 
     /**
      * @return the races
      */
-    public SortedSet<Race> getRaces();
+    SortedSet<Race> getRaces();
 
 }

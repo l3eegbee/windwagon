@@ -1,28 +1,24 @@
 package com.windwagon.pmuportal;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import android.annotation.*;
+
+import com.fasterxml.jackson.databind.*;
+import com.windwagon.logres.date.*;
+import com.windwagon.pmuportal.exceptions.*;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.slf4j.*;
+import org.springframework.stereotype.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.windwagon.logres.date.DateConverter;
-import com.windwagon.pmuportal.exceptions.PMUMethodFailureResponse;
-import com.windwagon.pmuportal.exceptions.PMUNavigatorError;
-import com.windwagon.pmuportal.exceptions.PMUNoContent;
+import java.io.*;
+import java.net.*;
+import java.time.*;
+import java.time.format.*;
+import java.util.*;
+import java.util.regex.*;
 
 @Component
+@SuppressLint("NewApi")
 public class PMUNavigator {
 
     private final Logger logger = LoggerFactory.getLogger( PMUNavigator.class );

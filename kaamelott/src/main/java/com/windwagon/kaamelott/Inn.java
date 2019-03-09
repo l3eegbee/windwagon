@@ -5,11 +5,11 @@ public interface Inn {
     /**
      * @throws TaskInterruptedException
      */
-    public void rest();
+    void rest();
 
     /**
      * @throws TaskInterruptedException
      */
-    public void rest( float progress, String message );
+    void rest(float progress, String message);
 
 }

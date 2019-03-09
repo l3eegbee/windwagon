@@ -1,28 +1,11 @@
 package com.windwagon.broceliande.race.turf;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.Vector;
+import com.windwagon.kaamelott.race.*;
+import com.windwagon.kaamelott.words.*;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.*;
 
-import com.windwagon.kaamelott.race.BetType;
-import com.windwagon.kaamelott.race.Finish;
-import com.windwagon.kaamelott.race.Horse;
-import com.windwagon.kaamelott.race.Price;
-import com.windwagon.kaamelott.race.PriceName;
-import com.windwagon.kaamelott.words.Bet;
-import com.windwagon.kaamelott.words.InvalidBet;
+import java.util.*;
 
 @Component
 public class BetChecker {

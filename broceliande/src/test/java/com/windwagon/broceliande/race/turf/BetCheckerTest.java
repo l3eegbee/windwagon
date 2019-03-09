@@ -1,29 +1,28 @@
 package com.windwagon.broceliande.race.turf;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.number.IsCloseTo.closeTo;
-
-import java.util.List;
-import java.util.Vector;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.windwagon.broceliande.Broceliande;
-import com.windwagon.broceliande.race.builders.Meeting_20150813_M1;
+import com.windwagon.broceliande.*;
+import com.windwagon.broceliande.race.builders.*;
 import com.windwagon.broceliande.race.entities.Meeting;
 import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.broceliande.utils.MeetingNavigator;
+import com.windwagon.broceliande.utils.*;
 import com.windwagon.kaamelott.race.BetType;
-import com.windwagon.kaamelott.words.Bet;
-import com.windwagon.kaamelott.words.InvalidBet;
+import com.windwagon.kaamelott.words.*;
 
-@RunWith( SpringJUnit4ClassRunner.class )
-@SpringApplicationConfiguration( classes = Broceliande.class )
+import org.junit.*;
+import org.junit.runner.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.boot.test.context.*;
+import org.springframework.test.context.junit4.*;
+
+import java.util.*;
+
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.number.IsCloseTo.closeTo;
+
+@RunWith( /*SpringJUnit4Class*/SpringRunner.class )
+@SpringBootTest(classes = Broceliande.class)
+//@SpringApplicationConfiguration( classes = Broceliande.class )
 public class BetCheckerTest {
 
     @Autowired

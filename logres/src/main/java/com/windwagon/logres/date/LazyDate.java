@@ -1,10 +1,13 @@
 package com.windwagon.logres.date;
 
+import android.annotation.*;
+
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+@SuppressLint("NewApi")
 public class LazyDate {
 
     public static final DateTimeFormatter FORMAT_Y = DateTimeFormatter.ofPattern( "yyyy" );

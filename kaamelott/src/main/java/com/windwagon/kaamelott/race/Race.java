@@ -1,175 +1,170 @@
 package com.windwagon.kaamelott.race;
 
-import java.util.Date;
-import java.util.List;
-import java.util.NavigableSet;
-import java.util.Set;
-import java.util.SortedSet;
+import com.windwagon.kaamelott.words.*;
 
-import com.windwagon.kaamelott.words.Bet;
-import com.windwagon.kaamelott.words.InvalidBet;
+import java.util.*;
 
 public interface Race extends Comparable<Race> {
 
     /**
      * @return the meeting
      */
-    public Meeting getMeeting();
+    Meeting getMeeting();
 
     /**
      * @return the number
      */
-    public int getNumber();
+    int getNumber();
 
     /**
      * @return the name
      */
-    public String getName();
+    String getName();
 
     /**
      * @return the canceling
      */
-    public boolean isCanceled();
+    boolean isCanceled();
 
     /**
      * @return the start
      */
-    public Date getStart();
+    Date getStart();
 
     /**
      * @return the realStart
      */
     @MainRaceInaccessibleField
-    public Date getRealStart();
+    Date getRealStart();
 
     /**
      * @return the distance
      */
-    public double getDistance();
+    double getDistance();
 
     /**
      * @return the benefit
      */
-    public Double getBenefit();
+    Double getBenefit();
 
     /**
      * @return the discipline
      */
-    public Discipline getDiscipline();
+    Discipline getDiscipline();
 
     /**
      * @return le type de la course
      */
-    public Set<RaceType> getTypes();
+    Set<RaceType> getTypes();
 
     /**
-     * @return si départ à l'autostart
+     * @return si dÃ©part Ã  l'autostart
      */
-    public boolean isAutostart();
+    boolean isAutostart();
 
     /**
-     * @return si course à handicap
+     * @return si course Ã  handicap
      */
-    public boolean isHandicap();
+    boolean isHandicap();
 
     /**
-     * @return si course à reclamer
+     * @return si course Ã  reclamer
      */
-    public boolean isReclamer();
+    boolean isReclamer();
 
     /**
      * @return si course amateurs
      */
-    public boolean isAmateurs();
+    boolean isAmateurs();
 
     /**
      * @return the horses
      */
-    public SortedSet<Horse> getHorses();
+    SortedSet<Horse> getHorses();
 
     /**
      * return the horse
      */
-    public Horse getHorse( int num );
+    Horse getHorse(int num);
 
     /**
      * @return the bets
      */
-    public Set<BetType> getBets();
+    Set<BetType> getBets();
 
     /**
      * @return the odds dates
      */
-    public NavigableSet<Date> getOddsDates();
+    NavigableSet<Date> getOddsDates();
 
     /**
      * @return le total des paris simples
      */
-    public Double getOddsTotal();
-
-    /**
-     * @return le total des paris simples
-     */
-    @MainRaceInaccessibleField
-    public Double getFinishOddsTotal();
+    Double getOddsTotal();
 
     /**
      * @return le total des paris simples
      */
     @MainRaceInaccessibleField
-    public Double getOddsTotal( Date date );
+    Double getFinishOddsTotal();
+
+    /**
+     * @return le total des paris simples
+     */
+    @MainRaceInaccessibleField
+    Double getOddsTotal(Date date);
 
     /**
      * @return the duration
      */
     @MainRaceInaccessibleField
-    public Integer getDuration();
+    Integer getDuration();
 
     /**
      * @return the places
      */
     @MainRaceInaccessibleField
-    public SortedSet<Finish> getFinish();
+    SortedSet<Finish> getFinish();
 
     /**
      * @return the stopped
      */
     @MainRaceInaccessibleField
-    public Set<Horse> getStopped();
+    Set<Horse> getStopped();
 
     /**
      * @return the disqualified
      */
     @MainRaceInaccessibleField
-    public Set<Horse> getDisqualified();
+    Set<Horse> getDisqualified();
 
     /**
      * @return the fallen
      */
     @MainRaceInaccessibleField
-    public Set<Horse> getFallen();
+    Set<Horse> getFallen();
 
     /**
      * @return the prices
      */
     @MainRaceInaccessibleField
-    public Set<Price> getPrices();
+    Set<Price> getPrices();
 
     /**
      * @return true if the bet is valid
      */
-    public boolean isValidBet( Bet bet );
+    boolean isValidBet(Bet bet);
 
     /**
      * @return the prices obtained by the bet
      */
     @MainRaceInaccessibleField
-    public List<Price> getPrice( Bet bet ) throws InvalidBet;
+    List<Price> getPrice(Bet bet) throws InvalidBet;
 
     /**
      * @return the price value obtained by the bet
      */
     @MainRaceInaccessibleField
-    public double getBalance( Bet bet ) throws InvalidBet;
+    double getBalance(Bet bet) throws InvalidBet;
 
 }

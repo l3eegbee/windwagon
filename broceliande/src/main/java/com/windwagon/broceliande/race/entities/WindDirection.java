@@ -40,6 +40,6 @@ public enum WindDirection {
 
     @PMUEnumDefaultValue
     @KaamelottEnumWindDirectionValue( com.windwagon.kaamelott.race.WindDirection.UNKNOWN )
-    UNKNOWN;
+    UNKNOWN
 
 }

@@ -4,6 +4,6 @@ public enum Sex {
 
     FEMALE,
     MALE,
-    GELDING;
+    GELDING
 
 }

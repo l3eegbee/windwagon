@@ -1,14 +1,9 @@
 package com.windwagon.broceliande.utils;
 
-import java.util.Date;
-import java.util.Objects;
-import java.util.Set;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.logres.getset.*;
 
-import com.windwagon.broceliande.race.entities.Horse;
-import com.windwagon.broceliande.race.entities.Meeting;
-import com.windwagon.broceliande.race.entities.Odds;
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.logres.getset.Getter;
+import java.util.*;
 
 public class MeetingNavigator {
 

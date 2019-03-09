@@ -1,18 +1,15 @@
 package com.windwagon.broceliande.race.turf.impl;
 
-import java.util.Comparator;
-import java.util.Date;
-import java.util.SortedSet;
+import android.annotation.*;
 
-import com.windwagon.broceliande.race.entities.Meeting;
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.broceliande.race.turf.MeetingWrapper;
-import com.windwagon.broceliande.race.turf.RaceWrapper;
-import com.windwagon.broceliande.race.turf.Reference;
-import com.windwagon.broceliande.race.turf.enumconverter.KaamelottEnumConverter;
-import com.windwagon.logres.collection.LazyInitializer;
-import com.windwagon.logres.collection.LazyLoadNavigableSet;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.broceliande.race.turf.*;
+import com.windwagon.broceliande.race.turf.enumconverter.*;
+import com.windwagon.logres.collection.*;
 
+import java.util.*;
+
+@SuppressLint("NewApi")
 public class MeetingWrapperImpl extends ObjectWrapperImpl<Meeting> implements MeetingWrapper {
 
     public final static Comparator<com.windwagon.kaamelott.race.Meeting> COMPARATOR =

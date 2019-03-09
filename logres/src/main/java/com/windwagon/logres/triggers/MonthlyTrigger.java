@@ -1,18 +1,17 @@
 package com.windwagon.logres.triggers;
 
-import java.time.Clock;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.TemporalAdjusters;
-import java.util.Date;
-import java.util.Objects;
+import android.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.TriggerContext;
+import com.windwagon.logres.date.*;
 
-import com.windwagon.logres.date.DateConverter;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.scheduling.*;
 
+import java.time.*;
+import java.time.temporal.*;
+import java.util.*;
+
+@SuppressLint("NewApi")
 public class MonthlyTrigger extends FixRateTrigger {
 
     @Autowired
@@ -38,7 +37,7 @@ public class MonthlyTrigger extends FixRateTrigger {
     @Override
     public Date nextExecutionTime( TriggerContext triggerContext ) {
 
-        LocalDateTime nextTrigger =
+         LocalDateTime nextTrigger =
                 LocalDate.now( clock ).with( TemporalAdjusters.firstDayOfMonth() ).plusDays( day - 1 ).atTime( hour );
         if( nextTrigger.isBefore( LocalDateTime.now( clock ) ) )
             nextTrigger = nextTrigger.with( TemporalAdjusters.lastDayOfMonth() ).plusDays( day );
@@ -59,10 +58,7 @@ public class MonthlyTrigger extends FixRateTrigger {
 
         if( !Objects.equals( day, other.day ) )
             return false;
-        if( !Objects.equals( hour, other.hour ) )
-            return false;
-
-        return true;
+        return Objects.equals(hour, other.hour);
 
     }
 

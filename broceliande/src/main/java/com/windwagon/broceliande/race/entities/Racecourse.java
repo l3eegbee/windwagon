@@ -1,19 +1,16 @@
 package com.windwagon.broceliande.race.entities;
 
-import java.util.Comparator;
+import android.annotation.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import com.windwagon.logres.getset.*;
 
-import com.windwagon.logres.getset.Getter;
+import java.util.*;
+
+import javax.persistence.*;
 
 @Entity
 @Table( name = "ww_racecourse" )
+@SuppressLint("NewApi")
 public class Racecourse implements Comparable<Racecourse> {
 
     public final static String DEFAULT_COUNTRY = "FRANCE";

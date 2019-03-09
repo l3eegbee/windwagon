@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.shazam:shazamcrest:0.5@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.shazam/shazamcrest/0.5/732e7857c5d651e11c1b6d840005587e63739bf8/shazamcrest-0.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.shazam/shazamcrest/0.5/c3ef0dcb893640e5dfa4bf2da2a981a1b45fb695/shazamcrest-0.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

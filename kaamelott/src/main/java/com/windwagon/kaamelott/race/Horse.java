@@ -8,185 +8,185 @@ public interface Horse extends HorseID, Comparable<Horse> {
     /**
      * @return the race
      */
-    public Race getRace();
+    Race getRace();
 
     /**
      * @return the age
      */
-    public Integer getAge();
+    Integer getAge();
 
     /**
      * @return the number
      */
-    public int getNumber();
+    int getNumber();
 
     /**
      * @return if runner
      */
-    public boolean isRunner();
+    boolean isRunner();
 
     /**
      * @return the supplemented
      */
-    public boolean isSupplemented();
+    boolean isSupplemented();
 
     /**
      * @return the pregnant
      */
-    public boolean isPregnant();
+    boolean isPregnant();
 
     /**
      * @return the stall
      */
-    public int getStall();
+    int getStall();
 
     /**
      * @return the stable
      */
-    public String getStable();
+    String getStable();
 
     /**
      * @return the weight
      */
-    public Double getWeight();
+    Double getWeight();
 
     /**
      * @return the distance
      */
-    public double getDistance();
+    double getDistance();
 
     /**
      * @return the careerProfit
      */
-    public Double getCareerProfit();
+    Double getCareerProfit();
 
     /**
      * @return the previousYearProfit
      */
-    public Double getPreviousYearProfit();
+    Double getPreviousYearProfit();
 
     /**
      * @return the victoryProfit
      */
-    public Double getVictoryProfit();
+    Double getVictoryProfit();
 
     /**
      * @return the yearProfit
      */
-    public Double getYearProfit();
+    Double getYearProfit();
 
     /**
      * @return the horseshoe
      */
-    public Horseshoe getHorseshoe();
+    Horseshoe getHorseshoe();
 
     /**
      * @return the blinder
      */
-    public Blinder getBlinder();
+    Blinder getBlinder();
 
     /**
      * @return the trainer
      */
-    public String getTrainer();
+    String getTrainer();
 
     /**
      * @return l'historique de l'entraineur
      */
-    public Iterator<Horse> getTrainerHistory();
+    Iterator<Horse> getTrainerHistory();
 
     /**
      * @return the owner
      */
-    public String getOwner();
+    String getOwner();
 
     /**
-     * @return l'historique du propriétaire
+     * @return l'historique du propriÃ©taire
      */
-    public Iterator<Horse> getOwnerHistory();
+    Iterator<Horse> getOwnerHistory();
 
     /**
      * @return the rancher
      */
-    public String getRancher();
+    String getRancher();
 
     /**
-     * @return l'historique de l'éleveur
+     * @return l'historique de l'Ã©leveur
      */
-    public Iterator<Horse> getRancherHistory();
+    Iterator<Horse> getRancherHistory();
 
     /**
      * @return the jockey
      */
-    public String getJockey();
+    String getJockey();
 
     /**
      * @return l'historique du jockey
      */
-    public Iterator<Horse> getJockeyHistory();
+    Iterator<Horse> getJockeyHistory();
 
     /**
      * @return la cote courante
      */
-    public Double getOdds();
+    Double getOdds();
 
     /**
-     * @return la cote enregistrée à la date donnée
+     * @return la cote enregistrÃ©e Ã  la date donnÃ©e
      */
     @MainRaceInaccessibleField
-    public Double getOdds( Date date );
+    Double getOdds(Date date);
 
     /**
-     * @return la cote enregistrée après la course
+     * @return la cote enregistrÃ©e aprÃ¨s la course
      */
     @MainRaceInaccessibleField
-    public Double getFinishOdds();
+    Double getFinishOdds();
 
     /**
-     * @return la cote courante (écurie)
+     * @return la cote courante (Ã©curie)
      */
-    public Double getStableOdds();
+    Double getStableOdds();
 
     /**
-     * @return la cote (écurie) enregistrée à la date donnée
-     */
-    @MainRaceInaccessibleField
-    public Double getStableOdds( Date date );
-
-    /**
-     * @return la cote (écurie) enregistrée après la course
+     * @return la cote (Ã©curie) enregistrÃ©e Ã  la date donnÃ©e
      */
     @MainRaceInaccessibleField
-    public Double getFinishStableOdds();
+    Double getStableOdds(Date date);
 
     /**
-     * @return la position à l'arrivée, null si non présent
+     * @return la cote (Ã©curie) enregistrÃ©e aprÃ¨s la course
      */
     @MainRaceInaccessibleField
-    public Integer getFinishPosition();
+    Double getFinishStableOdds();
+
+    /**
+     * @return la position Ã  l'arrivÃ©e, null si non prÃ©sent
+     */
+    @MainRaceInaccessibleField
+    Integer getFinishPosition();
 
     /**
      * @return le temps de parcours. valable uniquement pour le trot.
      */
     @MainRaceInaccessibleField
-    public Integer getFinishDuration();
+    Integer getFinishDuration();
 
     /**
-     * @return true si arrêté
+     * @return true si arrÃªtÃ©
      */
     @MainRaceInaccessibleField
-    public boolean isStopped();
+    boolean isStopped();
 
     /**
-     * @return true si disqualifié
+     * @return true si disqualifiÃ©
      */
     @MainRaceInaccessibleField
-    public boolean isDisqualified();
+    boolean isDisqualified();
 
     /**
-     * @return true si tombé
+     * @return true si tombÃ©
      */
     @MainRaceInaccessibleField
-    public boolean isFallen();
+    boolean isFallen();
 
 }

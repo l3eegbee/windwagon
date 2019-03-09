@@ -4106,11 +4106,11 @@ import com.windwagon.broceliande.utils.pmu.PMUEnumValue;
  * Commentaires:
  * <ul>
  * <li>Les courses de groupe ({@link Type#GROUPE_I}, {@link Type#GROUPE_II}, {@link Type#GROUPE_III}
- * ) ne sont pas marquées comme des courses
+ * ) ne sont pas marquÃ©es comme des courses
  * internationales.</li>
- * <li>Les courses de série ({@link Type#PREMIERE_SERIE}, {@link Type#DEUXIEME_SERIE},
+ * <li>Les courses de sÃ©rie ({@link Type#PREMIERE_SERIE}, {@link Type#DEUXIEME_SERIE},
  * {@link Type#TROISIEME_SERIE} ) ne sont pas
- * marquées comme des courses internationales.</li>
+ * marquÃ©es comme des courses internationales.</li>
  * <li>Qu'est-ce qu'une course {@code COURSE_A_CONDITION_QUALIF_HP}?</li>
  * <li>Qu'est-ce qu'une course {@code HANDICAP_DE_REQUALIFICATION}?</li>
  * <li>Qu'est-ce qu'une course {@code COURSE_A_CONDITION_QUALIF_HP}?</li>
@@ -4139,7 +4139,7 @@ public enum Type {
     INTERNATIONALE,
 
     /**
-     * Course européenne.
+     * Course europÃ©enne.
      */
     @PMUEnumValue( {
             "EUROPEENNE",
@@ -4219,7 +4219,7 @@ public enum Type {
     SEMI_CLASSIQUE,
 
     /**
-     * Départ à l'autostart.
+     * DÃ©part Ã  l'autostart.
      */
     @PMUEnumValue( {
             "AUTOSTART",
@@ -4247,7 +4247,7 @@ public enum Type {
     AUTOSTART,
 
     /**
-     * Course à handicap.
+     * Course Ã  handicap.
      *
      * @see Type#CATEGORIE
      * @see Type#DEDOUBLE
@@ -4272,7 +4272,7 @@ public enum Type {
     HANDICAP,
 
     /**
-     * Course à réclamer.
+     * Course Ã  rÃ©clamer.
      *
      * @see Type#MIXTE
      */
@@ -4298,7 +4298,7 @@ public enum Type {
     RECLAMER,
 
     /**
-     * Course à handicap de catégorie. Obligatoirement associé avec {@link Type#HANDICAP}.
+     * Course Ã  handicap de catÃ©gorie. Obligatoirement associÃ© avec {@link Type#HANDICAP}.
      *
      * @see Type#HANDICAP
      */
@@ -4311,7 +4311,7 @@ public enum Type {
     CATEGORIE,
 
     /**
-     * Course à handicap dédoublé. Obligatoirement associé avec {@link Type#HANDICAP}.
+     * Course Ã  handicap dÃ©doublÃ©. Obligatoirement associÃ© avec {@link Type#HANDICAP}.
      *
      * @see Type#HANDICAP
      */
@@ -4320,7 +4320,7 @@ public enum Type {
     DEDOUBLE,
 
     /**
-     * Course à handicap divisé. Obligatoirement associé avec {@link Type#HANDICAP}.
+     * Course Ã  handicap divisÃ©. Obligatoirement associÃ© avec {@link Type#HANDICAP}.
      *
      * @see Type#HANDICAP
      */
@@ -4329,7 +4329,7 @@ public enum Type {
     DIVISE,
 
     /**
-     * Course à handicap limité. Obligatoirement associé avec {@link Type#HANDICAP}.
+     * Course Ã  handicap limitÃ©. Obligatoirement associÃ© avec {@link Type#HANDICAP}.
      *
      * @see Type#HANDICAP
      */
@@ -4338,7 +4338,7 @@ public enum Type {
     LIMITE,
 
     /**
-     * Course à handicap de requalification. Obligatoirement associé avec {@link Type#HANDICAP}.
+     * Course Ã  handicap de requalification. Obligatoirement associÃ© avec {@link Type#HANDICAP}.
      *
      * @see Type#HANDICAP
      */
@@ -4347,7 +4347,7 @@ public enum Type {
     REQUALIFICATION,
 
     /**
-     * Course à conditions.
+     * Course Ã  conditions.
      *
      * @see Type#QUALIF_HP
      */
@@ -4356,7 +4356,7 @@ public enum Type {
     CONDITIONS,
 
     /**
-     * Course à conditions "qualif HP". Obligatoirement associé avec {@link Type#CONDITIONS}.
+     * Course Ã  conditions "qualif HP". Obligatoirement associÃ© avec {@link Type#CONDITIONS}.
      *
      * @see Type#CONDITIONS
      */
@@ -4365,8 +4365,8 @@ public enum Type {
     QUALIF_HP,
 
     /**
-     * Course mixte. Signifie qu'une partie seulement des chevaux sont à
-     * réclamer. Obligatoirement associé avec {@link Type#RECLAMER}.
+     * Course mixte. Signifie qu'une partie seulement des chevaux sont Ã 
+     * rÃ©clamer. Obligatoirement associÃ© avec {@link Type#RECLAMER}.
      *
      * @see Type#RECLAMER
      */
@@ -4406,7 +4406,7 @@ public enum Type {
     AMATEURS,
 
     /**
-     * Course amateur avec priorité aux propriétaires. Obligatoirement associé
+     * Course amateur avec prioritÃ© aux propriÃ©taires. Obligatoirement associÃ©
      * avec {@link Type#AMATEURS}.
      *
      * @see Type#AMATEURS
@@ -4418,7 +4418,7 @@ public enum Type {
     PROPRIETAIRES,
 
     /**
-     * Course amateurs réservé aux dames. Obligatoirement associé avec {@link Type#AMATEURS}.
+     * Course amateurs rÃ©servÃ© aux dames. Obligatoirement associÃ© avec {@link Type#AMATEURS}.
      *
      * @see Type#AMATEURS
      */
@@ -4427,8 +4427,8 @@ public enum Type {
     DAMES,
 
     /**
-     * Course réservée aux apprentis. Par défaut, apprentis lad-driver, sauf en
-     * présence de {@link Type#LADS_JOCKEYS}.
+     * Course rÃ©servÃ©e aux apprentis. Par dÃ©faut, apprentis lad-driver, sauf en
+     * prÃ©sence de {@link Type#LADS_JOCKEYS}.
      *
      * @see Type#LADS_JOCKEYS
      */
@@ -4448,7 +4448,7 @@ public enum Type {
     APPRENTIS,
 
     /**
-     * Course réservée aux apprentis lads-jockey. Obligatoirement associé avec
+     * Course rÃ©servÃ©e aux apprentis lads-jockey. Obligatoirement associÃ© avec
      * {@link Type#APPRENTIS}.
      *
      * @see Type#APPRENTIS
@@ -4465,8 +4465,8 @@ public enum Type {
     LADS_JOCKEYS,
 
     /**
-     * Courses en partie liée. Définition:
-     * "Course dont le résultat ne devient définitif qu'après plusieurs épreuves"
+     * Courses en partie liÃ©e. DÃ©finition:
+     * "Course dont le rÃ©sultat ne devient dÃ©finitif qu'aprÃ¨s plusieurs Ã©preuves"
      * .
      */
     @PMUEnumValue( { "COURSE_EN_PARTIE_LIEE", "COURSE_EN_PARTIE_LIEE_AMATEURS" } )
@@ -4474,7 +4474,7 @@ public enum Type {
     LIEE,
 
     /**
-     * Course réservée à la race anglo-arabe.
+     * Course rÃ©servÃ©e Ã  la race anglo-arabe.
      *
      * @see Type#PREMIERE_SERIE
      * @see Type#DEUXIEME_SERIE
@@ -4490,7 +4490,7 @@ public enum Type {
     ANGLO_ARABES,
 
     /**
-     * Course d'anglo-arabes de première série. Obligatoirement associé avec
+     * Course d'anglo-arabes de premiÃ¨re sÃ©rie. Obligatoirement associÃ© avec
      * {@link Type#ANGLO_ARABES} .
      *
      * @see Type#ANGLO_ARABES
@@ -4500,7 +4500,7 @@ public enum Type {
     PREMIERE_SERIE,
 
     /**
-     * Course d'anglo-arabes de deuxième série. Obligatoirement associé avec
+     * Course d'anglo-arabes de deuxiÃ¨me sÃ©rie. Obligatoirement associÃ© avec
      * {@link Type#ANGLO_ARABES} .
      *
      * @see Type#ANGLO_ARABES
@@ -4510,7 +4510,7 @@ public enum Type {
     DEUXIEME_SERIE,
 
     /**
-     * Course d'anglo-arabes de troisième série. Obligatoirement associé avec
+     * Course d'anglo-arabes de troisiÃ¨me sÃ©rie. Obligatoirement associÃ© avec
      * {@link Type#ANGLO_ARABES}.
      *
      * @see Type#ANGLO_ARABES
@@ -4520,21 +4520,21 @@ public enum Type {
     TROISIEME_SERIE,
 
     /**
-     * Course réservée à la race arabe pure.
+     * Course rÃ©servÃ©e Ã  la race arabe pure.
      */
     @PMUEnumValue( "ARABES_PURS" )
     @KaamelottEnumRaceTypeValue( com.windwagon.kaamelott.race.RaceType.ARABES_PURS )
     ARABES_PURS,
 
     /**
-     * Course à ventes publiques.
+     * Course Ã  ventes publiques.
      */
     @PMUEnumValue( { "VENTES_PUBLIQUES", "ETALONS_VENTES_PUBLIQUES", "ETALONS_VENTES_PUB_HAND" } )
     @KaamelottEnumRaceTypeValue( com.windwagon.kaamelott.race.RaceType.VENTES_PUBLIQUES )
     VENTES_PUBLIQUES,
 
     /**
-     * Course réservée aux AQPS. AQPS: Autre Que de Pur-Sang anglais.
+     * Course rÃ©servÃ©e aux AQPS. AQPS: Autre Que de Pur-Sang anglais.
      */
     @PMUEnumValue( "AUTRES_QUE_PUR_SANG_ANGL" )
     @KaamelottEnumRaceTypeValue( com.windwagon.kaamelott.race.RaceType.AQPS )
@@ -4562,7 +4562,7 @@ public enum Type {
     CONCOURS,
 
     /**
-     * Course de démonstration.
+     * Course de dÃ©monstration.
      */
     @PMUEnumValue( "COURSE_DE_DEMONSTRATION" )
     @KaamelottEnumRaceTypeValue( com.windwagon.kaamelott.race.RaceType.DEMONSTRATION )
@@ -4576,7 +4576,7 @@ public enum Type {
     QUALIFICATION_ACCAF,
 
     /**
-     * Finale régionale ACCAF.
+     * Finale rÃ©gionale ACCAF.
      */
     @PMUEnumValue( "FINALE_REGIONALE_ACCAF" )
     @KaamelottEnumRaceTypeValue( com.windwagon.kaamelott.race.RaceType.FINALE_REG_ACCAF )
@@ -4594,6 +4594,6 @@ public enum Type {
      */
     @PMUEnumValue( "INCONNU" )
     @KaamelottEnumRaceTypeValue( com.windwagon.kaamelott.race.RaceType.INCONNU )
-    INCONNU;
+    INCONNU
 
 }
