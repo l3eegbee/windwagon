@@ -20,6 +20,11 @@ android {
         sourceCompatibility '1.8'
         targetCompatibility '1.8'
     }
+    packagingOptions {
+//        pickFirst  'META-INF/*'
+        exclude 'META-INF/spring.tooling'
+        exclude 'META-INF/notice.txt'
+    }
     dependencies {
         implementation project(path: ':broceliande')
         implementation project(path: ':blaise')
@@ -39,6 +44,19 @@ android {
         implementation 'org.springframework:spring-tx:4.2.6.RELEASE'
         implementation 'org.springframework.shell:spring-shell:1.1.0.RELEASE'
         implementation 'org.apache.velocity:velocity:1.7'
+        modules {
+            module("org.slf4j:jcl-over-slf4j") {
+                replacedBy("commons-logging:commons-logging", "google-collections is now part of Guava")
+            }
+            module("commons-collections:commons-collections") {
+                replacedBy("commons-beanutils:commons-beanutils", "google-collections is now part of Guava")
+            }
+        }
+
+
+
+
+
 //        implementation 'org.apache.velocity:velocity-tools:2.0'
 //        implementation 'commons-lang:commons-lang:2.6'
 //        implementation 'commons-io:commons-io:2.4'
@@ -47,9 +65,6 @@ android {
 //        modules {
 //            module("org.dom4j:dom4j") {
 //                replacedBy("dom4j:dom4j", "google-collections is now part of Guava")
-//            }
-//            module("commons-collections:commons-collections") {
-//                replacedBy("commons-beanutils:commons-beanutils", "google-collections is now part of Guava")
 //            }
 //            module("com.google.guava:listenablefuture") {
 //                replacedBy("com.google.guava:guava", "google-collections is now part of Guava")
