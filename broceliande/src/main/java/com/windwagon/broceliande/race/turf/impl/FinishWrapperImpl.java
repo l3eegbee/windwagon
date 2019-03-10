@@ -1,13 +1,13 @@
 package com.windwagon.broceliande.race.turf.impl;
 
-import android.annotation.*;
+
 
 import com.windwagon.broceliande.race.entities.*;
 import com.windwagon.broceliande.race.turf.*;
 
 import java.util.*;
 
-@SuppressLint("NewApi")
+
 public class FinishWrapperImpl extends ObjectWrapperImpl<Place> implements FinishWrapper {
 
     public final static Comparator<com.windwagon.kaamelott.race.Finish> COMPARATOR = Comparator

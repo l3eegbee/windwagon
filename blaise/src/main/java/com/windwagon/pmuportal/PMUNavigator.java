@@ -1,6 +1,6 @@
 package com.windwagon.pmuportal;
 
-import android.annotation.*;
+
 
 import com.fasterxml.jackson.databind.*;
 import com.windwagon.logres.date.*;
@@ -18,25 +18,25 @@ import java.util.*;
 import java.util.regex.*;
 
 @Component
-@SuppressLint("NewApi")
+
 public class PMUNavigator {
 
     private final Logger logger = LoggerFactory.getLogger( PMUNavigator.class );
 
     public static final String URL_PROGRAMME =
-            "http://www.pmu.fr/turfInfo/client/1/programmes/{date}?meteo=true&specialisation=INTERNET";
+            "https://www.pmu.fr/turfInfo/client/1/programmes/{date}?meteo=true&specialisation=INTERNET";
 
     public static final String URL_RACE =
-            "http://www.pmu.fr/turfInfo/client/1/programmes/{date}/R{meeting}/C{race}?specialisation=INTERNET";
+            "https://www.pmu.fr/turfInfo/client/1/programmes/{date}/R{meeting}/C{race}?specialisation=INTERNET";
 
     public static final String URL_HORSES =
-            "http://www.pmu.fr/turfInfo/client/1/programmes/{date}/R{meeting}/C{race}/participants?specialisation=INTERNET";
+            "https://www.pmu.fr/turfInfo/client/1/programmes/{date}/R{meeting}/C{race}/participants?specialisation=INTERNET";
 
     public static final String URL_TOTALBETS =
-            "http://www.pmu.fr/turfInfo/client/1/programme/{date}/R{meeting}/C{race}/masse-enjeu?specialisation=INTERNET";
+            "https://www.pmu.fr/turfInfo/client/1/programme/{date}/R{meeting}/C{race}/masse-enjeu?specialisation=INTERNET";
 
     public static final String URL_PRICES =
-            "http://www.pmu.fr/turfInfo/client/1/programme/{date}/R{meeting}/C{race}/rapports-definitifs?combinaisonEnTableau=true&specialisation=INTERNET";
+            "https://www.pmu.fr/turfInfo/client/1/programme/{date}/R{meeting}/C{race}/rapports-definitifs?combinaisonEnTableau=true&specialisation=INTERNET";
 
     private final static Pattern CHARSET_PATTERN =
             Pattern.compile( "text/html;\\s+charset=([^\\s]+)\\s*" );

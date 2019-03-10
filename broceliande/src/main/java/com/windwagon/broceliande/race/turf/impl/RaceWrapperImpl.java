@@ -1,6 +1,6 @@
 package com.windwagon.broceliande.race.turf.impl;
 
-import android.annotation.*;
+
 
 import com.windwagon.broceliande.race.entities.*;
 import com.windwagon.broceliande.race.turf.*;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.*;
 import java.util.*;
 import java.util.regex.*;
 
-@SuppressLint("NewApi")
+
 public class RaceWrapperImpl extends ObjectWrapperImpl<Race> implements RaceWrapper {
 
     public final static Comparator<com.windwagon.kaamelott.race.Race> COMPARATOR =

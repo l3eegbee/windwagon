@@ -1,6 +1,6 @@
 package com.windwagon.daemon.tasks;
 
-import android.annotation.*;
+
 
 import com.windwagon.broceliande.race.entities.*;
 import com.windwagon.daemon.*;
@@ -18,7 +18,7 @@ import java.util.*;
 import javax.annotation.*;
 
 @Component
-@SuppressLint("NewApi")
+
 public class ProgrammeLoader implements Task {
 
     public final static String NAME = "scan";

@@ -1,6 +1,6 @@
 package com.windwagon.pmuportal;
 
-import android.annotation.*;
+
 
 import com.fasterxml.jackson.databind.*;
 import com.windwagon.broceliande.race.entities.*;
@@ -20,7 +20,7 @@ import java.util.stream.*;
 //import javax.transaction.Transactional;
 
 @Component
-@SuppressLint("NewApi")
+
 public class RaceParser {
 
     private final Logger logger = LoggerFactory.getLogger( RaceParser.class );
@@ -49,6 +49,7 @@ public class RaceParser {
     @Autowired
     private HorseParser horseParser;
 
+	//10032019 TODO SUPER_QUATRE E_SUPER_QUATRE
     @PMUEnumNoValue( { "INCONNU" } )
     public enum Incident {
 
@@ -70,7 +71,7 @@ public class RaceParser {
     }
 
     public enum PriceBetType {
-
+    	
         @PMUEnumValue( { "SIMPLE_GAGNANT", "E_SIMPLE_GAGNANT" } ) SIMPLE_GAGNANT(
                 BetType.SIMPLE_GAGNANT ),
 
@@ -105,6 +106,8 @@ public class RaceParser {
 
         @PMUEnumValue( { "QUARTE_PLUS", "E_QUARTE_PLUS" } ) QUARTE(BetType.QUARTE ),
 
+        @PMUEnumValue( { "SUPER_QUATRE", "E_SUPER_QUATRE" } ) SUPER_QUATRE(BetType.SUPER_QUATRE ),
+
         @PMUEnumValue( { "QUINTE_PLUS", "E_QUINTE_PLUS" } ) QUINTE(BetType.QUINTE );
 
         private BetType betType;
@@ -116,7 +119,6 @@ public class RaceParser {
         public BetType toBetType() {
             return betType;
         }
-
     }
 
     public enum MultiLibelle {
@@ -520,6 +522,7 @@ public class RaceParser {
                             case PICK5:
                             case TIERCE:
                             case QUARTE:
+                            case SUPER_QUATRE:
                             case QUINTE:
                                 PriceName priceName = pmuUtils.findPMU( PriceName.class, libelle );
                                 if( priceName != null )
@@ -545,6 +548,9 @@ public class RaceParser {
                                                         lib.toPriceName(),
                                                         priceNode ) );
                                 break;
+						
+							default:
+							break;
 
                         }
 

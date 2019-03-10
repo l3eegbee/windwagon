@@ -1,6 +1,6 @@
 package com.windwagon.broceliande.race.turf.impl;
 
-import android.annotation.*;
+
 
 import com.windwagon.broceliande.race.entities.*;
 import com.windwagon.broceliande.race.repositories.*;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.*;
 import java.time.temporal.*;
 import java.util.*;
 
-@SuppressLint("NewApi")
+
 public class HorseWrapperImpl extends ObjectWrapperImpl<Horse> implements HorseWrapper {
 
     public final static Comparator<com.windwagon.kaamelott.race.Horse> COMPARATOR =

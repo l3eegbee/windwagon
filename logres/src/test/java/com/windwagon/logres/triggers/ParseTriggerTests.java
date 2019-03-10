@@ -4,7 +4,8 @@ import org.junit.*;
 import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.autoconfigure.*;
-import org.springframework.boot.test.context.*;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+//import org.springframework.boot.test.context.*;
 import org.springframework.context.*;
 import org.springframework.test.context.junit4.*;
 
@@ -15,8 +16,8 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @RunWith( SpringJUnit4ClassRunner.class )
-@SpringBootTest(classes = TriggerTestsConfig.class)
-//@SpringApplicationConfiguration( classes = TriggerTestsConfig.class )
+//v2@SpringBootTest(classes = TriggerTestsConfig.class)
+@SpringApplicationConfiguration( classes = TriggerTestsConfig.class )
 @EnableAutoConfiguration
 public class ParseTriggerTests {
 

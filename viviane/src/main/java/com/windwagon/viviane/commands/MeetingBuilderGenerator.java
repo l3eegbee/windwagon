@@ -1,6 +1,6 @@
 package com.windwagon.viviane.commands;
 
-import android.annotation.*;
+
 
 import com.windwagon.broceliande.race.entities.*;
 import com.windwagon.broceliande.race.repositories.MeetingRepository;
@@ -20,7 +20,7 @@ import java.text.*;
 import java.util.*;
 
 @Component
-@SuppressLint("NewApi")
+
 public class MeetingBuilderGenerator {
 
 	@Value("${builders.builders.package}")

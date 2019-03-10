@@ -1,6 +1,6 @@
 package com.windwagon.logres.collection;
 
-import android.annotation.*;
+
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
-@SuppressLint("NewApi")
+
 public class Sets {
 
 	static public <T> NavigableSet<T> navigableSetFromList(List<T> list) {

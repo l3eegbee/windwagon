@@ -1,6 +1,6 @@
 package com.windwagon.broceliande;
 
-import android.annotation.*;
+
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.autoconfigure.*;
@@ -13,7 +13,7 @@ import java.util.*;
 @PropertySource( "broceliande.properties" )
 public class Broceliande {
 
-    @SuppressLint("NewApi")
+
     @Bean
     public Clock getClock( @Value( "${timezone}" ) String timezone ) {
 

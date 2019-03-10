@@ -1,6 +1,5 @@
 package com.windwagon.broceliande.race.entities;
 
-import android.annotation.*;
 
 import com.windwagon.logres.getset.*;
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table( name = "ww_owner" )
-@SuppressLint("NewApi")
+
 public class Owner implements Comparable<Owner> {
 
     public static final Comparator<Owner> COMPARATOR = Comparator.comparing( Owner::getName );

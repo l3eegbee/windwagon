@@ -1,6 +1,5 @@
 package com.windwagon.broceliande.race.entities;
 
-import android.annotation.*;
 
 import com.windwagon.logres.date.*;
 import com.windwagon.logres.getset.*;
@@ -16,7 +15,7 @@ import javax.persistence.*;
 
 @Entity
 @Table( name = "ww_race" )
-@SuppressLint("NewApi")
+
 public class Race implements Comparable<Race> {
 
     public static final Comparator<Race> COMPARATOR =

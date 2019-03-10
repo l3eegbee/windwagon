@@ -1,6 +1,6 @@
 package com.windwagon.broceliande.race.repositories;
 
-import android.annotation.*;
+
 
 import com.windwagon.broceliande.race.entities.*;
 
@@ -11,7 +11,7 @@ import java.time.temporal.*;
 import java.util.*;
 
 @Component
-@SuppressLint("NewApi")
+
 public class HorseIDRepositoryImpl implements HorseIDRepositoryCustom {
 
     @Value( "${entities.horseid.minBirthDelta}" )

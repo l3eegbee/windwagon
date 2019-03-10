@@ -1,6 +1,6 @@
 package com.windwagon.daemon;
 
-import android.annotation.*;
+
 
 import com.windwagon.broceliande.race.entities.*;
 import com.windwagon.broceliande.race.repositories.*;
@@ -19,10 +19,10 @@ import org.springframework.stereotype.*;
 import java.time.*;
 import java.util.*;
 
-import javax.annotation.*;
+import javax.annotation.PostConstruct;
 
 @Component
-@SuppressLint("NewApi")
+
 public class Maestro {
 
     public final static String ENV_LOAD_PROGRAMME_FROM = "reload.from";

@@ -5,7 +5,7 @@ import com.windwagon.broceliande.race.repositories.*;
 import com.windwagon.logres.mail.*;
 import com.windwagon.logres.triggers.*;
 
-import org.apache.commons.lang3.exception.*;
+import org.apache.commons.lang.exception.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.scheduling.*;

@@ -77,6 +77,8 @@ public enum BetType {
      */
     QUARTE( 4, 1.3d ),
 
+    //10032019 TODO
+    SUPER_QUATRE(4, 1.0d),
     /**
      * Quinté.
      */

@@ -1,6 +1,5 @@
 package com.windwagon.viviane.commands;
 
-import android.annotation.*;
 
 import com.windwagon.pmuportal.*;
 
@@ -16,7 +15,7 @@ import java.time.*;
 
 import static com.windwagon.logres.date.LazyDate.*;
 
-@SuppressLint("NewApi")
+
 @Component
 public class PMUScanner implements CommandMarker {
 

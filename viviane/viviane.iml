@@ -114,74 +114,41 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.7@jar" level="project" />
+    <orderEntry type="library" name="Gradle: aopalliance:aopalliance:1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: commons-collections:commons-collections:3.2.1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.savedstate:savedstate-bundle:1.0.0-alpha01@aar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-beans:5.1.5.RELEASE@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.drawerlayout:drawerlayout:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.documentfile:documentfile:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.localbroadcastmanager:localbroadcastmanager:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: commons-lang:commons-lang:2.4@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.26@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-orm:5.1.5.RELEASE@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-runtime:2.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata-core:2.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: commons-io:commons-io:2.6@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.cursoradapter:cursoradapter:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha02@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.customview:customview:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.asynclayoutinflater:asynclayoutinflater:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.vectordrawable:vectordrawable:1.0.1@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.core:core:1.1.0-alpha04@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.interpolator:interpolator:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.11.2@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.fragment:fragment:1.1.0-alpha04@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.appcompat:appcompat:1.1.0-alpha02@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.slidingpanelayout:slidingpanelayout:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.annotation:annotation:1.1.0-alpha01@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-expression:5.1.5.RELEASE@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.collection:collection:1.1.0-alpha02@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-context:5.1.5.RELEASE@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.coordinatorlayout:coordinatorlayout:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-jpa:2.2.0.M2@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:2.2.0.M1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.arch.core:core-runtime:2.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.multidex:multidex:2.0.1@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.concurrent:concurrent-futures:1.0.0-alpha02@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot:2.2.0.M1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.2.3@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.shell:spring-shell:1.2.0.RELEASE@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.swiperefreshlayout:swiperefreshlayout:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.viewpager:viewpager:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.legacy:legacy-support-core-ui:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.loader:loader:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-jcl:5.1.5.RELEASE@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-commons:2.2.0.M2@jar" level="project" />
-    <orderEntry type="library" name="Gradle: jline:jline:2.12@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:2.2.0.M1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: jakarta.annotation:jakarta.annotation-api:1.3.4@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.11.2@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-aop:5.1.5.RELEASE@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-tx:5.1.5.RELEASE@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata:2.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.versionedparcelable:versionedparcelable:1.1.0-alpha01@aar" level="project" />
-    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.2.3@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.vectordrawable:vectordrawable-animated:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.savedstate:savedstate-common:1.0.0-alpha01@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:jcl-over-slf4j:1.7.21@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-logging:1.3.5.RELEASE@jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.mockito:mockito-core:1.10.19@jar" level="project" />
+    <orderEntry type="library" name="Gradle: asm:asm:3.3.1@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-beans:4.2.6.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-core:4.2.6.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context-support:4.2.6.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:jul-to-slf4j:1.7.21@jar" level="project" />
+    <orderEntry type="library" name="Gradle: jline:jline:2.11@jar" level="project" />
+    <orderEntry type="library" name="Gradle: commons-lang:commons-lang:2.6@jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.springframework:spring-test:4.2.6.RELEASE@jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.springframework.boot:spring-boot-starter-test:1.3.5.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.shell:spring-shell:1.1.0.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: cglib:cglib:2.2.2@jar" level="project" />
+    <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2@jar" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.velocity:velocity:1.7@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.0.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.legacy:legacy-support-core-utils:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.print:print:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.activity:activity:1.0.0-alpha04@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.arch.core:core-common:2.0.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.guava:guava:17.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-tx:4.2.6.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:1.3.5.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-commons:1.11.4.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-aop:4.2.6.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:log4j-over-slf4j:1.7.21@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-context-support:5.1.5.RELEASE@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.aspectj:aspectjrt:1.9.2@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot:1.3.5.RELEASE@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-logging:2.2.0.M1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.slf4j:jul-to-slf4j:1.7.26@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-jdbc:5.1.5.RELEASE@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-core:5.1.5.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context:4.2.6.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.1.7@jar" level="project" />
+    <orderEntry type="library" name="Gradle: commons-io:commons-io:2.4@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:1.3.5.RELEASE@jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-library:1.3@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.guava:guava:15.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-expression:4.2.6.RELEASE@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.21@jar" level="project" />
     <orderEntry type="module" module-name="blaise" />
     <orderEntry type="module" module-name="logres" />
     <orderEntry type="module" module-name="broceliande" />

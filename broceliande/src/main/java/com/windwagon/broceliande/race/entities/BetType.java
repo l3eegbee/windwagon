@@ -5,7 +5,8 @@ import com.windwagon.broceliande.utils.pmu.PMUEnumNoValue;
 import com.windwagon.broceliande.utils.pmu.PMUEnumValue;
 
 // length = 6
-@PMUEnumNoValue( { "REPORT", "TIC_TROIS", "E_REPORT", "E_REPORT_PLUS", "E_TIC_TROIS" } )
+// 10032019 TODO SUPER QUATRE, E_SUPER_QUATRE
+@PMUEnumNoValue( { "REPORT", "TIC_TROIS", "E_REPORT", "E_REPORT_PLUS", "E_TIC_TROIS"} )
 public enum BetType {
 
     @PMUEnumValue( { "SIMPLE_GAGNANT", "E_SIMPLE_GAGNANT" } )
@@ -67,6 +68,10 @@ public enum BetType {
     @PMUEnumValue( { "QUARTE_PLUS", "E_QUARTE_PLUS" } )
     @KaamelottEnumBetTypeValue( com.windwagon.kaamelott.race.BetType.QUARTE )
     QUARTE( 1.3d ),
+    
+    @PMUEnumValue( { "SUPER_QUATRE", "E_SUPER_QUATRE" } )
+    @KaamelottEnumBetTypeValue( com.windwagon.kaamelott.race.BetType.SUPER_QUATRE )
+    SUPER_QUATRE( 1.0d ),
 
     @PMUEnumValue( { "QUINTE_PLUS", "E_QUINTE_PLUS" } )
     @KaamelottEnumBetTypeValue( com.windwagon.kaamelott.race.BetType.QUINTE )

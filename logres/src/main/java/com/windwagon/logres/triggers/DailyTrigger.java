@@ -1,6 +1,6 @@
 package com.windwagon.logres.triggers;
 
-import android.annotation.*;
+
 
 import com.windwagon.logres.date.*;
 
@@ -10,7 +10,7 @@ import org.springframework.scheduling.*;
 import java.time.*;
 import java.util.*;
 
-@SuppressLint("NewApi")
+
 public class DailyTrigger extends FixRateTrigger {
 
     @Autowired

@@ -1,6 +1,5 @@
 package com.windwagon.broceliande.race.entities;
 
-import android.annotation.*;
 
 import com.windwagon.logres.getset.*;
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table( name = "ww_racecourse" )
-@SuppressLint("NewApi")
+
 public class Racecourse implements Comparable<Racecourse> {
 
     public final static String DEFAULT_COUNTRY = "FRANCE";

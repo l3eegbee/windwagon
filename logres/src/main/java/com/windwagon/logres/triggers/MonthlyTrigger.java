@@ -1,6 +1,6 @@
 package com.windwagon.logres.triggers;
 
-import android.annotation.*;
+
 
 import com.windwagon.logres.date.*;
 
@@ -11,7 +11,7 @@ import java.time.*;
 import java.time.temporal.*;
 import java.util.*;
 
-@SuppressLint("NewApi")
+
 public class MonthlyTrigger extends FixRateTrigger {
 
     @Autowired

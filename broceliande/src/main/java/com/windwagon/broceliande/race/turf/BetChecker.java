@@ -540,6 +540,15 @@ public class BetChecker {
 
     }
 
+    //10032019 TODO
+    private List<Price> searchPrice_SUPER_QUATRE(
+    		RaceWrapper race,
+            List<Horse> finish,
+            List<Horse> ticket,
+            List<Horse> fTicket ) {
+    	return Collections.<Price> emptyList();
+    }
+    
     private List<Price> searchPrice_QUARTE(
             RaceWrapper race,
             List<Horse> finish,
@@ -708,6 +717,11 @@ public class BetChecker {
                 return searchPrice_QUARTE( race, finish, ticket, fTicket );
             case QUINTE:
                 return searchPrice_QUINTE( race, finish, ticket, fTicket );
+//10032019 TODO		
+            case SUPER_QUATRE:
+            	return searchPrice_SUPER_QUATRE( race, finish, ticket, fTicket );
+            default:
+            	break;
 
         }
 

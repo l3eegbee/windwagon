@@ -1,6 +1,6 @@
 package com.windwagon.pmuportal;
 
-import android.annotation.*;
+
 
 import com.fasterxml.jackson.databind.*;
 import com.windwagon.broceliande.race.entities.*;
@@ -15,7 +15,7 @@ import java.util.*;
 
 import static com.windwagon.logres.date.DateConverter.*;
 
-@SuppressLint("NewApi")
+
 @Component
 public class HorseParser {
 

@@ -1,6 +1,6 @@
 package com.windwagon.broceliande.race.entities;
 
-import android.annotation.*;
+
 
 import com.windwagon.logres.getset.*;
 
@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table( name = "ww_jockey" )
-@SuppressLint("NewApi")
+
 public class Jockey implements Comparable<Jockey> {
 
     public static final Comparator<Jockey> COMPARATOR = Comparator.comparing( Jockey::getName );

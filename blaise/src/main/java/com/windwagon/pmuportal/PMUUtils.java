@@ -1,6 +1,5 @@
 package com.windwagon.pmuportal;
 
-import android.annotation.*;
 
 import com.fasterxml.jackson.databind.*;
 import com.windwagon.broceliande.utils.pmu.*;
@@ -13,7 +12,6 @@ import java.util.*;
 import java.util.function.*;
 
 @Component
-@SuppressLint("NewApi")
 public class PMUUtils {
 
     public static final Logger logger = LoggerFactory.getLogger( PMUUtils.class );
@@ -25,59 +23,59 @@ public class PMUUtils {
         str = str.replace( '\u20AC', 'e' ); // symbol euro
         str = str.replace( "\u0152", "OE" ); // e dans l'o majuscule
         str = str.replace( "\u0153", "oe" ); // e dans l'o minuscule
-        str = str.replace( '√ß', 'c' ); // c cedille
+        str = str.replace( 'Á', 'c' ); // c cedille
         str = str.replace( "`", "'" ); // apostrophe
 
         // erreur d'encodage
-        str = str.replace( "√Ω√Ω", "e" );
-        str = str.replace( "√¨√¨", "e" );
-        str = str.replace( "√Æ√Æ", "e" );
-        str = str.replace( "√Ø√Ø", "e" );
+        str = str.replace( "˝˝", "e" );
+        str = str.replace( "ÏÏ", "e" );
+        str = str.replace( "ÓÓ", "e" );
+        str = str.replace( "ÔÔ", "e" );
         str = str.replace( "ii", "e" );
-        str = str.replace( "√ë", "e" );
+        str = str.replace( "—", "e" );
         str = str.replace( "\\", "e" );
-        str = str.replace( "√ì", "i" );
-        str = str.replace( "√∑", "o" );
-        str = str.replace( "√Ç¬©", "'" );
+        str = str.replace( "”", "i" );
+        str = str.replace( "˜", "o" );
         str = str.replace( "¬©", "'" );
+        str = str.replace( "©", "'" );
 
         // accents
-        str = str.replace( '√†', 'a' );
-        str = str.replace( '√Ä', 'a' );
-        str = str.replace( '√¢', 'a' );
-        str = str.replace( '√Ç', 'a' );
-        str = str.replace( '√§', 'a' );
-        str = str.replace( '√Ñ', 'a' );
-        str = str.replace( '√£', 'a' );
-        str = str.replace( '√É', 'a' );
-        str = str.replace( '√®', 'e' );
-        str = str.replace( '√à', 'e' );
-        str = str.replace( '√©', 'e' );
-        str = str.replace( '√â', 'e' );
-        str = str.replace( '√™', 'e' );
-        str = str.replace( '√ä', 'e' );
-        str = str.replace( '√´', 'e' );
-        str = str.replace( '√ã', 'e' );
-        str = str.replace( '√¨', 'i' );
-        str = str.replace( '√å', 'i' );
-        str = str.replace( '√Æ', 'i' );
-        str = str.replace( '√é', 'i' );
-        str = str.replace( '√Ø', 'i' );
-        str = str.replace( '√è', 'i' );
-        str = str.replace( '√≤', 'o' );
-        str = str.replace( '√í', 'o' );
-        str = str.replace( '√¥', 'o' );
-        str = str.replace( '√î', 'o' );
-        str = str.replace( '√∂', 'o' );
-        str = str.replace( '√ñ', 'o' );
-        str = str.replace( '√µ', 'o' );
-        str = str.replace( '√ï', 'o' );
-        str = str.replace( '√π', 'u' );
-        str = str.replace( '√ô', 'u' );
-        str = str.replace( '√ª', 'u' );
-        str = str.replace( '√õ', 'u' );
-        str = str.replace( '√º', 'u' );
-        str = str.replace( '√ú', 'u' );
+        str = str.replace( '‡', 'a' );
+        str = str.replace( '¿', 'a' );
+        str = str.replace( '‚', 'a' );
+        str = str.replace( '¬', 'a' );
+        str = str.replace( '‰', 'a' );
+        str = str.replace( 'ƒ', 'a' );
+        str = str.replace( '„', 'a' );
+        str = str.replace( '√', 'a' );
+        str = str.replace( 'Ë', 'e' );
+        str = str.replace( '»', 'e' );
+        str = str.replace( 'È', 'e' );
+        str = str.replace( '…', 'e' );
+        str = str.replace( 'Í', 'e' );
+        str = str.replace( ' ', 'e' );
+        str = str.replace( 'Î', 'e' );
+        str = str.replace( 'À', 'e' );
+        str = str.replace( 'Ï', 'i' );
+        str = str.replace( 'Ã', 'i' );
+        str = str.replace( 'Ó', 'i' );
+        str = str.replace( 'Œ', 'i' );
+        str = str.replace( 'Ô', 'i' );
+        str = str.replace( 'œ', 'i' );
+        str = str.replace( 'Ú', 'o' );
+        str = str.replace( '“', 'o' );
+        str = str.replace( 'Ù', 'o' );
+        str = str.replace( '‘', 'o' );
+        str = str.replace( 'ˆ', 'o' );
+        str = str.replace( '÷', 'o' );
+        str = str.replace( 'ı', 'o' );
+        str = str.replace( '’', 'o' );
+        str = str.replace( '˘', 'u' );
+        str = str.replace( 'Ÿ', 'u' );
+        str = str.replace( '˚', 'u' );
+        str = str.replace( '€', 'u' );
+        str = str.replace( '¸', 'u' );
+        str = str.replace( '‹', 'u' );
 
         // espaces
         str = str.replaceAll( "\\s+", " " );
@@ -97,7 +95,7 @@ public class PMUUtils {
         try {
             return PMUEnumFinder.find( clazz, value );
         } catch( PMUFinderException ex ) {
-            throw new PMUParserError( "Unknow PMU value", ex );
+            throw new PMUParserError( "Unknown PMU value", ex );
         }
 
     }
@@ -113,7 +111,7 @@ public class PMUUtils {
         try {
             return PMUEnumFinder.findAll( clazz, value );
         } catch( PMUFinderException ex ) {
-            throw new PMUParserError( "Unknow PMU value", ex );
+            throw new PMUParserError( "Unknown PMU value", ex );
         }
 
     }

@@ -11,7 +11,8 @@ import com.windwagon.kaamelott.words.*;
 import org.junit.*;
 import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.test.context.*;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+//import org.springframework.boot.test.context.*;
 import org.springframework.test.context.junit4.*;
 
 import java.util.*;
@@ -20,9 +21,10 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 
-@RunWith( /*SpringJUnit4Class*/SpringRunner.class )
-@SpringBootTest(classes = Broceliande.class)
-//@SpringApplicationConfiguration( classes = Broceliande.class )
+@RunWith(SpringJUnit4ClassRunner.class )
+//v2@RunWith( /*SpringJUnit4Class*/SpringRunner.class )
+//v2@SpringBootTest(classes = Broceliande.class)
+@SpringApplicationConfiguration( classes = Broceliande.class )
 public class BetCheckerTest {
 
     @Autowired

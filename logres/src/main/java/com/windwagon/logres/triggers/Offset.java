@@ -1,13 +1,13 @@
 package com.windwagon.logres.triggers;
 
-import android.annotation.*;
+
 
 import org.springframework.beans.factory.annotation.*;
 
 import java.time.*;
 import java.util.*;
 
-@SuppressLint("NewApi")
+
 public class Offset implements Comparable<Offset> {
 
     @Autowired

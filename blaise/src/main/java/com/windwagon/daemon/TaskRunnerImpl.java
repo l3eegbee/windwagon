@@ -2,7 +2,7 @@ package com.windwagon.daemon;
 
 import com.windwagon.logres.mail.*;
 
-import org.apache.commons.lang3.exception.*;
+import org.apache.commons.lang.exception.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.transaction.annotation.*;

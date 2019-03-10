@@ -1,13 +1,13 @@
 package com.windwagon.logres.triggers;
 
-import android.annotation.*;
+
 
 import org.springframework.beans.factory.annotation.*;
 
 import java.util.*;
 import java.util.stream.*;
 
-@SuppressLint("NewApi")
+
 public class OffsetTrigger {
 
     @Autowired

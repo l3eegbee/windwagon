@@ -1,6 +1,6 @@
 package com.windwagon.viviane;
 
-import androidx.appcompat.app.*;
+
 
 import com.windwagon.*;
 
@@ -18,7 +18,7 @@ import org.springframework.shell.core.*;
 		"org.springframework.shell.commands",
 		"org.springframework.shell.plugin.support" } )
 @Import( Blaise.class )
-public class Viviane extends AppCompatActivity {
+public class Viviane /*extends AppCompatActivity*/ {
 
 	public static void main( String ... args ) {
 
