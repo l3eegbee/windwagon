@@ -1,13 +1,16 @@
 package com.windwagon.daemon.tasks;
 
-import org.springframework.stereotype.Component;
+import com.windwagon.broceliande.race.entities.*;
 
-import com.windwagon.broceliande.race.entities.RaceStatus;
+import org.slf4j.*;
+import org.springframework.stereotype.*;
 
 @Component
 public class FinishRaceTask extends UpdateRaceTask {
 
     public final static String NAME = "finish";
+
+    private final static Logger logger = LoggerFactory.getLogger( ProgrammeLoader.class );
 
     public FinishRaceTask() {
         super( NAME, RaceStatus.STARTED );

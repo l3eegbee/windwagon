@@ -1,17 +1,19 @@
 package com.windwagon.daemon.tasks;
 
-import java.util.Map;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.daemon.*;
 
-import org.springframework.stereotype.Component;
+import org.slf4j.*;
+import org.springframework.stereotype.*;
 
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.broceliande.race.entities.RaceStatus;
-import com.windwagon.daemon.RaceTask;
+import java.util.*;
 
 @Component
 public class BetterRaceTask implements RaceTask {
 
     public final static String NAME = "better";
+
+    private final static Logger logger = LoggerFactory.getLogger( ProgrammeLoader.class );
 
     @Override
     public String getName() {
