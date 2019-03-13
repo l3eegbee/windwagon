@@ -17,75 +17,75 @@ import com.windwagon.logres.collection.LazyInitializer;
 
 public class HorseIDWrapperImpl extends ObjectWrapperImpl<HorseID> implements HorseIDWrapper {
 
-    @Autowired
-    private HorseIDRepository horseIDRepository;
+	@Autowired
+	private HorseIDRepository horseIDRepository;
 
-    @Autowired
-    private HorseRepository horseRepository;
+	@Autowired
+	private HorseRepository horseRepository;
 
-    public HorseIDWrapperImpl( Reference ref, HorseID horseID ) {
-        super( ref, horseID );
-    }
+	public HorseIDWrapperImpl(Reference ref, HorseID horseID) {
+		super(ref, horseID);
+	}
 
-    @Override
-    public String getName() {
-        return daoObject.getName();
-    }
+	@Override
+	public String getName() {
+		return daoObject.getName();
+	}
 
-    @Override
-    public Iterator<com.windwagon.kaamelott.race.Horse> getHistory() {
-        List<Horse> listHorse = horseRepository.getHorseHistory( daoObject, ref.getNow() );
-        return stud.iterate( ref, listHorse );
-    }
+	@Override
+	public Iterator<com.windwagon.kaamelott.race.Horse> getHistory() {
+		List<Horse> listHorse = horseRepository.getHorseHistory(daoObject, ref.getNow());
+		return stud.iterate(ref, listHorse);
+	}
 
-    private LazyInitializer<HorseIDWrapper> father = new LazyInitializer<>( () -> {
+	private LazyInitializer<HorseIDWrapper> father = new LazyInitializer<>(() -> {
 
-        HorseID fid = horseIDRepository.findFather( daoObject );
-        return ( fid == null ) ? null : stud.getHorseID( ref, fid );
+		HorseID fid = horseIDRepository.findFather(daoObject);
+		return (fid == null) ? null : stud.getHorseID(ref, fid);
 
-    } );
+	});
 
-    @Override
-    public com.windwagon.kaamelott.race.HorseID getFather() {
-        return father.get();
-    }
+	@Override
+	public com.windwagon.kaamelott.race.HorseID getFather() {
+		return father.get();
+	}
 
-    private LazyInitializer<HorseIDWrapper> mother = new LazyInitializer<>( () -> {
+	private LazyInitializer<HorseIDWrapper> mother = new LazyInitializer<>(() -> {
 
-        HorseID fid = horseIDRepository.findMother( daoObject );
-        return ( fid == null ) ? null : stud.getHorseID( ref, fid );
+		HorseID fid = horseIDRepository.findMother(daoObject);
+		return (fid == null) ? null : stud.getHorseID(ref, fid);
 
-    } );
+	});
 
-    @Override
-    public com.windwagon.kaamelott.race.HorseID getMother() {
-        return mother.get();
-    }
+	@Override
+	public com.windwagon.kaamelott.race.HorseID getMother() {
+		return mother.get();
+	}
 
-    @Override
-    public Date getBirth() {
-        return daoObject.getBirth();
-    }
+	@Override
+	public Date getBirth() {
+		return daoObject.getBirth();
+	}
 
-    @Override
-    public com.windwagon.kaamelott.race.Sex getSex() {
-        return KaamelottEnumConverter.sex.castToKaamelott( daoObject.getSex() );
-    }
+	@Override
+	public com.windwagon.kaamelott.race.Sex getSex() {
+		return KaamelottEnumConverter.sex.castToKaamelott(daoObject.getSex());
+	}
 
-    @Override
-    public Date getGeldingDate() {
-        Date gdate = daoObject.getGelding();
-        return ( gdate == null || gdate.after( ref.getNow() ) ) ? null : gdate;
-    }
+	@Override
+	public Date getGeldingDate() {
+		Date gdate = daoObject.getGelding();
+		return (gdate == null || gdate.after(ref.getNow())) ? null : gdate;
+	}
 
-    @Override
-    public com.windwagon.kaamelott.race.Breed getBreed() {
-        return KaamelottEnumConverter.breed.castToKaamelott( daoObject.getBreed() );
-    }
+	@Override
+	public com.windwagon.kaamelott.race.Breed getBreed() {
+		return KaamelottEnumConverter.breed.castToKaamelott(daoObject.getBreed());
+	}
 
-    @Override
-    public com.windwagon.kaamelott.race.Coat getCoat() {
-        return KaamelottEnumConverter.coat.castToKaamelott( daoObject.getCoat() );
-    }
+	@Override
+	public com.windwagon.kaamelott.race.Coat getCoat() {
+		return KaamelottEnumConverter.coat.castToKaamelott(daoObject.getCoat());
+	}
 
 }

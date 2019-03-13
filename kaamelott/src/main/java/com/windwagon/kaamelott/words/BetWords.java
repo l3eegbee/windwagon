@@ -8,20 +8,20 @@ import java.util.Vector;
 
 public class BetWords implements Words {
 
-    private final static long serialVersionUID = 1L;
+	private final static long serialVersionUID = 1L;
 
-    protected List<Bet> bets;
+	protected List<Bet> bets;
 
-    public BetWords( Bet ... bets ) {
-        this( Arrays.asList( bets ) );
-    }
+	public BetWords(Bet... bets) {
+		this(Arrays.asList(bets));
+	}
 
-    public BetWords( Collection<Bet> bets ) {
-        this.bets = new Vector<>( bets );
-    }
+	public BetWords(Collection<Bet> bets) {
+		this.bets = new Vector<>(bets);
+	}
 
-    public List<Bet> getBets() {
-        return Collections.unmodifiableList( bets );
-    }
+	public List<Bet> getBets() {
+		return Collections.unmodifiableList(bets);
+	}
 
 }

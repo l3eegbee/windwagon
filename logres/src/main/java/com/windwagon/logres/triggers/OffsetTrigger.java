@@ -1,67 +1,60 @@
 package com.windwagon.logres.triggers;
 
-
-
 import org.springframework.beans.factory.annotation.*;
 
 import java.util.*;
 import java.util.stream.*;
 
-
 public class OffsetTrigger {
 
-    @Autowired
-    private TriggerFactory triggerFactory;
+	@Autowired
+	private TriggerFactory triggerFactory;
 
-    private List<Offset> offsets;
+	private List<Offset> offsets;
 
-    public void setOffsets( Collection<Offset> offsets ) {
-        this.offsets = new Vector<Offset>( offsets );
-        Collections.sort( this.offsets );
-    }
+	public void setOffsets(Collection<Offset> offsets) {
+		this.offsets = new Vector<Offset>(offsets);
+		Collections.sort(this.offsets);
+	}
 
-    public void setOffsets( Offset ... offsets ) {
-        setOffsets( Arrays.asList( offsets ) );
-    }
+	public void setOffsets(Offset... offsets) {
+		setOffsets(Arrays.asList(offsets));
+	}
 
-    public void setOffsets( String offsets ) {
-        setOffsets( TriggersParser.getParser( offsets, triggerFactory ).offsets().offs );
-    }
+	public void setOffsets(String offsets) {
+		setOffsets(TriggersParser.getParser(offsets, triggerFactory).offsets().offs);
+	}
 
-    public List<Offset> getOffsets() {
-        return offsets;
-    }
+	public List<Offset> getOffsets() {
+		return offsets;
+	}
 
-    public Date nextExecutionTime( Date ref ) {
+	public Date nextExecutionTime(Date ref) {
 
-        for( Offset offset : offsets ) {
-            Date next = offset.nextDate( ref );
-            if( next != null )
-                return next;
-        }
+		for (Offset offset : offsets) {
+			Date next = offset.nextDate(ref);
+			if (next != null) return next;
+		}
 
-        return null;
+		return null;
 
-    }
+	}
 
-    @Override
-    public boolean equals( Object obj ) {
+	@Override
+	public boolean equals(Object obj) {
 
-        if( this == obj )
-            return true;
-        if( obj == null || getClass() != obj.getClass() )
-            return false;
+		if (this == obj) return true;
+		if (obj == null || getClass() != obj.getClass()) return false;
 
-        OffsetTrigger other = (OffsetTrigger) obj;
+		OffsetTrigger other = (OffsetTrigger) obj;
 
-        return Objects.equals(offsets, other.offsets);
+		return Objects.equals(offsets, other.offsets);
 
-    }
+	}
 
-    @Override
-    public String toString() {
-        return "offsets:"
-                + offsets.stream().map( Object::toString ).collect( Collectors.joining( "," ) );
-    }
+	@Override
+	public String toString() {
+		return "offsets:" + offsets.stream().map(Object::toString).collect(Collectors.joining(","));
+	}
 
 }

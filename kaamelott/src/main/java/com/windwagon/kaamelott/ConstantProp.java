@@ -2,10 +2,10 @@ package com.windwagon.kaamelott;
 
 public interface ConstantProp {
 
-    String getName();
+	String getName();
 
-    String getDescription();
+	String getDescription();
 
-    String getValue();
+	String getValue();
 
 }

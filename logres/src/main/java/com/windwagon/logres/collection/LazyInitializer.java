@@ -1,39 +1,39 @@
 package com.windwagon.logres.collection;
 
-public class LazyInitializer < T > {
+public class LazyInitializer<T> {
 
-    public interface Initializer < T > {
+	public interface Initializer<T> {
 
-        T init();
+		T init();
 
-    }
+	}
 
-    public LazyInitializer( Initializer<T> initializer ) {
-        this.initializer = initializer;
-    }
+	public LazyInitializer(Initializer<T> initializer) {
+		this.initializer = initializer;
+	}
 
-    private boolean initialized = false;
+	private boolean initialized = false;
 
-    private Initializer<T> initializer;
+	private Initializer<T> initializer;
 
-    private T object = null;
+	private T object = null;
 
-    public T get() {
-        if( !initialized ) {
-            object = initializer.init();
-            initialized = true;
-        }
-        return object;
-    }
+	public T get() {
+		if (!initialized) {
+			object = initializer.init();
+			initialized = true;
+		}
+		return object;
+	}
 
-    public void set( T object ) {
-        this.object = object;
-        initialized = true;
-    }
+	public void set(T object) {
+		this.object = object;
+		initialized = true;
+	}
 
-    public void reset() {
-        object = null;
-        initialized = false;
-    }
+	public void reset() {
+		object = null;
+		initialized = false;
+	}
 
 }

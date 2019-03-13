@@ -9,48 +9,47 @@ import com.windwagon.broceliande.race.turf.ObjectWrapper;
 import com.windwagon.broceliande.race.turf.Reference;
 import com.windwagon.broceliande.race.turf.Stud;
 
-public abstract class ObjectWrapperImpl < T > implements ObjectWrapper<T> {
+public abstract class ObjectWrapperImpl<T> implements ObjectWrapper<T> {
 
-    @Autowired
-    protected Stud stud;
+	@Autowired
+	protected Stud stud;
 
-    protected Reference ref;
+	protected Reference ref;
 
-    protected T daoObject;
+	protected T daoObject;
 
-    protected ObjectWrapperImpl( Reference ref, T daoObject ) {
-        this.ref = ref;
-        this.daoObject = daoObject;
-    }
+	protected ObjectWrapperImpl(Reference ref, T daoObject) {
+		this.ref = ref;
+		this.daoObject = daoObject;
+	}
 
-    @Override
-    public T getDaoObject() {
-        return daoObject;
-    }
+	@Override
+	public T getDaoObject() {
+		return daoObject;
+	}
 
-    @Override
-    public Date getNow() {
-        return ref.getNow();
-    }
+	@Override
+	public Date getNow() {
+		return ref.getNow();
+	}
 
-    @Override
-    public boolean equals( Object obj ) {
+	@Override
+	public boolean equals(Object obj) {
 
-        if( !( obj instanceof ObjectWrapperImpl ) )
-            return false;
+		if (!(obj instanceof ObjectWrapperImpl)) return false;
 
-        return Objects.equals( daoObject, ( (ObjectWrapperImpl<?>) obj ).daoObject );
+		return Objects.equals(daoObject, ((ObjectWrapperImpl<?>) obj).daoObject);
 
-    }
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode( daoObject );
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(daoObject);
+	}
 
-    @Override
-    public String toString() {
-        return Objects.toString( daoObject );
-    }
+	@Override
+	public String toString() {
+		return Objects.toString(daoObject);
+	}
 
 }

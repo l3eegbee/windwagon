@@ -5,10 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Retention( RetentionPolicy.RUNTIME )
-@Target( ElementType.FIELD )
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
 public @interface KaamelottEnumFieldValue {
 
-    com.windwagon.kaamelott.race.Field value();
+	com.windwagon.kaamelott.race.Field value();
 
 }

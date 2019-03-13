@@ -4,6 +4,6 @@ import com.windwagon.kaamelott.race.Race;
 
 public interface Page extends Actor, WebVisu {
 
-    void setRace(Race race);
+	void setRace(Race race);
 
 }

@@ -6,12 +6,12 @@ import java.util.*;
 
 public interface RaceWrapper extends ObjectWrapper<Race>, com.windwagon.kaamelott.race.Race {
 
-    HorseWrapper getHorseByNum(int num);
+	HorseWrapper getHorseByNum(int num);
 
-    HorseWrapper getHorseByNum(String horseNum);
+	HorseWrapper getHorseByNum(String horseNum);
 
-    List<HorseWrapper> getHorsesByNum(String horseList);
+	List<HorseWrapper> getHorsesByNum(String horseList);
 
-    Odds getOddsNextDate(Date date);
+	Odds getOddsNextDate(Date date);
 
 }

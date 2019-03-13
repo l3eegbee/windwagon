@@ -6,6 +6,6 @@ import com.windwagon.broceliande.race.entities.Rancher;
 
 public interface RancherRepository extends CrudRepository<Rancher, Long> {
 
-    Rancher findByName( String name );
+	Rancher findByName(String name);
 
 }

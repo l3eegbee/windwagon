@@ -1,7 +1,5 @@
 package com.windwagon.logres.triggers;
 
-
-
 import com.windwagon.logres.date.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -10,7 +8,6 @@ import org.springframework.scheduling.*;
 import java.time.*;
 import java.time.temporal.*;
 import java.util.*;
-
 
 public class WeeklyTrigger extends FixRateTrigger {
 

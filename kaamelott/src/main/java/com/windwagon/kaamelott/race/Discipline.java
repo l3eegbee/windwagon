@@ -2,39 +2,39 @@ package com.windwagon.kaamelott.race;
 
 public enum Discipline {
 
-    /**
-     * Trot attelé.
-     */
-    TROT_ATTELE,
+	/**
+	 * Trot attelé.
+	 */
+	TROT_ATTELE,
 
-    /**
-     * Trot monté.
-     */
-    TROT_MONTE,
+	/**
+	 * Trot monté.
+	 */
+	TROT_MONTE,
 
-    /**
-     * Trot amble.
-     */
-    TROT_AMBLE,
+	/**
+	 * Trot amble.
+	 */
+	TROT_AMBLE,
 
-    /**
-     * Plat.
-     */
-    PLAT,
+	/**
+	 * Plat.
+	 */
+	PLAT,
 
-    /**
-     * Haies.
-     */
-    HAIES,
+	/**
+	 * Haies.
+	 */
+	HAIES,
 
-    /**
-     * Steeple chase.
-     */
-    STEEPLE_CHASE,
+	/**
+	 * Steeple chase.
+	 */
+	STEEPLE_CHASE,
 
-    /**
-     * Cross country.
-     */
-    CROSS_COUNTRY
+	/**
+	 * Cross country.
+	 */
+	CROSS_COUNTRY
 
 }

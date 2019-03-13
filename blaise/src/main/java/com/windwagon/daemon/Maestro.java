@@ -1,7 +1,5 @@
 package com.windwagon.daemon;
 
-
-
 import com.windwagon.broceliande.race.entities.*;
 import com.windwagon.broceliande.race.repositories.*;
 import com.windwagon.daemon.tasks.*;
@@ -25,204 +23,197 @@ import javax.annotation.PostConstruct;
 
 public class Maestro {
 
-    public final static String ENV_LOAD_PROGRAMME_FROM = "reload.from";
+	public final static String ENV_LOAD_PROGRAMME_FROM = "reload.from";
 
-    public final static String ENV_LOAD_PROGRAMME_TO = "reload.to";
+	public final static String ENV_LOAD_PROGRAMME_TO = "reload.to";
 
-    public final static String ENV_MAESTRO_START_MAIL = "maestro.start.mail";
+	public final static String ENV_MAESTRO_START_MAIL = "maestro.start.mail";
 
-    public final static String ENV_TASKS_PREFIX = "tasks.";
+	public final static String ENV_TASKS_PREFIX = "tasks.";
 
-    public final static String ENV_TRIGGERS_SUFFIX = ".triggers";
+	public final static String ENV_TRIGGERS_SUFFIX = ".triggers";
 
-    public final static String ENV_MAIL_SUCCESS_SUFFIX = ".mail.success";
+	public final static String ENV_MAIL_SUCCESS_SUFFIX = ".mail.success";
 
-    public final static String ENV_MAIL_ERROR_SUFFIX = ".mail.error";
+	public final static String ENV_MAIL_ERROR_SUFFIX = ".mail.error";
 
-    public final static String CXT_RACE = "race";
+	public final static String CXT_RACE = "race";
 
-    public final static String CXT_STACKTRACE = "error";
+	public final static String CXT_STACKTRACE = "error";
 
-    private final static Logger logger = LoggerFactory.getLogger( Maestro.class );
+	private final static Logger logger = LoggerFactory.getLogger(Maestro.class);
 
-    @Autowired
-    private ApplicationContext applicationContext;
+	@Autowired
+	private ApplicationContext applicationContext;
 
-    @Autowired
-    private Environment environment;
+	@Autowired
+	private Environment environment;
 
-    @Autowired
-    private Clock clock;
+	@Autowired
+	private Clock clock;
 
-    @Autowired
-    private TaskScheduler taskScheduler;
+	@Autowired
+	private TaskScheduler taskScheduler;
 
-    @Autowired
-    private TriggerParser triggerParser;
+	@Autowired
+	private TriggerParser triggerParser;
 
-    @Autowired
-    private ProgrammeLoader programmeLoader;
+	@Autowired
+	private ProgrammeLoader programmeLoader;
 
-    @Autowired
-    private TaskRunnerFactory taskRunnerFactory;
+	@Autowired
+	private TaskRunnerFactory taskRunnerFactory;
 
-    @Autowired
-    private MeetingRepository meetingRepository;
+	@Autowired
+	private MeetingRepository meetingRepository;
 
-    @Autowired
-    private RaceRepository raceRepository;
+	@Autowired
+	private RaceRepository raceRepository;
 
-    @Autowired
-    private TemplateMailSenderFactory templateMailSenderFactory;
+	@Autowired
+	private TemplateMailSenderFactory templateMailSenderFactory;
 
-    private static class RaceTaskTrigger {
+	private static class RaceTaskTrigger {
 
-        public RaceTask raceTask;
+		public RaceTask raceTask;
 
-        public OffsetTrigger offsetTrigger;
+		public OffsetTrigger offsetTrigger;
 
-        public RaceTaskTrigger( RaceTask raceTask, OffsetTrigger offsetTrigger ) {
-            this.raceTask = raceTask;
-            this.offsetTrigger = offsetTrigger;
-        }
+		public RaceTaskTrigger(RaceTask raceTask, OffsetTrigger offsetTrigger) {
+			this.raceTask = raceTask;
+			this.offsetTrigger = offsetTrigger;
+		}
 
-        /**
-         * @return the raceTask
-         */
-        public RaceTask getRaceTask() {
-            return raceTask;
-        }
+		/**
+		 * @return the raceTask
+		 */
+		public RaceTask getRaceTask() {
+			return raceTask;
+		}
 
-        /**
-         * @return the offsetTrigger
-         */
-        public OffsetTrigger getOffsetTrigger() {
-            return offsetTrigger;
-        }
+		/**
+		 * @return the offsetTrigger
+		 */
+		public OffsetTrigger getOffsetTrigger() {
+			return offsetTrigger;
+		}
 
-    }
+	}
 
-    private EnumMap<RaceStatus, List<RaceTaskTrigger>> raceTasksByStatus =
-            new EnumMap<RaceStatus, List<RaceTaskTrigger>>( RaceStatus.class );
+	private EnumMap<RaceStatus, List<RaceTaskTrigger>> raceTasksByStatus = new EnumMap<RaceStatus, List<RaceTaskTrigger>>(RaceStatus.class);
 
-    @PostConstruct
-    public void start() {
+	@PostConstruct
+	public void start() {
 
-        String maestroStart = environment.getProperty( "maestro.start" );
-        if( maestroStart == null || !maestroStart.equals( "true" ) ) {
-            logger.info( "Skip Maestro" );
-            return;
-        }
+		String maestroStart = environment.getProperty("maestro.start");
+		if (maestroStart == null || !maestroStart.equals("true")) {
+			logger.info("Skip Maestro");
+			return;
+		}
 
-        logger.info( "Start Maestro" );
+		logger.info("Start Maestro");
 
-        // reload programmes
+		// reload programmes
 
-        LocalDate startDay = null;
+		LocalDate startDay = null;
 
-        // fix by property?
-        String startStr = environment.getProperty( ENV_LOAD_PROGRAMME_FROM );
-        if( startStr != null )
-            startDay = LocalDate.parse( startStr, LazyDate.FORMAT_D );
+		// fix by property?
+		String startStr = environment.getProperty(ENV_LOAD_PROGRAMME_FROM);
+		if (startStr != null) startDay = LocalDate.parse(startStr, LazyDate.FORMAT_D);
 
-        // last scan? (repeat the last day)
-        if( startDay == null ) {
-            Date lastDate = meetingRepository.getLastMeetingDate();
-            if( lastDate != null )
-                startDay = DateConverter.toLocalDate( lastDate );
-        }
+		// last scan? (repeat the last day)
+		if (startDay == null) {
+			Date lastDate = meetingRepository.getLastMeetingDate();
+			if (lastDate != null) startDay = DateConverter.toLocalDate(lastDate);
+		}
 
-        // default: yesterday
-        if( startDay == null )
-            startDay = LocalDate.now( clock ).plusDays( -1 );
+		// default: yesterday
+		if (startDay == null) startDay = LocalDate.now(clock).plusDays(-1);
 
-        LocalDate endDay = null;
+		LocalDate endDay = null;
 
-        // fix by property?
-        String endStr = environment.getProperty( ENV_LOAD_PROGRAMME_TO );
-        if( endStr != null )
-            endDay = LocalDate.parse( endStr, LazyDate.FORMAT_D );
+		// fix by property?
+		String endStr = environment.getProperty(ENV_LOAD_PROGRAMME_TO);
+		if (endStr != null) endDay = LocalDate.parse(endStr, LazyDate.FORMAT_D);
 
-        // default: tomorrow
-        if( endStr == null )
-            endDay = LocalDate.now( clock ).plusDays( 1 );
+		// default: tomorrow
+		if (endStr == null) endDay = LocalDate.now(clock).plusDays(1);
 
-        // scan programmes
-        for( LocalDate date = startDay; !date.isAfter( endDay ); date = date.plusDays( 1 ) )
-            programmeLoader.scan( date );
+		// scan programmes
+		for (LocalDate date = startDay; !date.isAfter(endDay); date = date.plusDays(1))
+			programmeLoader.scan(date);
 
-        // load and schedule fix rate tasks
+		// load and schedule fix rate tasks
 
-        Map<String, Task> tasks = applicationContext.getBeansOfType( Task.class );
-        for( Task task : tasks.values() ) {
+		Map<String, Task> tasks = applicationContext.getBeansOfType(Task.class);
+		for (Task task : tasks.values()) {
 
-            String envTaskKey = task.getEnvKey();
+			String envTaskKey = task.getEnvKey();
 
-            String triggerKey = envTaskKey + ENV_TRIGGERS_SUFFIX;
-            String triggerRaw = environment.getProperty( triggerKey );
-            if( triggerRaw == null )
-                throw new NoSuchElementException( "Property " + triggerKey + " not found." );
+			String triggerKey = envTaskKey + ENV_TRIGGERS_SUFFIX;
+			String triggerRaw = environment.getProperty(triggerKey);
+			if (triggerRaw == null) {
+				throw new NoSuchElementException("Property " + triggerKey + " not found.");
+			}
 
-            FixRateTrigger trigger = triggerParser.parse( triggerRaw );
+			FixRateTrigger trigger = triggerParser.parse(triggerRaw);
 
-            TaskRunner runner = taskRunnerFactory.getTaskRunner( task );
+			TaskRunner runner = taskRunnerFactory.getTaskRunner(task);
 
-            taskScheduler.schedule( runner, trigger );
+			taskScheduler.schedule(runner, trigger);
 
-        }
+		}
 
-        // load RaceTasks
+		// load RaceTasks
 
-        Map<String, RaceTask> raceTasks = applicationContext.getBeansOfType( RaceTask.class );
-        for( RaceTask raceTask : raceTasks.values() ) {
+		Map<String, RaceTask> raceTasks = applicationContext.getBeansOfType(RaceTask.class);
+		for (RaceTask raceTask : raceTasks.values()) {
 
-            String envTaskKey = raceTask.getEnvKey();
+			String envTaskKey = raceTask.getEnvKey();
 
-            String triggerKey = envTaskKey + ENV_TRIGGERS_SUFFIX;
-            String triggerRaw = environment.getProperty( triggerKey );
-            if( triggerRaw == null )
-                throw new NoSuchElementException( "Property " + triggerKey + " not found." );
+			String triggerKey = envTaskKey + ENV_TRIGGERS_SUFFIX;
+			String triggerRaw = environment.getProperty(triggerKey);
+			if (triggerRaw == null) {
+				throw new NoSuchElementException("Property " + triggerKey + " not found.");
+			}
 
-            OffsetTrigger trigger = triggerParser.createOffsetTrigger( triggerRaw );
+			OffsetTrigger trigger = triggerParser.createOffsetTrigger(triggerRaw);
 
-            RaceStatus raceStatus = raceTask.getRaceStatus();
+			RaceStatus raceStatus = raceTask.getRaceStatus();
 
-            if( !raceTasksByStatus.containsKey( raceStatus ) )
-                raceTasksByStatus.put( raceStatus, new Vector<RaceTaskTrigger>() );
+			if (!raceTasksByStatus.containsKey(raceStatus)) {
+				raceTasksByStatus.put(raceStatus, new Vector<RaceTaskTrigger>());
+			}
 
-            raceTasksByStatus.get( raceStatus ).add( new RaceTaskTrigger( raceTask, trigger ) );
+			raceTasksByStatus.get(raceStatus).add(new RaceTaskTrigger(raceTask, trigger));
 
-        }
+		}
 
-        // schedule RaceTasks
+		// schedule RaceTasks
 
-        for( RaceStatus raceStatus : raceTasksByStatus.keySet() )
-            for( Race race : raceRepository.findByStatus( raceStatus ) )
-                scheduleRaceTask( race );
+		for (RaceStatus raceStatus : raceTasksByStatus.keySet())
+			for (Race race : raceRepository.findByStatus(raceStatus))
+				scheduleRaceTask(race);
 
-        logger.info( "Maestro scheduler started" );
+		logger.info("Maestro scheduler started");
 
-        templateMailSenderFactory.getTemplateMailSender( ENV_MAESTRO_START_MAIL ).send();
+		templateMailSenderFactory.getTemplateMailSender(ENV_MAESTRO_START_MAIL).send();
 
-    }
+	}
 
-    public void scheduleRaceTask( Race race ) {
+	public void scheduleRaceTask(Race race) {
 
-        RaceStatus raceStatus = race.getStatus();
-        if( !raceTasksByStatus.containsKey( raceStatus ) )
-            return;
+		RaceStatus raceStatus = race.getStatus();
+		if (!raceTasksByStatus.containsKey(raceStatus)) return;
 
-        for( RaceTaskTrigger raceTaskTrigger : raceTasksByStatus.get( raceStatus ) ) {
+		for (RaceTaskTrigger raceTaskTrigger : raceTasksByStatus.get(raceStatus)) {
 
-            RaceTaskRunner runner = taskRunnerFactory.getRaceTaskRunner(
-                    race.getId(),
-                    raceTaskTrigger.getRaceTask(),
-                    raceTaskTrigger.getOffsetTrigger() );
+			RaceTaskRunner runner = taskRunnerFactory.getRaceTaskRunner(race.getId(), raceTaskTrigger.getRaceTask(), raceTaskTrigger.getOffsetTrigger());
 
-            taskScheduler.schedule( runner, runner );
+			taskScheduler.schedule(runner, runner);
 
-        }
+		}
 
-    }
+	}
 
 }

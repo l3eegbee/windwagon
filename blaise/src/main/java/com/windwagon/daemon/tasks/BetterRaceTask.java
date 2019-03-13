@@ -11,23 +11,23 @@ import java.util.*;
 @Component
 public class BetterRaceTask implements RaceTask {
 
-    public final static String NAME = "better";
+	public final static String NAME = "better";
 
-    private final static Logger logger = LoggerFactory.getLogger( ProgrammeLoader.class );
+	private final static Logger logger = LoggerFactory.getLogger(ProgrammeLoader.class);
 
-    @Override
-    public String getName() {
-        return NAME;
-    }
+	@Override
+	public String getName() {
+		return NAME;
+	}
 
-    @Override
-    public RaceStatus getRaceStatus() {
-        return RaceStatus.SCHEDULED;
-    }
+	@Override
+	public RaceStatus getRaceStatus() {
+		return RaceStatus.SCHEDULED;
+	}
 
-    @Override
-    public void run( Map<String, Object> reportContext, Race race ) {
-        // TODO
-    }
+	@Override
+	public void run(Map<String, Object> reportContext, Race race) {
+		// TODO
+	}
 
 }

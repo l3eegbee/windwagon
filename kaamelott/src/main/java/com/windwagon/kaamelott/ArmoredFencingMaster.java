@@ -5,8 +5,8 @@ import com.windwagon.kaamelott.words.Words;
 
 public interface ArmoredFencingMaster extends ArmoredActor<FencingMaster> {
 
-    ArmoredKnight getKnight();
+	ArmoredKnight getKnight();
 
-    Words getWords(Race race);
+	Words getWords(Race race);
 
 }

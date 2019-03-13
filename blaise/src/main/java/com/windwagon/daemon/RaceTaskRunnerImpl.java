@@ -15,7 +15,6 @@ import java.util.*;
 
 import javax.annotation.*;
 
-
 public class RaceTaskRunnerImpl implements RaceTaskRunner {
 
 	private final static Logger logger = LoggerFactory.getLogger(RaceTaskRunnerImpl.class);

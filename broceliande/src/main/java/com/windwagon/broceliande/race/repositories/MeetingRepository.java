@@ -9,9 +9,9 @@ import com.windwagon.broceliande.race.entities.Meeting;
 
 public interface MeetingRepository extends CrudRepository<Meeting, Long> {
 
-    @Query( "select max( m.date ) from Meeting m" )
-    Date getLastMeetingDate();
+	@Query("select max( m.date ) from Meeting m")
+	Date getLastMeetingDate();
 
-    Meeting findByDateAndNumber( Date date, Integer number );
+	Meeting findByDateAndNumber(Date date, Integer number);
 
 }

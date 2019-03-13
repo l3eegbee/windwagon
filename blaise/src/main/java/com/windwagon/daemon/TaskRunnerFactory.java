@@ -10,19 +10,16 @@ import com.windwagon.logres.triggers.OffsetTrigger;
 @Configuration
 public class TaskRunnerFactory {
 
-    @Bean
-    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public TaskRunner getTaskRunner( Task task ) {
-        return new TaskRunnerImpl( task );
-    }
+	@Bean
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public TaskRunner getTaskRunner(Task task) {
+		return new TaskRunnerImpl(task);
+	}
 
-    @Bean
-    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public RaceTaskRunner getRaceTaskRunner(
-            Long raceId,
-            RaceTask raceTask,
-            OffsetTrigger offsetTriger ) {
-        return new RaceTaskRunnerImpl( raceId, raceTask, offsetTriger );
-    }
+	@Bean
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public RaceTaskRunner getRaceTaskRunner(Long raceId, RaceTask raceTask, OffsetTrigger offsetTriger) {
+		return new RaceTaskRunnerImpl(raceId, raceTask, offsetTriger);
+	}
 
 }

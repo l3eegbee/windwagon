@@ -1,7 +1,5 @@
 package com.windwagon.viviane.commands;
 
-
-
 import com.windwagon.broceliande.race.entities.*;
 import com.windwagon.broceliande.race.repositories.MeetingRepository;
 

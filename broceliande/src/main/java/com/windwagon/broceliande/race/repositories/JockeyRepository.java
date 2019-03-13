@@ -6,6 +6,6 @@ import com.windwagon.broceliande.race.entities.Jockey;
 
 public interface JockeyRepository extends CrudRepository<Jockey, Long> {
 
-    Jockey findByName( String name );
+	Jockey findByName(String name);
 
 }

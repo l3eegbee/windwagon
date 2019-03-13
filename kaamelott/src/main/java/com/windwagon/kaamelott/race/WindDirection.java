@@ -2,49 +2,49 @@ package com.windwagon.kaamelott.race;
 
 public enum WindDirection {
 
-    /**
-     * North.
-     */
-    N,
+	/**
+	 * North.
+	 */
+	N,
 
-    /**
-     * North-east.
-     */
-    NE,
+	/**
+	 * North-east.
+	 */
+	NE,
 
-    /**
-     * East.
-     */
-    E,
+	/**
+	 * East.
+	 */
+	E,
 
-    /**
-     * South-east.
-     */
-    SE,
+	/**
+	 * South-east.
+	 */
+	SE,
 
-    /**
-     * South.
-     */
-    S,
+	/**
+	 * South.
+	 */
+	S,
 
-    /**
-     * South-west.
-     */
-    SW,
+	/**
+	 * South-west.
+	 */
+	SW,
 
-    /**
-     * West.
-     */
-    W,
+	/**
+	 * West.
+	 */
+	W,
 
-    /**
-     * North-west.
-     */
-    NW,
+	/**
+	 * North-west.
+	 */
+	NW,
 
-    /**
-     * Unknown.
-     */
-    UNKNOWN
+	/**
+	 * Unknown.
+	 */
+	UNKNOWN
 
 }

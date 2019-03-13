@@ -12,31 +12,31 @@ import com.windwagon.pmuportal.exceptions.PMUError;
 
 public abstract class UpdateRaceTask implements RaceTask {
 
-    @Autowired
-    private RaceLoader raceLoader;
+	@Autowired
+	private RaceLoader raceLoader;
 
-    private String name;
+	private String name;
 
-    private RaceStatus raceStatus;
+	private RaceStatus raceStatus;
 
-    protected UpdateRaceTask( String name, RaceStatus raceStatus ) {
-        this.name = name;
-        this.raceStatus = raceStatus;
-    }
+	protected UpdateRaceTask(String name, RaceStatus raceStatus) {
+		this.name = name;
+		this.raceStatus = raceStatus;
+	}
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    public RaceStatus getRaceStatus() {
-        return raceStatus;
-    }
+	@Override
+	public RaceStatus getRaceStatus() {
+		return raceStatus;
+	}
 
-    @Override
-    public void run( Map<String, Object> reportContext, Race race ) throws PMUError {
-        raceLoader.update( race );
-    }
+	@Override
+	public void run(Map<String, Object> reportContext, Race race) throws PMUError {
+		raceLoader.update(race);
+	}
 
 }

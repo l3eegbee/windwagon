@@ -4,14 +4,14 @@ import org.apache.velocity.Template;
 
 public interface MailConfig {
 
-    boolean enabled();
+	boolean enabled();
 
-    Template from();
+	Template from();
 
-    Template to();
+	Template to();
 
-    Template subject();
+	Template subject();
 
-    Template content();
+	Template content();
 
 }

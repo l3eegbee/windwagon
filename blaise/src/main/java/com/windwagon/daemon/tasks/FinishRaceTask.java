@@ -8,12 +8,12 @@ import org.springframework.stereotype.*;
 @Component
 public class FinishRaceTask extends UpdateRaceTask {
 
-    public final static String NAME = "finish";
+	public final static String NAME = "finish";
 
-    private final static Logger logger = LoggerFactory.getLogger( ProgrammeLoader.class );
+	private final static Logger logger = LoggerFactory.getLogger(ProgrammeLoader.class);
 
-    public FinishRaceTask() {
-        super( NAME, RaceStatus.STARTED );
-    }
+	public FinishRaceTask() {
+		super(NAME, RaceStatus.STARTED);
+	}
 
 }

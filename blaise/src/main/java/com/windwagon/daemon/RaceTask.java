@@ -6,14 +6,14 @@ import java.util.*;
 
 public interface RaceTask {
 
-    String getName();
+	String getName();
 
-    default String getEnvKey() {
-        return Maestro.ENV_TASKS_PREFIX + getName();
-    }
+	default String getEnvKey() {
+		return Maestro.ENV_TASKS_PREFIX + getName();
+	}
 
-    RaceStatus getRaceStatus();
+	RaceStatus getRaceStatus();
 
-    void run(Map<String, Object> reportContext, Race race) throws Exception;
+	void run(Map<String, Object> reportContext, Race race) throws Exception;
 
 }

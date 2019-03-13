@@ -4,22 +4,16 @@ import com.windwagon.broceliande.utils.pmu.PMUEnumValue;
 
 public enum RaceStatus {
 
-    @PMUEnumValue( "A_PARTIR" )
-    SCHEDULED,
+	@PMUEnumValue("A_PARTIR") SCHEDULED,
 
-    @PMUEnumValue( "EN_COURS" )
-    STARTED,
+	@PMUEnumValue("EN_COURS") STARTED,
 
-    @PMUEnumValue( "SUSPENDU" )
-    SUSPENDED,
+	@PMUEnumValue("SUSPENDU") SUSPENDED,
 
-    @PMUEnumValue( "ANNULEE" )
-    CANCELED,
+	@PMUEnumValue("ANNULEE") CANCELED,
 
-    @PMUEnumValue( "ARRIVEE" )
-    FINISHED,
+	@PMUEnumValue("ARRIVEE") FINISHED,
 
-    @PMUEnumValue( "INCONNUE" )
-    UNKNOWN
+	@PMUEnumValue("INCONNUE") UNKNOWN
 
 }

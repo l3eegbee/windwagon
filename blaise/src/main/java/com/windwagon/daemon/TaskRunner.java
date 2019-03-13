@@ -1,3 +1,4 @@
 package com.windwagon.daemon;
 
-public interface TaskRunner extends Runnable {}
+public interface TaskRunner extends Runnable {
+}

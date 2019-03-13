@@ -6,17 +6,10 @@ import com.windwagon.broceliande.utils.pmu.PMUEnumValue;
 
 public enum Blinder {
 
-    @PMUEnumDefaultValue
-    @PMUEnumValue( "SANS_OEILLERES" )
-    @KaamelottEnumBlinderValue( com.windwagon.kaamelott.race.Blinder.NONE )
-    NONE,
+	@PMUEnumDefaultValue @PMUEnumValue("SANS_OEILLERES") @KaamelottEnumBlinderValue(com.windwagon.kaamelott.race.Blinder.NONE) NONE,
 
-    @PMUEnumValue( "OEILLERES_CLASSIQUE" )
-    @KaamelottEnumBlinderValue( com.windwagon.kaamelott.race.Blinder.WITH )
-    WITH,
+	@PMUEnumValue("OEILLERES_CLASSIQUE") @KaamelottEnumBlinderValue(com.windwagon.kaamelott.race.Blinder.WITH) WITH,
 
-    @PMUEnumValue( "OEILLERES_AUSTRALIENNES" )
-    @KaamelottEnumBlinderValue( com.windwagon.kaamelott.race.Blinder.AUSTRALIAN )
-    AUSTRALIAN
+	@PMUEnumValue("OEILLERES_AUSTRALIENNES") @KaamelottEnumBlinderValue(com.windwagon.kaamelott.race.Blinder.AUSTRALIAN) AUSTRALIAN
 
 }

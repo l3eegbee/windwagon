@@ -9,17 +9,17 @@ import com.windwagon.logres.Logres;
 import com.windwagon.logres.test.AdjustableClock;
 
 @SpringBootApplication
-@Import( Logres.class )
+@Import(Logres.class)
 public class TriggerTestsConfig {
 
-    @Bean
-    public AdjustableClock getClock() {
-        return new AdjustableClock();
-    }
+	@Bean
+	public AdjustableClock getClock() {
+		return new AdjustableClock();
+	}
 
-    @Bean
-    public TaskScheduler getScheduler() {
-        return new FakeScheduler();
-    }
+	@Bean
+	public TaskScheduler getScheduler() {
+		return new FakeScheduler();
+	}
 
 }

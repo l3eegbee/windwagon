@@ -4,12 +4,12 @@ import java.util.Map;
 
 public interface Task {
 
-    String getName();
+	String getName();
 
-    default String getEnvKey() {
-        return Maestro.ENV_TASKS_PREFIX + getName();
-    }
+	default String getEnvKey() {
+		return Maestro.ENV_TASKS_PREFIX + getName();
+	}
 
-    void run(Map<String, Object> reportContext) throws Exception;
+	void run(Map<String, Object> reportContext) throws Exception;
 
 }

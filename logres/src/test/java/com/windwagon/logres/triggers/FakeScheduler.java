@@ -10,19 +10,17 @@ public class FakeScheduler implements TaskScheduler {
 	private static class NoFuture implements ScheduledFuture<Void> {
 
 		@Override
-		public long getDelay( TimeUnit unit ) {
+		public long getDelay(TimeUnit unit) {
 			return Long.MAX_VALUE;
 		}
 
 		@Override
-		public int compareTo( Delayed object ) {
-			return Long.compare(
-					getDelay( TimeUnit.MILLISECONDS ),
-					object.getDelay( TimeUnit.MILLISECONDS ) );
+		public int compareTo(Delayed object) {
+			return Long.compare(getDelay(TimeUnit.MILLISECONDS), object.getDelay(TimeUnit.MILLISECONDS));
 		}
 
 		@Override
-		public boolean cancel( boolean mayInterruptIfRunning ) {
+		public boolean cancel(boolean mayInterruptIfRunning) {
 			return true;
 		}
 
@@ -32,7 +30,7 @@ public class FakeScheduler implements TaskScheduler {
 		}
 
 		@Override
-		public Void get( long timeout, TimeUnit unit ) {
+		public Void get(long timeout, TimeUnit unit) {
 			return null;
 		}
 
@@ -49,35 +47,32 @@ public class FakeScheduler implements TaskScheduler {
 	}
 
 	@Override
-	public ScheduledFuture<?> schedule( Runnable Task, Date startTime ) {
+	public ScheduledFuture<?> schedule(Runnable Task, Date startTime) {
 		return new NoFuture();
 	}
 
 	@Override
-	public ScheduledFuture<?> schedule( Runnable Task, Trigger trigger ) {
+	public ScheduledFuture<?> schedule(Runnable Task, Trigger trigger) {
 		return new NoFuture();
 	}
 
 	@Override
-	public ScheduledFuture<?> scheduleAtFixedRate( Runnable Task, Date startTime, long periode ) {
+	public ScheduledFuture<?> scheduleAtFixedRate(Runnable Task, Date startTime, long periode) {
 		return new NoFuture();
 	}
 
 	@Override
-	public ScheduledFuture<?> scheduleAtFixedRate( Runnable Task, long periode ) {
+	public ScheduledFuture<?> scheduleAtFixedRate(Runnable Task, long periode) {
 		return new NoFuture();
 	}
 
 	@Override
-	public ScheduledFuture<?> scheduleWithFixedDelay(
-			Runnable Task,
-			Date startTime,
-			long periode ) {
+	public ScheduledFuture<?> scheduleWithFixedDelay(Runnable Task, Date startTime, long periode) {
 		return new NoFuture();
 	}
 
 	@Override
-	public ScheduledFuture<?> scheduleWithFixedDelay( Runnable Task, long periode ) {
+	public ScheduledFuture<?> scheduleWithFixedDelay(Runnable Task, long periode) {
 		return new NoFuture();
 	}
 

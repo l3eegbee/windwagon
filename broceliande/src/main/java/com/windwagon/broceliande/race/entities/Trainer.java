@@ -1,6 +1,5 @@
 package com.windwagon.broceliande.race.entities;
 
-
 import com.windwagon.logres.getset.*;
 
 import java.util.*;
@@ -8,61 +7,63 @@ import java.util.*;
 import javax.persistence.*;
 
 @Entity
-@Table( name = "ww_trainer" )
+@Table(name = "ww_trainer")
 
 public class Trainer implements Comparable<Trainer> {
 
-    public static final Comparator<Trainer> COMPARATOR = Comparator.comparing( Trainer::getName );
+	public static final Comparator<Trainer> COMPARATOR = Comparator.comparing(Trainer::getName);
 
-    @Id
-    @SequenceGenerator( name = "sequence_id", sequenceName = "ww_sequence_id" )
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "sequence_id" )
-    private Long id;
+	@Id
+	@SequenceGenerator(name = "sequence_id", sequenceName = "ww_sequence_id")
+//https://stackoverflow.com/a/34705410/2730847
+	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_id")
+	private Long id;
 
-    @Column( length = 50 )
-    private String name;
+	@Column(length = 50)
+	private String name;
 
-    @Override
-    public String toString() {
+	@Override
+	public String toString() {
 
-        String id = Getter.get( Trainer::getId ).str( this );
-        String name = Getter.get( Trainer::getName ).str( this );
+		String id = Getter.get(Trainer::getId).str(this);
+		String name = Getter.get(Trainer::getName).str(this);
 
-        return "trainer #" + id + " [" + name + "]";
+		return "trainer #" + id + " [" + name + "]";
 
-    }
+	}
 
-    @Override
-    public int compareTo( Trainer trainer ) {
-        return COMPARATOR.compare( this, trainer );
-    }
+	@Override
+	public int compareTo(Trainer trainer) {
+		return COMPARATOR.compare(this, trainer);
+	}
 
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * @param id the id to set
-     */
-    public void setId( Long id ) {
-        this.id = id;
-    }
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @param name the name to set
-     */
-    public void setName( String name ) {
-        this.name = name;
-    }
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }
