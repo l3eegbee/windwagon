@@ -8,6 +8,9 @@ import java.time.*;
 import java.util.*;
 
 @SpringBootApplication
+//@Configuration
+//@EnableAutoConfiguration
+//@ComponentScan
 @PropertySource("broceliande.properties")
 public class Broceliande {
 

@@ -22,21 +22,13 @@ public class PMUNavigator {
 	private final Logger logger = LoggerFactory.getLogger(PMUNavigator.class);
 
 	public static final String URL_PROGRAMME = "https://www.pmu.fr/turfInfo/client/1/programmes/{date}?meteo=true&specialisation=INTERNET";
-
 	public static final String URL_RACE = "https://www.pmu.fr/turfInfo/client/1/programmes/{date}/R{meeting}/C{race}?specialisation=INTERNET";
-
 	public static final String URL_HORSES = "https://www.pmu.fr/turfInfo/client/1/programmes/{date}/R{meeting}/C{race}/participants?specialisation=INTERNET";
-
 	public static final String URL_TOTALBETS = "https://www.pmu.fr/turfInfo/client/1/programme/{date}/R{meeting}/C{race}/masse-enjeu?specialisation=INTERNET";
-
 	public static final String URL_PRICES = "https://www.pmu.fr/turfInfo/client/1/programme/{date}/R{meeting}/C{race}/rapports-definitifs?combinaisonEnTableau=true&specialisation=INTERNET";
-
 	private final static Pattern CHARSET_PATTERN = Pattern.compile("text/html;\\s+charset=([^\\s]+)\\s*");
-
 	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("ddMMyyyy");
-
 	private final static int MAX_RETRY = 3;
-
 	private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
 	private String getContent(String url) throws PMUNavigatorError {
@@ -80,13 +72,10 @@ public class PMUNavigator {
 				if (++tryNumber > MAX_RETRY) {
 					throw ex instanceof PMUNavigatorError ? (PMUNavigatorError) ex : new PMUNavigatorError("Can't load " + url, ex);
 				}
-
 			}
-
 		}
 
 		return source;
-
 	}
 
 	public JsonNode getJSON(String url) throws PMUNavigatorError {
@@ -106,9 +95,7 @@ public class PMUNavigator {
 	}
 
 	private static String setup(String url, LocalDate date, int meeting, int race) {
-
 		return url.replaceAll("\\{date\\}", date.format(DATE_FORMAT)).replaceAll("\\{meeting\\}", Integer.toString(meeting)).replaceAll("\\{race\\}", Integer.toString(race));
-
 	}
 
 	private static String setup(String url, Date date, int meeting, int race) {

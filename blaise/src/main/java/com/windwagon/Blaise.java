@@ -8,6 +8,9 @@ import org.springframework.context.annotation.*;
 import org.springframework.scheduling.concurrent.*;
 
 @SpringBootApplication
+//@Configuration
+//@EnableAutoConfiguration
+//@ComponentScan
 @Import(Broceliande.class)
 public class Blaise {
 
@@ -19,5 +22,4 @@ public class Blaise {
 	public static void main(String... args) {
 		new SpringApplicationBuilder(Blaise.class).properties("maestro.start=true").run(args);
 	}
-
 }
