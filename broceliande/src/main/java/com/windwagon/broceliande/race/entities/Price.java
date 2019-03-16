@@ -15,10 +15,11 @@ public class Price implements Comparable<Price> {
 	public static final Comparator<Price> COMPARATOR = Comparator.comparing(Price::getRace).thenComparing(Price::getBet).thenComparing(Price::getPriceName).thenComparing(Price::getTicket);
 
 	@Id
-	@SequenceGenerator(name = "sequence_id", sequenceName = "ww_sequence_id")
-//https://stackoverflow.com/a/34705410/2730847
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "sequence_id", sequenceName = "ww_sequence_id")
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_id")
+//https://stackoverflow.com/a/34705410/2730847
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})

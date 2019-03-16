@@ -20,10 +20,11 @@ public class Meeting implements Comparable<Meeting> {
 	public static final Comparator<Meeting> COMPARATOR = Comparator.comparing(Meeting::getDate).thenComparing(Meeting::getNumber);
 
 	@Id
-	@SequenceGenerator(name = "sequence_id", sequenceName = "ww_sequence_id")
-//https://stackoverflow.com/a/34705410/2730847
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "sequence_id", sequenceName = "ww_sequence_id")
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_id")
+//https://stackoverflow.com/a/34705410/2730847
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Temporal(TemporalType.DATE)

@@ -3,12 +3,12 @@
 -- ww_sequence_id
 --
 
-CREATE SEQUENCE ww_sequence_id
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+--CREATE SEQUENCE ww_sequence_id
+--    START WITH 1
+--    INCREMENT BY 1
+--    NO MINVALUE
+--    NO MAXVALUE
+--    CACHE 1;
 
 -- ###
 -- ###
@@ -21,7 +21,7 @@ CREATE SEQUENCE ww_sequence_id
 --
 
 CREATE TABLE ww_horseid (
-    id        BIGINT NOT NULL,
+id        BIGINT NOT NULL AUTO_INCREMENT,
     name      CHARACTER VARYING(30),
     birth     DATE,
     sex       CHARACTER VARYING(10),
@@ -45,7 +45,7 @@ CREATE INDEX idx_horseid__parent_ids ON ww_horseid(name,sex,birth);
 --
 
 CREATE TABLE ww_jockey (
-    id   BIGINT NOT NULL,
+    id   BIGINT NOT NULL AUTO_INCREMENT,
     name CHARACTER VARYING(50)
 );
 
@@ -59,7 +59,7 @@ CREATE INDEX idx_jockey__natural_ids ON ww_jockey(name);
 --
 
 CREATE TABLE ww_owner (
-    id   BIGINT NOT NULL,
+    id   BIGINT NOT NULL AUTO_INCREMENT,
     name CHARACTER VARYING(50)
 );
 
@@ -73,7 +73,7 @@ CREATE INDEX idx_owner__natural_ids ON ww_owner(name);
 --
 
 CREATE TABLE ww_rancher (
-    id   BIGINT NOT NULL,
+    id   BIGINT NOT NULL AUTO_INCREMENT,
     name CHARACTER VARYING(50)
 );
 
@@ -87,7 +87,7 @@ CREATE INDEX idx_rancher__natural_ids ON ww_rancher(name);
 --
 
 CREATE TABLE ww_trainer (
-    id   BIGINT NOT NULL,
+    id   BIGINT NOT NULL AUTO_INCREMENT,
     name CHARACTER VARYING(50)
 );
 
@@ -101,7 +101,7 @@ CREATE INDEX idx_trainer__natural_ids ON ww_trainer(name);
 --
 
 CREATE TABLE ww_racecourse (
-    id      BIGINT NOT NULL,
+    id      BIGINT NOT NULL AUTO_INCREMENT,
     name    CHARACTER VARYING(50),
     country CHARACTER VARYING(30)
 );
@@ -116,7 +116,7 @@ CREATE INDEX idx_racecourse__natural_ids ON ww_racecourse(name,country);
 --
 
 CREATE TABLE ww_meeting (
-    id             BIGINT NOT NULL,
+    id             BIGINT NOT NULL AUTO_INCREMENT,
     date           DATE,
     racecourse     BIGINT,
     number         INTEGER,
@@ -140,7 +140,7 @@ CREATE INDEX idx_meeting__natural_ids ON ww_meeting(date,number);
 --
 
 CREATE TABLE ww_race (
-    id           BIGINT NOT NULL,
+    id           BIGINT NOT NULL AUTO_INCREMENT,
     meeting      BIGINT,
     number       INTEGER,
     name         CHARACTER VARYING(80),
@@ -169,7 +169,7 @@ CREATE INDEX idx_race__natural_ids ON ww_race(meeting,number);
 --
 
 CREATE TABLE ww_racetypes (
-    race  BIGINT NOT NULL,
+    race  BIGINT NOT NULL AUTO_INCREMENT,
     types CHARACTER VARYING(25)
 );
 
@@ -183,7 +183,7 @@ CREATE INDEX idx_racetypes__natural_ids ON ww_racetypes(race);
 --
 
 CREATE TABLE ww_racebets (
-    race BIGINT NOT NULL,
+    race BIGINT NOT NULL AUTO_INCREMENT,
     bets CHARACTER VARYING(20)
 );
 
@@ -197,7 +197,7 @@ CREATE INDEX idx_racebets__natural_ids ON ww_racebets(race);
 --
 
 CREATE TABLE ww_odds (
-    id    BIGINT NOT NULL,
+    id    BIGINT NOT NULL AUTO_INCREMENT,
     race  BIGINT,
     date  TIMESTAMP,
     total DOUBLE PRECISION
@@ -216,7 +216,7 @@ CREATE INDEX idx_odds__natural_ids ON ww_odds(race,date);
 --
 
 CREATE TABLE ww_simple (
-    id     BIGINT NOT NULL,
+    id     BIGINT NOT NULL AUTO_INCREMENT,
     odds   BIGINT,
     number CHARACTER VARYING(3),
     simple DOUBLE PRECISION
@@ -235,7 +235,7 @@ CREATE INDEX idx_simple__natural_ids ON ww_simple(odds,number);
 --
 
 CREATE TABLE ww_place (
-    id       BIGINT NOT NULL,
+    id       BIGINT NOT NULL AUTO_INCREMENT,
     race     BIGINT,
     number   INTEGER,
     distance CHARACTER VARYING(255),
@@ -256,7 +256,7 @@ CREATE INDEX idx_place__natural_ids ON ww_place(race,number,horse);
 --
 
 CREATE TABLE ww_price (
-    id        BIGINT NOT NULL,
+    id        BIGINT NOT NULL AUTO_INCREMENT,
     race      BIGINT,
     bet       CHARACTER VARYING(20),
     pricename CHARACTER VARYING(15),
@@ -277,7 +277,7 @@ CREATE INDEX idx_price__natural_ids ON ww_price(race,bet,pricename,ticket);
 --
 
 CREATE TABLE ww_horse (
-    id                   BIGINT NOT NULL,
+    id                   BIGINT NOT NULL AUTO_INCREMENT,
     race                 BIGINT,
     horse_id             BIGINT,
     number               INTEGER,

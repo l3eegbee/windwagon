@@ -15,10 +15,11 @@ public class Horse implements Comparable<Horse> {
 	public static final Comparator<Horse> COMPARATOR = Comparator.comparing(Horse::getRace).thenComparing(Horse::getNumber);
 
 	@Id
-	@SequenceGenerator(name = "sequence_id", sequenceName = "ww_sequence_id")
-//https://stackoverflow.com/a/34705410/2730847
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "sequence_id", sequenceName = "ww_sequence_id")
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_id")
+//https://stackoverflow.com/a/34705410/2730847
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

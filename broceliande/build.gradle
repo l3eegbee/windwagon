@@ -42,12 +42,12 @@ android {
         //h2 original
         //implementation 'com.h2database:h2:1.4.198'
         //mysql working not corrected some bug, but functionnal
-        //implementation 'mysql:mysql-connector-java:8.0.15'
+        implementation 'mysql:mysql-connector-java:8.0.15'
 
         //Sqlite still problem with dialect but correct schema
-        implementation 'org.xerial:sqlite-jdbc:3.25.2'
+        //implementation 'org.xerial:sqlite-jdbc:3.25.2'
         //Very old    implementation 'org.hibernate.dialect:sqlite-dialect:0.1.0'
         //Not Wor implementation 'com.zsoltfabok:sqlite-dialect:1.0'
-        implementation 'com.enigmabridge:hibernate4-sqlite-dialect:0.1.2'
+        //implementation 'com.enigmabridge:hibernate4-sqlite-dialect:0.1.2'
     }
 }

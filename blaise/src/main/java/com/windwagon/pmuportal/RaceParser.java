@@ -47,7 +47,7 @@ public class RaceParser {
 	@Autowired
 	private HorseParser horseParser;
 
-	//10032019 TODO SUPER_QUATRE E_SUPER_QUATRE
+	//10032019 TODO SUPER_QUATRE E_SUPER_QUATRE SIMPLE_GAGNANT_INTERNATIONAL
 	@PMUEnumNoValue({"INCONNU"})
 	public enum Incident {
 
@@ -63,7 +63,7 @@ public class RaceParser {
 
 	public enum PriceBetType {
 
-		@PMUEnumValue({"SIMPLE_GAGNANT", "E_SIMPLE_GAGNANT"}) SIMPLE_GAGNANT(BetType.SIMPLE_GAGNANT),
+		@PMUEnumValue({"SIMPLE_GAGNANT", "SIMPLE_GAGNANT_INTERNATIONAL", "E_SIMPLE_GAGNANT"}) SIMPLE_GAGNANT(BetType.SIMPLE_GAGNANT),
 
 		@PMUEnumValue({"SIMPLE_PLACE", "E_SIMPLE_PLACE"}) SIMPLE_PLACE(BetType.SIMPLE_PLACE),
 

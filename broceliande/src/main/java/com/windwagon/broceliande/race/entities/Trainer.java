@@ -14,10 +14,11 @@ public class Trainer implements Comparable<Trainer> {
 	public static final Comparator<Trainer> COMPARATOR = Comparator.comparing(Trainer::getName);
 
 	@Id
-	@SequenceGenerator(name = "sequence_id", sequenceName = "ww_sequence_id")
-//https://stackoverflow.com/a/34705410/2730847
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "sequence_id", sequenceName = "ww_sequence_id")
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_id")
+//https://stackoverflow.com/a/34705410/2730847
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(length = 50)

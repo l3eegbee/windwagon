@@ -158,7 +158,7 @@ CREATE TABLE ww_race (
     name         CHARACTER VARYING(80),
     status       CHARACTER VARYING(10),
     start        TIMESTAMP,
-    real_start   TIMESTAMP,
+--    real_start   TIMESTAMP,
     distance     DOUBLE PRECISION,
     benefit      DOUBLE PRECISION,
     discipline   CHARACTER VARYING(15),
