@@ -12,37 +12,37 @@ import com.windwagon.logres.collection.Sets;
 
 public class PriceWrapperImpl extends ObjectWrapperImpl<Price> implements PriceWrapper {
 
-    public PriceWrapperImpl( Reference ref, Price price, RaceWrapper race ) {
+	public PriceWrapperImpl(Reference ref, Price price, RaceWrapper race) {
 
-        super( ref, price );
+		super(ref, price);
 
-        // ticket
-        ticket = Sets.navigableSetFromList( race.getHorsesByNum( price.getTicket() ) );
+		// ticket
+		ticket = Sets.navigableSetFromList(race.getHorsesByNum(price.getTicket()));
 
-    }
+	}
 
-    @Override
-    public com.windwagon.kaamelott.race.BetType getBetType() {
-        return KaamelottEnumConverter.betType.castToKaamelott( daoObject.getBet() );
-    }
+	@Override
+	public com.windwagon.kaamelott.race.BetType getBetType() {
+		return KaamelottEnumConverter.betType.castToKaamelott(daoObject.getBet());
+	}
 
-    @Override
-    public com.windwagon.kaamelott.race.PriceName getPriceName() {
-        return KaamelottEnumConverter.priceName.castToKaamelott( daoObject.getPriceName() );
-    }
+	@Override
+	public com.windwagon.kaamelott.race.PriceName getPriceName() {
+		return KaamelottEnumConverter.priceName.castToKaamelott(daoObject.getPriceName());
+	}
 
-    @Override
-    public Double getPrice() {
-        return daoObject.getPrice();
-    }
+	@Override
+	public Double getPrice() {
+		return daoObject.getPrice();
+	}
 
-    @SuppressWarnings( { "all", "unchecked" } )
-    private SortedSet ticket;
+	@SuppressWarnings({"all", "unchecked"})
+	private SortedSet ticket;
 
-    @Override
-    @SuppressWarnings( { "all", "unchecked" } )
-    public SortedSet<com.windwagon.kaamelott.race.Horse> getTicket() {
-        return Collections.unmodifiableSortedSet( ticket );
-    }
+	@Override
+	@SuppressWarnings({"all", "unchecked"})
+	public SortedSet<com.windwagon.kaamelott.race.Horse> getTicket() {
+		return Collections.unmodifiableSortedSet(ticket);
+	}
 
 }

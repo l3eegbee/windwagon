@@ -4,10 +4,10 @@ import com.windwagon.kaamelott.race.Race;
 
 public interface DrillHall extends Iterable<Race> {
 
-    public String getName();
+	String getName();
 
-    public String getDescription();
+	String getDescription();
 
-    public int size();
+	int size();
 
 }

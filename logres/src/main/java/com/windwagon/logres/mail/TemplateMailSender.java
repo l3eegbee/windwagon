@@ -5,10 +5,10 @@ import java.util.Map;
 
 public interface TemplateMailSender {
 
-    public void send( Map<String, Object> context );
+	void send(Map<String, Object> context);
 
-    default public void send() {
-        send( new HashMap<>() );
-    }
+	default void send() {
+		send(new HashMap<>());
+	}
 
 }

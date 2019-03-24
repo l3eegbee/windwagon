@@ -5,49 +5,49 @@ import java.util.Iterator;
 
 public interface HorseID {
 
-    /**
-     * @return the name
-     */
-    public String getName();
+	/**
+	 * @return the name
+	 */
+	String getName();
 
-    /**
-     * @return l'historique
-     */
-    public Iterator<Horse> getHistory();
+	/**
+	 * @return l'historique
+	 */
+	Iterator<Horse> getHistory();
 
-    /**
-     * @return le père
-     */
-    public HorseID getFather();
+	/**
+	 * @return le pÃ¨re
+	 */
+	HorseID getFather();
 
-    /**
-     * @return la mère
-     */
-    public HorseID getMother();
+	/**
+	 * @return la mÃ¨re
+	 */
+	HorseID getMother();
 
-    /**
-     * @return la date de naissance
-     */
-    public Date getBirth();
+	/**
+	 * @return la date de naissance
+	 */
+	Date getBirth();
 
-    /**
-     * @return the sex
-     */
-    public Sex getSex();
+	/**
+	 * @return the sex
+	 */
+	Sex getSex();
 
-    /**
-     * @return la date de la première course castré
-     */
-    public Date getGeldingDate();
+	/**
+	 * @return la date de la premiÃ¨re course castrÃ©
+	 */
+	Date getGeldingDate();
 
-    /**
-     * @return the breed
-     */
-    public Breed getBreed();
+	/**
+	 * @return the breed
+	 */
+	Breed getBreed();
 
-    /**
-     * @return the coat
-     */
-    public Coat getCoat();
+	/**
+	 * @return the coat
+	 */
+	Coat getCoat();
 
 }

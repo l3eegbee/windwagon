@@ -1,216 +1,209 @@
 package com.windwagon.broceliande.race.entities;
 
-import java.util.Comparator;
-import java.util.Date;
+import com.windwagon.logres.getset.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.*;
 
-import com.windwagon.logres.getset.Getter;
+import javax.persistence.*;
 
 /**
  * Horse id.
  */
 @Entity
-@Table( name = "ww_horseid" )
+@Table(name = "ww_horseid")
+
 public class HorseID implements Comparable<HorseID> {
 
-    public static final Comparator<HorseID> COMPARATOR = Comparator.comparing( HorseID::getName );
+	public static final Comparator<HorseID> COMPARATOR = Comparator.comparing(HorseID::getName);
 
-    @Id
-    @SequenceGenerator( name = "sequence_id", sequenceName = "ww_sequence_id" )
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "sequence_id" )
-    private Long id;
+	@Id
+//	@SequenceGenerator(name = "sequence_id", sequenceName = "ww_sequence_id")
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_id")
+//https://stackoverflow.com/a/34705410/2730847
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column( length = 30 )
-    private String name;
+	@Column(length = 30)
+	private String name;
 
-    @Temporal( TemporalType.DATE )
-    private Date birth;
+	@Temporal(TemporalType.DATE)
+	private Date birth;
 
-    @Column( length = 10 )
-    @Enumerated( EnumType.STRING )
-    private Sex sex;
+	@Column(length = 10)
+	@Enumerated(EnumType.STRING)
+	private Sex sex;
 
-    @Temporal( TemporalType.DATE )
-    private Date gelding;
+	@Temporal(TemporalType.DATE)
+	private Date gelding;
 
-    private String father;
+	private String father;
 
-    private String mother;
+	private String mother;
 
-    private Integer fiability;
+	private Integer fiability;
 
-    @Column( length = 30 )
-    @Enumerated( EnumType.STRING )
-    private Breed breed;
+	@Column(length = 30)
+	@Enumerated(EnumType.STRING)
+	private Breed breed;
 
-    @Column( length = 30 )
-    @Enumerated( EnumType.STRING )
-    private Coat coat;
+	@Column(length = 30)
+	@Enumerated(EnumType.STRING)
+	private Coat coat;
 
-    @Override
-    public String toString() {
+	@Override
+	public String toString() {
 
-        String id = Getter.get( HorseID::getId ).str( this );
-        String name = Getter.get( HorseID::getName ).str( this );
+		String id = Getter.get(HorseID::getId).str(this);
+		String name = Getter.get(HorseID::getName).str(this);
 
-        return "horseID #" + id + " [" + name + "]";
+		return "horseID #" + id + " [" + name + "]";
 
-    }
+	}
 
-    @Override
-    public int compareTo( HorseID horseID ) {
-        return COMPARATOR.compare( this, horseID );
-    }
+	@Override
+	public int compareTo(HorseID horseID) {
+		return COMPARATOR.compare(this, horseID);
+	}
 
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * @param id the id to set
-     */
-    public void setId( Long id ) {
-        this.id = id;
-    }
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @param name the name to set
-     */
-    public void setName( String name ) {
-        this.name = name;
-    }
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    /**
-     * @return the birth
-     */
-    public Date getBirth() {
-        return birth;
-    }
+	/**
+	 * @return the birth
+	 */
+	public Date getBirth() {
+		return birth;
+	}
 
-    /**
-     * @param birth the birth to set
-     */
-    public void setBirth( Date birth ) {
-        this.birth = birth;
-    }
+	/**
+	 * @param birth the birth to set
+	 */
+	public void setBirth(Date birth) {
+		this.birth = birth;
+	}
 
-    /**
-     * @return the sex
-     */
-    public Sex getSex() {
-        return sex;
-    }
+	/**
+	 * @return the sex
+	 */
+	public Sex getSex() {
+		return sex;
+	}
 
-    /**
-     * @param sex the sex to set
-     */
-    public void setSex( Sex sex ) {
-        this.sex = sex;
-    }
+	/**
+	 * @param sex the sex to set
+	 */
+	public void setSex(Sex sex) {
+		this.sex = sex;
+	}
 
-    /**
-     * @return the gelding
-     */
-    public Date getGelding() {
-        return gelding;
-    }
+	/**
+	 * @return the gelding
+	 */
+	public Date getGelding() {
+		return gelding;
+	}
 
-    /**
-     * @param gelding the gelding to set
-     */
-    public void setGelding( Date gelding ) {
-        this.gelding = gelding;
-    }
+	/**
+	 * @param gelding the gelding to set
+	 */
+	public void setGelding(Date gelding) {
+		this.gelding = gelding;
+	}
 
-    /**
-     * @return the father
-     */
-    public String getFather() {
-        return father;
-    }
+	/**
+	 * @return the father
+	 */
+	public String getFather() {
+		return father;
+	}
 
-    /**
-     * @param father the father to set
-     */
-    public void setFather( String father ) {
-        this.father = father;
-    }
+	/**
+	 * @param father the father to set
+	 */
+	public void setFather(String father) {
+		this.father = father;
+	}
 
-    /**
-     * @return the mother
-     */
-    public String getMother() {
-        return mother;
-    }
+	/**
+	 * @return the mother
+	 */
+	public String getMother() {
+		return mother;
+	}
 
-    /**
-     * @param mother the mother to set
-     */
-    public void setMother( String mother ) {
-        this.mother = mother;
-    }
+	/**
+	 * @param mother the mother to set
+	 */
+	public void setMother(String mother) {
+		this.mother = mother;
+	}
 
-    /**
-     * @return the fiability
-     */
-    public Integer getFiability() {
-        return fiability;
-    }
+	/**
+	 * @return the fiability
+	 */
+	public Integer getFiability() {
+		return fiability;
+	}
 
-    /**
-     * @param fiability the fiability to set
-     */
-    public void setFiability( Integer fiability ) {
-        this.fiability = fiability;
-    }
+	/**
+	 * @param fiability the fiability to set
+	 */
+	public void setFiability(Integer fiability) {
+		this.fiability = fiability;
+	}
 
-    /**
-     * @return the breed
-     */
-    public Breed getBreed() {
-        return breed;
-    }
+	/**
+	 * @return the breed
+	 */
+	public Breed getBreed() {
+		return breed;
+	}
 
-    /**
-     * @param breed the breed to set
-     */
-    public void setBreed( Breed breed ) {
-        this.breed = breed;
-    }
+	/**
+	 * @param breed the breed to set
+	 */
+	public void setBreed(Breed breed) {
+		this.breed = breed;
+	}
 
-    /**
-     * @return the coat
-     */
-    public Coat getCoat() {
-        return coat;
-    }
+	/**
+	 * @return the coat
+	 */
+	public Coat getCoat() {
+		return coat;
+	}
 
-    /**
-     * @param coat the coat to set
-     */
-    public void setCoat( Coat coat ) {
-        this.coat = coat;
-    }
+	/**
+	 * @param coat the coat to set
+	 */
+	public void setCoat(Coat coat) {
+		this.coat = coat;
+	}
 
 }

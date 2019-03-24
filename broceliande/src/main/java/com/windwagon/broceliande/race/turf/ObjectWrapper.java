@@ -2,10 +2,10 @@ package com.windwagon.broceliande.race.turf;
 
 import java.util.Date;
 
-public interface ObjectWrapper < T > {
+public interface ObjectWrapper<T> {
 
-    public T getDaoObject();
+	T getDaoObject();
 
-    public Date getNow();
+	Date getNow();
 
 }

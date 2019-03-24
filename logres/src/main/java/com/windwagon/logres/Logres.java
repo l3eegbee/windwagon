@@ -1,8 +1,12 @@
 package com.windwagon.logres;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.context.annotation.*;
 
 @SpringBootApplication
-@PropertySource( "classpath:logres.properties" )
-public class Logres {}
+//@Configuration
+//@EnableAutoConfiguration
+//@ComponentScan
+@PropertySource("classpath:logres.properties")
+public class Logres {
+}

@@ -1,21 +1,15 @@
 package com.windwagon.broceliande.race.repositories;
 
-import java.util.Date;
+import com.windwagon.broceliande.race.entities.*;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.*;
 
-import com.windwagon.broceliande.race.entities.HorseID;
-import com.windwagon.broceliande.race.entities.Sex;
+import java.util.*;
 
 public interface HorseIDRepository extends CrudRepository<HorseID, Long>, HorseIDRepositoryCustom {
 
-    HorseID findByNameAndBirthAndSexAndFatherAndMother(
-            String name,
-            Date birth,
-            Sex sex,
-            String father,
-            String mother );
+	HorseID findByNameAndBirthAndSexAndFatherAndMother(String name, Date birth, Sex sex, String father, String mother);
 
-    HorseID findFirstByNameAndSexAndBirthBefore( String name, Sex sex, Date minBirth );
+	HorseID findFirstByNameAndSexAndBirthBefore(String name, Sex sex, Date minBirth);
 
 }

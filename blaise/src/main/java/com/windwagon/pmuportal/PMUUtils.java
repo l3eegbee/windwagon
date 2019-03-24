@@ -1,158 +1,144 @@
 package com.windwagon.pmuportal;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import com.fasterxml.jackson.databind.*;
+import com.windwagon.broceliande.utils.pmu.*;
+import com.windwagon.pmuportal.exceptions.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.slf4j.*;
+import org.springframework.stereotype.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.windwagon.broceliande.utils.pmu.PMUEnumFinder;
-import com.windwagon.broceliande.utils.pmu.PMUFinderException;
-import com.windwagon.pmuportal.exceptions.PMUParserError;
+import java.util.*;
+import java.util.function.*;
 
 @Component
 public class PMUUtils {
 
-    public static final Logger logger = LoggerFactory.getLogger( PMUUtils.class );
+	public static final Logger logger = LoggerFactory.getLogger(PMUUtils.class);
 
-    public String protect( String str ) {
+	public String protect(String str) {
 
-        str = str.replace( '\u00A0', ' ' ); // espace insecable
-        str = str.replace( '\u00B0', ' ' ); // symbol degree
-        str = str.replace( '\u20AC', 'e' ); // symbol euro
-        str = str.replace( "\u0152", "OE" ); // e dans l'o majuscule
-        str = str.replace( "\u0153", "oe" ); // e dans l'o minuscule
-        str = str.replace( 'Á', 'c' ); // c cedille
-        str = str.replace( "`", "'" ); // apostrophe
+		str = str.replace('\u00A0', ' '); // espace insecable
+		str = str.replace('\u00B0', ' '); // symbol degree
+		str = str.replace('\u20AC', 'e'); // symbol euro
+		str = str.replace("\u0152", "OE"); // e dans l'o majuscule
+		str = str.replace("\u0153", "oe"); // e dans l'o minuscule
+		str = str.replace('√ß', 'c'); // c cedille
+		str = str.replace("`", "'"); // apostrophe
 
-        // erreur d'encodage
-        str = str.replace( "˝˝", "e" );
-        str = str.replace( "ÏÏ", "e" );
-        str = str.replace( "ÓÓ", "e" );
-        str = str.replace( "ÔÔ", "e" );
-        str = str.replace( "ii", "e" );
-        str = str.replace( "—", "e" );
-        str = str.replace( "\\", "e" );
-        str = str.replace( "”", "i" );
-        str = str.replace( "˜", "o" );
-        str = str.replace( "¬©", "'" );
-        str = str.replace( "©", "'" );
+		// erreur d'encodage
+		str = str.replace("√Ω√Ω", "e");
+		str = str.replace("√¨√¨", "e");
+		str = str.replace("√Æ√Æ", "e");
+		str = str.replace("√Ø√Ø", "e");
+		str = str.replace("ii", "e");
+		str = str.replace("√ë", "e");
+		str = str.replace("\\", "e");
+		str = str.replace("√ì", "i");
+		str = str.replace("√∑", "o");
+		str = str.replace("√Ç¬©", "'");
+		str = str.replace("¬©", "'");
 
-        // accents
-        str = str.replace( '‡', 'a' );
-        str = str.replace( '¿', 'a' );
-        str = str.replace( '‚', 'a' );
-        str = str.replace( '¬', 'a' );
-        str = str.replace( '‰', 'a' );
-        str = str.replace( 'ƒ', 'a' );
-        str = str.replace( '„', 'a' );
-        str = str.replace( '√', 'a' );
-        str = str.replace( 'Ë', 'e' );
-        str = str.replace( '»', 'e' );
-        str = str.replace( 'È', 'e' );
-        str = str.replace( '…', 'e' );
-        str = str.replace( 'Í', 'e' );
-        str = str.replace( ' ', 'e' );
-        str = str.replace( 'Î', 'e' );
-        str = str.replace( 'À', 'e' );
-        str = str.replace( 'Ï', 'i' );
-        str = str.replace( 'Ã', 'i' );
-        str = str.replace( 'Ó', 'i' );
-        str = str.replace( 'Œ', 'i' );
-        str = str.replace( 'Ô', 'i' );
-        str = str.replace( 'œ', 'i' );
-        str = str.replace( 'Ú', 'o' );
-        str = str.replace( '“', 'o' );
-        str = str.replace( 'Ù', 'o' );
-        str = str.replace( '‘', 'o' );
-        str = str.replace( 'ˆ', 'o' );
-        str = str.replace( '÷', 'o' );
-        str = str.replace( 'ı', 'o' );
-        str = str.replace( '’', 'o' );
-        str = str.replace( '˘', 'u' );
-        str = str.replace( 'Ÿ', 'u' );
-        str = str.replace( '˚', 'u' );
-        str = str.replace( '€', 'u' );
-        str = str.replace( '¸', 'u' );
-        str = str.replace( '‹', 'u' );
+		// accents
+		str = str.replace('√†', 'a');
+		str = str.replace('√Ä', 'a');
+		str = str.replace('√¢', 'a');
+		str = str.replace('√Ç', 'a');
+		str = str.replace('√§', 'a');
+		str = str.replace('√Ñ', 'a');
+		str = str.replace('√£', 'a');
+		str = str.replace('√É', 'a');
+		str = str.replace('√®', 'e');
+		str = str.replace('√à', 'e');
+		str = str.replace('√©', 'e');
+		str = str.replace('√â', 'e');
+		str = str.replace('√™', 'e');
+		str = str.replace('√ä', 'e');
+		str = str.replace('√´', 'e');
+		str = str.replace('√ã', 'e');
+		str = str.replace('√¨', 'i');
+		str = str.replace('√å', 'i');
+		str = str.replace('√Æ', 'i');
+		str = str.replace('√é', 'i');
+		str = str.replace('√Ø', 'i');
+		str = str.replace('√è', 'i');
+		str = str.replace('√≤', 'o');
+		str = str.replace('√í', 'o');
+		str = str.replace('√¥', 'o');
+		str = str.replace('√î', 'o');
+		str = str.replace('√∂', 'o');
+		str = str.replace('√ñ', 'o');
+		str = str.replace('√µ', 'o');
+		str = str.replace('√ï', 'o');
+		str = str.replace('√π', 'u');
+		str = str.replace('√ô', 'u');
+		str = str.replace('√ª', 'u');
+		str = str.replace('√õ', 'u');
+		str = str.replace('√º', 'u');
+		str = str.replace('√ú', 'u');
 
-        // espaces
-        str = str.replaceAll( "\\s+", " " );
+		// espaces
+		str = str.replaceAll("\\s+", " ");
 
-        // majuscule
-        return str.trim().toUpperCase();
+		// majuscule
+		return str.trim().toUpperCase();
 
-    }
+	}
 
-    public String asText( JsonNode node ) {
-        return node.isMissingNode() ? null : protect( node.asText() );
-    }
+	public String asText(JsonNode node) {
+		return node.isMissingNode() ? null : protect(node.asText());
+	}
 
-    public <E extends Enum<E>> E findPMU( Class<E> clazz, String value )
-            throws PMUParserError {
+	public <E extends Enum<E>> E findPMU(Class<E> clazz, String value) throws PMUParserError {
 
-        try {
-            return PMUEnumFinder.find( clazz, value );
-        } catch( PMUFinderException ex ) {
-            throw new PMUParserError( "Unknow PMU value", ex );
-        }
+		try {
+			return PMUEnumFinder.find(clazz, value);
+		} catch (PMUFinderException ex) {
+			throw new PMUParserError("Unknown PMU value", ex);
+		}
 
-    }
+	}
 
-    public <E extends Enum<E>> E findPMU( Class<E> clazz, JsonNode node )
-            throws PMUParserError {
-        return node.isMissingNode() ? null : findPMU( clazz, asText( node ) );
-    }
+	public <E extends Enum<E>> E findPMU(Class<E> clazz, JsonNode node) throws PMUParserError {
+		return node.isMissingNode() ? null : findPMU(clazz, asText(node));
+	}
 
-    public <E extends Enum<E>> Set<E> findAllPMU( Class<E> clazz, String value )
-            throws PMUParserError {
+	public <E extends Enum<E>> Set<E> findAllPMU(Class<E> clazz, String value) throws PMUParserError {
 
-        try {
-            return PMUEnumFinder.findAll( clazz, value );
-        } catch( PMUFinderException ex ) {
-            throw new PMUParserError( "Unknow PMU value", ex );
-        }
+		try {
+			return PMUEnumFinder.findAll(clazz, value);
+		} catch (PMUFinderException ex) {
+			throw new PMUParserError("Unknown PMU value", ex);
+		}
 
-    }
+	}
 
-    public <E extends Enum<E>> Set<E> findAllPMU( Class<E> clazz, JsonNode node )
-            throws PMUParserError {
-        return node.isMissingNode() ? null : findAllPMU( clazz, asText( node ) );
-    }
+	public <E extends Enum<E>> Set<E> findAllPMU(Class<E> clazz, JsonNode node) throws PMUParserError {
+		return node.isMissingNode() ? null : findAllPMU(clazz, asText(node));
+	}
 
-    public <E, P> void shouldNotBeModified( E entity, P value, P expected ) {
+	public <E, P> void shouldNotBeModified(E entity, P value, P expected) {
 
-        if( value != null && !Objects.equals( value, expected ) )
-            logger.warn( "Unexpected modification of {}: {} -> {}", entity, value, expected );
+		if (value != null && !Objects.equals(value, expected)) {
+			logger.warn("Unexpected modification of {}: {} -> {}", entity, value, expected);
+		}
 
-    }
+	}
 
-    public <S extends Set<E>, E> void updateSet(
-            Supplier<S> getter,
-            Consumer<S> setter,
-            S value ) {
+	public <S extends Set<E>, E> void updateSet(Supplier<S> getter, Consumer<S> setter, S value) {
 
-        S current = getter.get();
-        if( current == null )
-            setter.accept( value );
+		S current = getter.get();
+		if (current == null) {
+			setter.accept(value);
+		} else {
 
-        else {
+			for (E elt : new HashSet<>(current))
+				if (!value.contains(elt)) current.remove(elt);
 
-            for( E elt : new HashSet<>( current ) )
-                if( !value.contains( elt ) )
-                    current.remove( elt );
+			for (E elt : new HashSet<>(value))
+				if (!current.contains(elt)) current.add(elt);
 
-            for( E elt : new HashSet<>( value ) )
-                if( !current.contains( elt ) )
-                    current.add( elt );
+		}
 
-        }
-
-    }
+	}
 
 }

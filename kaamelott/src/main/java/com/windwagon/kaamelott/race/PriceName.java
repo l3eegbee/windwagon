@@ -2,39 +2,39 @@ package com.windwagon.kaamelott.race;
 
 public enum PriceName {
 
-    /**
-     * Direct.
-     */
-    DIRECT,
+	/**
+	 * Direct.
+	 */
+	DIRECT,
 
-    /**
-     * Ordre.
-     */
-    ORDRE,
+	/**
+	 * Ordre.
+	 */
+	ORDRE,
 
-    /**
-     * Bonus trois.
-     */
-    BONUS_TROIS,
+	/**
+	 * Bonus trois.
+	 */
+	BONUS_TROIS,
 
-    /**
-     * Bonus quatre.
-     */
-    BONUS_QUATRE,
+	/**
+	 * Bonus quatre.
+	 */
+	BONUS_QUATRE,
 
-    /**
-     * Bonus quatre sur cinq.
-     */
-    BONUS_QUATRE_SUR_CINQ,
+	/**
+	 * Bonus quatre sur cinq.
+	 */
+	BONUS_QUATRE_SUR_CINQ,
 
-    /**
-     * Dégradé.
-     */
-    DEGRADE,
+	/**
+	 * DÃ©gradÃ©.
+	 */
+	DEGRADE,
 
-    /**
-     * Remboursement.
-     */
-    REMBOURSEMENT;
+	/**
+	 * Remboursement.
+	 */
+	REMBOURSEMENT
 
 }

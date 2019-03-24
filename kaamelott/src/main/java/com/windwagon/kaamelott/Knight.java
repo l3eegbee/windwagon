@@ -5,6 +5,6 @@ import com.windwagon.kaamelott.words.Words;
 
 public interface Knight extends Actor, Marshallable {
 
-    public Words getWords( Race race );
+	Words getWords(Race race);
 
 }

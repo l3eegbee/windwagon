@@ -1,189 +1,153 @@
 package com.windwagon.pmuportal;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.fasterxml.jackson.databind.*;
+import com.windwagon.logres.date.*;
+import com.windwagon.pmuportal.exceptions.*;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.slf4j.*;
+import org.springframework.stereotype.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.windwagon.logres.date.DateConverter;
-import com.windwagon.pmuportal.exceptions.PMUMethodFailureResponse;
-import com.windwagon.pmuportal.exceptions.PMUNavigatorError;
-import com.windwagon.pmuportal.exceptions.PMUNoContent;
+import java.io.*;
+import java.net.*;
+import java.time.*;
+import java.time.format.*;
+import java.util.*;
+import java.util.regex.*;
 
 @Component
+
 public class PMUNavigator {
 
-    private final Logger logger = LoggerFactory.getLogger( PMUNavigator.class );
+	private final Logger logger = LoggerFactory.getLogger(PMUNavigator.class);
 
-    public static final String URL_PROGRAMME =
-            "http://www.pmu.fr/turfInfo/client/1/programmes/{date}?meteo=true&specialisation=INTERNET";
+	public static final String URL_PROGRAMME = "https://www.pmu.fr/turfInfo/client/1/programmes/{date}?meteo=true&specialisation=INTERNET";
+	public static final String URL_RACE = "https://www.pmu.fr/turfInfo/client/1/programmes/{date}/R{meeting}/C{race}?specialisation=INTERNET";
+	public static final String URL_HORSES = "https://www.pmu.fr/turfInfo/client/1/programmes/{date}/R{meeting}/C{race}/participants?specialisation=INTERNET";
+	public static final String URL_TOTALBETS = "https://www.pmu.fr/turfInfo/client/1/programme/{date}/R{meeting}/C{race}/masse-enjeu?specialisation=INTERNET";
+	public static final String URL_PRICES = "https://www.pmu.fr/turfInfo/client/1/programme/{date}/R{meeting}/C{race}/rapports-definitifs?combinaisonEnTableau=true&specialisation=INTERNET";
+	private final static Pattern CHARSET_PATTERN = Pattern.compile("text/html;\\s+charset=([^\\s]+)\\s*");
+	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("ddMMyyyy");
+	private final static int MAX_RETRY = 3;
+	private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    public static final String URL_RACE =
-            "http://www.pmu.fr/turfInfo/client/1/programmes/{date}/R{meeting}/C{race}?specialisation=INTERNET";
+	private String getContent(String url) throws PMUNavigatorError {
 
-    public static final String URL_HORSES =
-            "http://www.pmu.fr/turfInfo/client/1/programmes/{date}/R{meeting}/C{race}/participants?specialisation=INTERNET";
+		URL target;
+		try {
+			target = new URL(url);
+		} catch (MalformedURLException ex) {
+			throw new PMUNavigatorError("Incorrect URL: " + url, ex);
+		}
 
-    public static final String URL_TOTALBETS =
-            "http://www.pmu.fr/turfInfo/client/1/programme/{date}/R{meeting}/C{race}/masse-enjeu?specialisation=INTERNET";
+		int tryNumber = 0;
+		boolean correctExecution = false;
 
-    public static final String URL_PRICES =
-            "http://www.pmu.fr/turfInfo/client/1/programme/{date}/R{meeting}/C{race}/rapports-definitifs?combinaisonEnTableau=true&specialisation=INTERNET";
+		String source = null;
 
-    private final static Pattern CHARSET_PATTERN =
-            Pattern.compile( "text/html;\\s+charset=([^\\s]+)\\s*" );
+		while (!correctExecution) {
 
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern( "ddMMyyyy" );
+			try {
 
-    private final static int MAX_RETRY = 3;
+				HttpURLConnection conn = (HttpURLConnection) target.openConnection();
 
-    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+				if (conn.getResponseCode() == PMUMethodFailureResponse.HTTP_RESPONSE_CODE) {
+					logger.warn("Try #{} access {}: HTTP response code {}", tryNumber, url, PMUMethodFailureResponse.HTTP_RESPONSE_CODE);
+					throw new PMUMethodFailureResponse(url);
+				}
 
-    private String getContent( String url ) throws PMUNavigatorError {
+				Matcher charsetMatcher = CHARSET_PATTERN.matcher(conn.getContentType());
+				String charset = charsetMatcher.matches() ? charsetMatcher.group(1) : "UTF-8";
 
-        URL target;
-        try {
-            target = new URL( url );
-        } catch( MalformedURLException ex ) {
-            throw new PMUNavigatorError( "Incorrect URL: " + url, ex );
-        }
+				source = IOUtils.toString(conn.getInputStream(), charset).trim();
+				if (source == null || source.isEmpty()) {
+					logger.warn("Try #{} access {}: no content returned", tryNumber, url);
+					throw new PMUNoContent(url);
+				}
 
-        int tryNumber = 0;
-        boolean correctExecution = false;
+				correctExecution = true;
 
-        String source = null;
+			} catch (Exception ex) {
 
-        while( !correctExecution ) {
+				if (++tryNumber > MAX_RETRY) {
+					throw ex instanceof PMUNavigatorError ? (PMUNavigatorError) ex : new PMUNavigatorError("Can't load " + url, ex);
+				}
+			}
+		}
 
-            try {
+		return source;
+	}
 
-                HttpURLConnection conn = (HttpURLConnection) target.openConnection();
+	public JsonNode getJSON(String url) throws PMUNavigatorError {
 
-                if( conn.getResponseCode() == PMUMethodFailureResponse.HTTP_RESPONSE_CODE ) {
-                    logger.warn(
-                            "Try #{} access {}: HTTP response code {}",
-                            tryNumber,
-                            url,
-                            PMUMethodFailureResponse.HTTP_RESPONSE_CODE );
-                    throw new PMUMethodFailureResponse( url );
-                }
+		String source = getContent(url).trim();
 
-                Matcher charsetMatcher = CHARSET_PATTERN.matcher( conn.getContentType() );
-                String charset = charsetMatcher.matches() ? charsetMatcher.group( 1 ) : "UTF-8";
+		JsonNode json;
 
-                source = IOUtils.toString( conn.getInputStream(), charset ).trim();
-                if( source == null || source.isEmpty() ) {
-                    logger.warn( "Try #{} access {}: no content returned", tryNumber, url );
-                    throw new PMUNoContent( url );
-                }
+		try {
+			json = OBJECT_MAPPER.readTree(source);
+		} catch (IOException ex) {
+			throw new PMUNavigatorError("Malformed json at " + url, ex);
+		}
 
-                correctExecution = true;
+		return json;
 
-            } catch( Exception ex ) {
+	}
 
-                if( ++tryNumber > MAX_RETRY )
-                    throw ex instanceof PMUNavigatorError
-                            ? (PMUNavigatorError) ex
-                            : new PMUNavigatorError( "Can't load " + url, ex );
+	private static String setup(String url, LocalDate date, int meeting, int race) {
+		return url.replaceAll("\\{date\\}", date.format(DATE_FORMAT)).replaceAll("\\{meeting\\}", Integer.toString(meeting)).replaceAll("\\{race\\}", Integer.toString(race));
+	}
 
-            }
+	private static String setup(String url, Date date, int meeting, int race) {
+		return setup(url, DateConverter.toLocalDate(date), meeting, race);
+	}
 
-        }
+	private static String setup(String url, LocalDate date) {
+		return setup(url, date, 0, 0);
+	}
 
-        return source;
+	private static String setup(String url, Date date) {
+		return setup(url, DateConverter.toLocalDate(date), 0, 0);
+	}
 
-    }
+	public JsonNode getJSONProgramme(LocalDate date) throws PMUNavigatorError {
+		return getJSON(setup(URL_PROGRAMME, date));
+	}
 
-    public JsonNode getJSON( String url ) throws PMUNavigatorError {
+	public JsonNode getJSONProgramme(Date date) throws PMUNavigatorError {
+		return getJSON(setup(URL_PROGRAMME, date));
+	}
 
-        String source = getContent( url ).trim();
+	public JsonNode getJSONRace(LocalDate date, int meeting, int race) throws PMUNavigatorError {
+		return getJSON(setup(URL_RACE, date, meeting, race));
+	}
 
-        JsonNode json;
+	public JsonNode getJSONRace(Date date, int meeting, int race) throws PMUNavigatorError {
+		return getJSON(setup(URL_RACE, date, meeting, race));
+	}
 
-        try {
-            json = OBJECT_MAPPER.readTree( source );
-        } catch( IOException ex ) {
-            throw new PMUNavigatorError( "Malformed json at " + url, ex );
-        }
+	public JsonNode getJSONHorses(LocalDate date, int meeting, int race) throws PMUNavigatorError {
+		return getJSON(setup(URL_HORSES, date, meeting, race));
+	}
 
-        return json;
+	public JsonNode getJSONHorses(Date date, int meeting, int race) throws PMUNavigatorError {
+		return getJSON(setup(URL_HORSES, date, meeting, race));
+	}
 
-    }
+	public JsonNode getJSONTotalBets(LocalDate date, int meeting, int race) throws PMUNavigatorError {
+		return getJSON(setup(URL_TOTALBETS, date, meeting, race));
+	}
 
-    private static String setup( String url, LocalDate date, int meeting, int race ) {
+	public JsonNode getJSONTotalBets(Date date, int meeting, int race) throws PMUNavigatorError {
+		return getJSON(setup(URL_TOTALBETS, date, meeting, race));
+	}
 
-        return url
-                .replaceAll( "\\{date\\}", date.format( DATE_FORMAT ) )
-                .replaceAll( "\\{meeting\\}", Integer.toString( meeting ) )
-                .replaceAll( "\\{race\\}", Integer.toString( race ) );
+	public JsonNode getJSONPrices(LocalDate date, int meeting, int race) throws PMUNavigatorError {
+		return getJSON(setup(URL_PRICES, date, meeting, race));
+	}
 
-    }
-
-    private static String setup( String url, Date date, int meeting, int race ) {
-        return setup( url, DateConverter.toLocalDate( date ), meeting, race );
-    }
-
-    private static String setup( String url, LocalDate date ) {
-        return setup( url, date, 0, 0 );
-    }
-
-    private static String setup( String url, Date date ) {
-        return setup( url, DateConverter.toLocalDate( date ), 0, 0 );
-    }
-
-    public JsonNode getJSONProgramme( LocalDate date ) throws PMUNavigatorError {
-        return getJSON( setup( URL_PROGRAMME, date ) );
-    }
-
-    public JsonNode getJSONProgramme( Date date ) throws PMUNavigatorError {
-        return getJSON( setup( URL_PROGRAMME, date ) );
-    }
-
-    public JsonNode getJSONRace( LocalDate date, int meeting, int race ) throws PMUNavigatorError {
-        return getJSON( setup( URL_RACE, date, meeting, race ) );
-    }
-
-    public JsonNode getJSONRace( Date date, int meeting, int race ) throws PMUNavigatorError {
-        return getJSON( setup( URL_RACE, date, meeting, race ) );
-    }
-
-    public JsonNode getJSONHorses( LocalDate date, int meeting, int race )
-            throws PMUNavigatorError {
-        return getJSON( setup( URL_HORSES, date, meeting, race ) );
-    }
-
-    public JsonNode getJSONHorses( Date date, int meeting, int race ) throws PMUNavigatorError {
-        return getJSON( setup( URL_HORSES, date, meeting, race ) );
-    }
-
-    public JsonNode getJSONTotalBets( LocalDate date, int meeting, int race )
-            throws PMUNavigatorError {
-        return getJSON( setup( URL_TOTALBETS, date, meeting, race ) );
-    }
-
-    public JsonNode getJSONTotalBets( Date date, int meeting, int race ) throws PMUNavigatorError {
-        return getJSON( setup( URL_TOTALBETS, date, meeting, race ) );
-    }
-
-    public JsonNode getJSONPrices( LocalDate date, int meeting, int race )
-            throws PMUNavigatorError {
-        return getJSON( setup( URL_PRICES, date, meeting, race ) );
-    }
-
-    public JsonNode getJSONPrices( Date date, int meeting, int race ) throws PMUNavigatorError {
-        return getJSON( setup( URL_PRICES, date, meeting, race ) );
-    }
+	public JsonNode getJSONPrices(Date date, int meeting, int race) throws PMUNavigatorError {
+		return getJSON(setup(URL_PRICES, date, meeting, race));
+	}
 
 }

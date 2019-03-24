@@ -2,74 +2,74 @@ package com.windwagon.kaamelott.race;
 
 public enum Field {
 
-    /**
-     * Bon.
-     */
-    BON,
+	/**
+	 * Bon.
+	 */
+	BON,
 
-    /**
-     * Sec.
-     */
-    SEC,
+	/**
+	 * Sec.
+	 */
+	SEC,
 
-    /**
-     * Leger.
-     */
-    LEGER,
+	/**
+	 * Leger.
+	 */
+	LEGER,
 
-    /**
-     * Collant.
-     */
-    COLLANT,
+	/**
+	 * Collant.
+	 */
+	COLLANT,
 
-    /**
-     * Lourd.
-     */
-    LOURD,
+	/**
+	 * Lourd.
+	 */
+	LOURD,
 
-    /**
-     * Souple.
-     */
-    SOUPLE,
+	/**
+	 * Souple.
+	 */
+	SOUPLE,
 
-    /**
-     * Assez souple.
-     */
-    ASSEZ_SOUPLE,
+	/**
+	 * Assez souple.
+	 */
+	ASSEZ_SOUPLE,
 
-    /**
-     * Tres leger.
-     */
-    TRES_LEGER,
+	/**
+	 * Tres leger.
+	 */
+	TRES_LEGER,
 
-    /**
-     * Tres souple.
-     */
-    TRES_SOUPLE,
+	/**
+	 * Tres souple.
+	 */
+	TRES_SOUPLE,
 
-    /**
-     * Tres lourd.
-     */
-    TRES_LOURD,
+	/**
+	 * Tres lourd.
+	 */
+	TRES_LOURD,
 
-    /**
-     * Profond.
-     */
-    PROFOND,
+	/**
+	 * Profond.
+	 */
+	PROFOND,
 
-    /**
-     * Bon leger.
-     */
-    BON_LEGER,
+	/**
+	 * Bon leger.
+	 */
+	BON_LEGER,
 
-    /**
-     * Bon souple.
-     */
-    BON_SOUPLE,
+	/**
+	 * Bon souple.
+	 */
+	BON_SOUPLE,
 
-    /**
-     * Unknown.
-     */
-    UNKNOWN;
+	/**
+	 * Unknown.
+	 */
+	UNKNOWN
 
 }

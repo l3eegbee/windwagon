@@ -6,6 +6,6 @@ import com.windwagon.broceliande.race.entities.Racecourse;
 
 public interface RacecourseRepository extends CrudRepository<Racecourse, Long> {
 
-    Racecourse findByNameAndCountry( String name, String country );
+	Racecourse findByNameAndCountry(String name, String country);
 
 }

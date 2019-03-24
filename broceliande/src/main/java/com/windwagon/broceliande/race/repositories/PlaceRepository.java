@@ -7,6 +7,6 @@ import com.windwagon.broceliande.race.entities.Race;
 
 public interface PlaceRepository extends CrudRepository<Place, Long> {
 
-    Place findByRaceAndNumberAndHorse( Race race, Integer number, Integer horse );
+	Place findByRaceAndNumberAndHorse(Race race, Integer number, Integer horse);
 
 }

@@ -1,0 +1,29 @@
+
+# velocity
+spring.velocity.enabled=false
+spring.velocity.checkTemplateLocation=false
+
+# mail (gmail example configuration)
+
+#spring.mail.host=smtp.host
+#spring.mail.port=25
+#spring.mail.username=windwagon@localhost
+#spring.mail.password=password
+
+mail.default.enabled=true
+mail.default.from=*@gmail.com
+mail.default.to=*@gmail.com
+mail.default.subject=[Windwagon] Rapport
+mail.default.charset=ISO-8859-1
+
+spring.mail.host = smtp.gmail.com
+spring.mail.username = *@gmail.com
+spring.mail.password = *
+send.from.email= *@gmail.com
+spring.mail.properties.mail.smtp.auth = true;
+spring.mail.properties.mail.smtp.starttls.enable = true
+spring.mail.properties.mail.smtp.ssl.enable = true
+spring.mail.properties.mail.socketFactory.port=587
+spring.mail.properties.mail.socketFactory.class=javax.net.ssl.SSLSocketFactory
+spring.mail.properties.mail.socketFactory.fallback=false
+spring.mail.smtp.port= 587

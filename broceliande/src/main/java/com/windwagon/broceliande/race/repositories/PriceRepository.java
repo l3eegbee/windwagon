@@ -9,6 +9,6 @@ import com.windwagon.broceliande.race.entities.Race;
 
 public interface PriceRepository extends CrudRepository<Price, Long> {
 
-    Price findByRaceAndBetAndPriceNameAndTicket( Race race, BetType bet, PriceName priceName, String ticket );
+	Price findByRaceAndBetAndPriceNameAndTicket(Race race, BetType bet, PriceName priceName, String ticket);
 
 }

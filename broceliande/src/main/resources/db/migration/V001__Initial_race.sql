@@ -3,12 +3,12 @@
 -- ww_sequence_id
 --
 
-CREATE SEQUENCE ww_sequence_id
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+--CREATE SEQUENCE ww_sequence_id
+--    START WITH 1
+--    INCREMENT BY 1
+--    NO MINVALUE
+--    NO MAXVALUE
+--    CACHE 1;
 
 -- ###
 -- ###
@@ -21,7 +21,7 @@ CREATE SEQUENCE ww_sequence_id
 --
 
 CREATE TABLE ww_horseid (
-    id        BIGINT NOT NULL,
+id        BIGINT NOT NULL,
     name      CHARACTER VARYING(30),
     birth     DATE,
     sex       CHARACTER VARYING(10),
@@ -33,7 +33,7 @@ CREATE TABLE ww_horseid (
     coat      CHARACTER VARYING(30)
 );
 
-ALTER TABLE ww_horseid
+ALTER TABLE ww_horseid MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_horseid PRIMARY KEY (id);
 
 CREATE INDEX idx_horseid__natural_ids ON ww_horseid(name,birth,sex,father,mother);
@@ -45,11 +45,11 @@ CREATE INDEX idx_horseid__parent_ids ON ww_horseid(name,sex,birth);
 --
 
 CREATE TABLE ww_jockey (
-    id   BIGINT NOT NULL,
+    id   BIGINT NOT NULL ,
     name CHARACTER VARYING(50)
 );
 
-ALTER TABLE ww_jockey
+ALTER TABLE ww_jockey MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_jockey PRIMARY KEY (id);
 
 CREATE INDEX idx_jockey__natural_ids ON ww_jockey(name);
@@ -59,11 +59,11 @@ CREATE INDEX idx_jockey__natural_ids ON ww_jockey(name);
 --
 
 CREATE TABLE ww_owner (
-    id   BIGINT NOT NULL,
+    id   BIGINT NOT NULL ,
     name CHARACTER VARYING(50)
 );
 
-ALTER TABLE ww_owner
+ALTER TABLE ww_owner MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_owner PRIMARY KEY (id);
 
 CREATE INDEX idx_owner__natural_ids ON ww_owner(name);
@@ -77,7 +77,7 @@ CREATE TABLE ww_rancher (
     name CHARACTER VARYING(50)
 );
 
-ALTER TABLE ww_rancher
+ALTER TABLE ww_rancher MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_rancher PRIMARY KEY (id);
 
 CREATE INDEX idx_rancher__natural_ids ON ww_rancher(name);
@@ -87,11 +87,11 @@ CREATE INDEX idx_rancher__natural_ids ON ww_rancher(name);
 --
 
 CREATE TABLE ww_trainer (
-    id   BIGINT NOT NULL,
+    id   BIGINT NOT NULL ,
     name CHARACTER VARYING(50)
 );
 
-ALTER TABLE ww_trainer
+ALTER TABLE ww_trainer MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_trainer PRIMARY KEY (id);
 
 CREATE INDEX idx_trainer__natural_ids ON ww_trainer(name);
@@ -101,12 +101,12 @@ CREATE INDEX idx_trainer__natural_ids ON ww_trainer(name);
 --
 
 CREATE TABLE ww_racecourse (
-    id      BIGINT NOT NULL,
+    id      BIGINT NOT NULL ,
     name    CHARACTER VARYING(50),
     country CHARACTER VARYING(30)
 );
 
-ALTER TABLE ww_racecourse
+ALTER TABLE ww_racecourse MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_racecourse PRIMARY KEY (id);
 
 CREATE INDEX idx_racecourse__natural_ids ON ww_racecourse(name,country);
@@ -116,7 +116,7 @@ CREATE INDEX idx_racecourse__natural_ids ON ww_racecourse(name,country);
 --
 
 CREATE TABLE ww_meeting (
-    id             BIGINT NOT NULL,
+    id             BIGINT NOT NULL ,
     date           DATE,
     racecourse     BIGINT,
     number         INTEGER,
@@ -127,7 +127,7 @@ CREATE TABLE ww_meeting (
     field          CHARACTER VARYING(15)
 );
 
-ALTER TABLE ww_meeting
+ALTER TABLE ww_meeting MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_meeting PRIMARY KEY (id);
 
 ALTER TABLE ww_meeting
@@ -140,13 +140,13 @@ CREATE INDEX idx_meeting__natural_ids ON ww_meeting(date,number);
 --
 
 CREATE TABLE ww_race (
-    id           BIGINT NOT NULL,
+    id           BIGINT NOT NULL ,
     meeting      BIGINT,
     number       INTEGER,
     name         CHARACTER VARYING(80),
     status       CHARACTER VARYING(10),
     start        TIMESTAMP,
-    real_start   TIMESTAMP,
+--    real_start   TIMESTAMP,
     distance     DOUBLE PRECISION,
     benefit      DOUBLE PRECISION,
     discipline   CHARACTER VARYING(15),
@@ -156,7 +156,7 @@ CREATE TABLE ww_race (
     fallen       CHARACTER VARYING(255)
 );
 
-ALTER TABLE ww_race
+ALTER TABLE ww_race MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_race PRIMARY KEY (id);
 
 ALTER TABLE ww_race
@@ -169,7 +169,7 @@ CREATE INDEX idx_race__natural_ids ON ww_race(meeting,number);
 --
 
 CREATE TABLE ww_racetypes (
-    race  BIGINT NOT NULL,
+    race  BIGINT NOT NULL ,
     types CHARACTER VARYING(25)
 );
 
@@ -183,7 +183,7 @@ CREATE INDEX idx_racetypes__natural_ids ON ww_racetypes(race);
 --
 
 CREATE TABLE ww_racebets (
-    race BIGINT NOT NULL,
+    race BIGINT NOT NULL ,
     bets CHARACTER VARYING(20)
 );
 
@@ -197,13 +197,13 @@ CREATE INDEX idx_racebets__natural_ids ON ww_racebets(race);
 --
 
 CREATE TABLE ww_odds (
-    id    BIGINT NOT NULL,
+    id    BIGINT NOT NULL ,
     race  BIGINT,
     date  TIMESTAMP,
     total DOUBLE PRECISION
 );
 
-ALTER TABLE ww_odds
+ALTER TABLE ww_odds MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_odds PRIMARY KEY (id);
 
 ALTER TABLE ww_odds
@@ -216,13 +216,13 @@ CREATE INDEX idx_odds__natural_ids ON ww_odds(race,date);
 --
 
 CREATE TABLE ww_simple (
-    id     BIGINT NOT NULL,
+    id     BIGINT NOT NULL ,
     odds   BIGINT,
     number CHARACTER VARYING(3),
     simple DOUBLE PRECISION
 );
 
-ALTER TABLE ww_simple
+ALTER TABLE ww_simple MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_simple PRIMARY KEY (id);
 
 ALTER TABLE ww_simple
@@ -235,7 +235,7 @@ CREATE INDEX idx_simple__natural_ids ON ww_simple(odds,number);
 --
 
 CREATE TABLE ww_place (
-    id       BIGINT NOT NULL,
+    id       BIGINT NOT NULL ,
     race     BIGINT,
     number   INTEGER,
     distance CHARACTER VARYING(255),
@@ -243,7 +243,7 @@ CREATE TABLE ww_place (
     horse    INTEGER
 );
 
-ALTER TABLE ww_place
+ALTER TABLE ww_place MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_place PRIMARY KEY (id);
 
 ALTER TABLE ww_place
@@ -256,7 +256,7 @@ CREATE INDEX idx_place__natural_ids ON ww_place(race,number,horse);
 --
 
 CREATE TABLE ww_price (
-    id        BIGINT NOT NULL,
+    id        BIGINT NOT NULL ,
     race      BIGINT,
     bet       CHARACTER VARYING(20),
     pricename CHARACTER VARYING(15),
@@ -264,7 +264,7 @@ CREATE TABLE ww_price (
     ticket    CHARACTER VARYING(255)
 );
 
-ALTER TABLE ww_price
+ALTER TABLE ww_price MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_price PRIMARY KEY (id);
 
 ALTER TABLE ww_price
@@ -277,7 +277,7 @@ CREATE INDEX idx_price__natural_ids ON ww_price(race,bet,pricename,ticket);
 --
 
 CREATE TABLE ww_horse (
-    id                   BIGINT NOT NULL,
+    id                   BIGINT NOT NULL ,
     race                 BIGINT,
     horse_id             BIGINT,
     number               INTEGER,
@@ -301,7 +301,7 @@ CREATE TABLE ww_horse (
     jockey               BIGINT
 );
 
-ALTER TABLE ww_horse
+ALTER TABLE ww_horse MODIFY COLUMN id BIGINT NOT NULL AUTO_INCREMENT FIRST,
     ADD CONSTRAINT pk_ww_horse PRIMARY KEY (id);
 
 ALTER TABLE ww_horse

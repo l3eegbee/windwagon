@@ -1,67 +1,62 @@
 package com.windwagon.pmuportal;
 
-import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
+import com.fasterxml.jackson.databind.*;
+import com.windwagon.broceliande.race.entities.*;
+import com.windwagon.logres.date.*;
+import com.windwagon.pmuportal.exceptions.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.windwagon.broceliande.race.entities.Meeting;
-import com.windwagon.broceliande.race.entities.Race;
-import com.windwagon.logres.date.LazyDate;
-import com.windwagon.pmuportal.exceptions.PMUError;
-import com.windwagon.pmuportal.exceptions.PMUMethodFailureResponse;
-import com.windwagon.pmuportal.exceptions.PMUNoContent;
+import java.time.*;
+import java.util.*;
 
 @Component
 public class RaceLoader {
 
-    private final Logger logger = LoggerFactory.getLogger( RaceParser.class );
+	private final Logger logger = LoggerFactory.getLogger(RaceParser.class);
 
-    @Autowired
-    private PMUNavigator pmuNavigator;
+	@Autowired
+	private PMUNavigator pmuNavigator;
 
-    @Autowired
-    private MeetingParser meetingParser;
+	@Autowired
+	private MeetingParser meetingParser;
 
-    @Autowired
-    private RaceParser raceParser;
+	@Autowired
+	private RaceParser raceParser;
 
-    public synchronized List<Meeting> loadAllRaces( LocalDate date ) throws PMUError {
+	public synchronized List<Meeting> loadAllRaces(LocalDate date) throws PMUError {
 
-        List<Meeting> meetings = new LinkedList<Meeting>();
+		List<Meeting> meetings = new LinkedList<Meeting>();
 
-        try {
+		try {
 
-            JsonNode programme = pmuNavigator.getJSONProgramme( date );
+			JsonNode programme = pmuNavigator.getJSONProgramme(date);
 
-            for( JsonNode meetingNode : programme.at( "/programme/reunions" ) )
-                meetings.add( meetingParser.loadAndSaveMeeting( meetingNode ) );
+			for (JsonNode meetingNode : programme.at("/programme/reunions"))
+				meetings.add(meetingParser.loadAndSaveMeeting(meetingNode));
 
-        } catch( PMUNoContent | PMUMethodFailureResponse ex ) {
-            logger.warn( "Skip loading of day {} (PMU nominal error)", date );
-        } catch( Exception ex ) {
-            throw new PMUError( "Error during getting meetings of day " + LazyDate.D( date ), ex );
-        }
+		} catch (PMUNoContent | PMUMethodFailureResponse ex) {
+			logger.warn("Skip loading of day {} (PMU nominal error)", date);
+		} catch (Exception ex) {
+			throw new PMUError("Error during getting meetings of day " + LazyDate.D(date), ex);
+		}
 
-        return meetings;
+		return meetings;
 
-    }
+	}
 
-    public synchronized void update( Race race ) throws PMUError {
+	public synchronized void update(Race race) throws PMUError {
 
-        try {
+		try {
 
-            raceParser.updateRace( race );
+			raceParser.updateRace(race);
 
-        } catch( Exception ex ) {
-            throw new PMUError( "Error while update " + race, ex );
-        }
+		} catch (Exception ex) {
+			throw new PMUError("Error while update " + race, ex);
+		}
 
-    }
+	}
 
 }

@@ -2,24 +2,24 @@ package com.windwagon.kaamelott.race;
 
 public enum Horseshoe {
 
-    /**
-     * Ferré des quatre.
-     */
-    ALL,
+	/**
+	 * FerrÃ© des quatre.
+	 */
+	ALL,
 
-    /**
-     * Déférré des antérieurs.
-     */
-    NO_FORELEG,
+	/**
+	 * DÃ©fÃ©rrÃ© des antÃ©rieurs.
+	 */
+	NO_FORELEG,
 
-    /**
-     * Déférré des postérieurs.
-     */
-    NO_POSTERIOR,
+	/**
+	 * DÃ©fÃ©rrÃ© des postÃ©rieurs.
+	 */
+	NO_POSTERIOR,
 
-    /**
-     * Déférré des quatre.
-     */
-    NONE;
+	/**
+	 * DÃ©fÃ©rrÃ© des quatre.
+	 */
+	NONE
 
 }

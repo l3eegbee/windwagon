@@ -30,81 +30,78 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class TemplateMailSenderFactory {
 
-    private static String CXT_HOSTNAME = "hostname";
+	private static String CXT_HOSTNAME = "hostname";
 
-    private static String CXT_DEFAULT_HOSTNAME = "localhost";
+	private static String CXT_DEFAULT_HOSTNAME = "localhost";
 
-    private VelocityContext defaultContext;
+	private VelocityContext defaultContext;
 
-    private void addVelocityTool( VelocityContext context, Class<?> clazz ) {
+	private void addVelocityTool(VelocityContext context, Class<?> clazz) {
 
-        DefaultKey anno = clazz.getAnnotation( DefaultKey.class );
-        if( anno == null )
-            throw new RuntimeException( "No default key for Velocity tool " + clazz );
+		DefaultKey anno = clazz.getAnnotation(DefaultKey.class);
+		if (anno == null) throw new RuntimeException("No default key for Velocity tool " + clazz);
 
-        Object tool = null;
+		Object tool = null;
 
-        try {
-            Constructor<?> constructor = clazz.getConstructor();
-            tool = constructor.newInstance();
-        } catch( NoSuchMethodException ex ) {
-            throw new RuntimeException( "No default constructor for Velocity tool " + clazz );
-        } catch( InstantiationException | IllegalAccessException | InvocationTargetException ex ) {
-            throw new RuntimeException(
-                    "Exception during instanciation of Velocity tool " + clazz,
-                    ex );
-        }
+		try {
+			Constructor<?> constructor = clazz.getConstructor();
+			tool = constructor.newInstance();
+		} catch (NoSuchMethodException ex) {
+			throw new RuntimeException("No default constructor for Velocity tool " + clazz);
+		} catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+			throw new RuntimeException("Exception during instanciation of Velocity tool " + clazz, ex);
+		}
 
-        context.put( anno.value(), tool );
+		context.put(anno.value(), tool);
 
-    }
+	}
 
-    @PostConstruct
-    public void init() {
+	@PostConstruct
+	public void init() {
 
-        // create default context
+		// create default context
 
-        defaultContext = new VelocityContext();
+		defaultContext = new VelocityContext();
 
-        // add hostname
-        try {
-            defaultContext.put( CXT_HOSTNAME, InetAddress.getLocalHost().getHostName() );
-        } catch( UnknownHostException ex ) {
-            defaultContext.put( CXT_HOSTNAME, CXT_DEFAULT_HOSTNAME );
-        }
+		// add hostname
+		try {
+			defaultContext.put(CXT_HOSTNAME, InetAddress.getLocalHost().getHostName());
+		} catch (UnknownHostException ex) {
+			defaultContext.put(CXT_HOSTNAME, CXT_DEFAULT_HOSTNAME);
+		}
 
-        // add tools
+		// add tools
 
-        addVelocityTool( defaultContext, AlternatorTool.class );
-        addVelocityTool( defaultContext, ClassTool.class );
-        addVelocityTool( defaultContext, ComparisonDateTool.class );
-        addVelocityTool( defaultContext, ConversionTool.class );
-        addVelocityTool( defaultContext, DateTool.class );
-        addVelocityTool( defaultContext, DisplayTool.class );
-        addVelocityTool( defaultContext, EscapeTool.class );
-        addVelocityTool( defaultContext, FieldTool.class );
-        addVelocityTool( defaultContext, MathTool.class );
-        addVelocityTool( defaultContext, NumberTool.class );
-        addVelocityTool( defaultContext, ResourceTool.class );
-        addVelocityTool( defaultContext, SortTool.class );
-        addVelocityTool( defaultContext, XmlTool.class );
+		addVelocityTool(defaultContext, AlternatorTool.class);
+		addVelocityTool(defaultContext, ClassTool.class);
+		addVelocityTool(defaultContext, ComparisonDateTool.class);
+		addVelocityTool(defaultContext, ConversionTool.class);
+		addVelocityTool(defaultContext, DateTool.class);
+		addVelocityTool(defaultContext, DisplayTool.class);
+		addVelocityTool(defaultContext, EscapeTool.class);
+		addVelocityTool(defaultContext, FieldTool.class);
+		addVelocityTool(defaultContext, MathTool.class);
+		addVelocityTool(defaultContext, NumberTool.class);
+		addVelocityTool(defaultContext, ResourceTool.class);
+		addVelocityTool(defaultContext, SortTool.class);
+		addVelocityTool(defaultContext, XmlTool.class);
 
-    }
+	}
 
-    protected VelocityContext getDefaultContext() {
-        return this.defaultContext;
-    }
+	protected VelocityContext getDefaultContext() {
+		return this.defaultContext;
+	}
 
-    @Bean
-    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    public TemplateMailSender getTemplateMailSender( String confId ) {
-        return new TemplateMailSenderImpl( confId );
-    }
+	@Bean
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public TemplateMailSender getTemplateMailSender(String confId) {
+		return new TemplateMailSenderImpl(confId);
+	}
 
-    @Bean
-    @Scope( ConfigurableBeanFactory.SCOPE_PROTOTYPE )
-    protected MailConfig getMailConfig( String confId ) {
-        return new MailConfigImpl( confId );
-    }
+	@Bean
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	protected MailConfig getMailConfig(String confId) {
+		return new MailConfigImpl(confId);
+	}
 
 }

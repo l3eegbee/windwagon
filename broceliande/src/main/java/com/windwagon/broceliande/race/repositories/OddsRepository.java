@@ -9,6 +9,6 @@ import com.windwagon.broceliande.race.entities.Race;
 
 public interface OddsRepository extends CrudRepository<Odds, Long> {
 
-    Odds findByRaceAndDate( Race race, Date date );
+	Odds findByRaceAndDate(Race race, Date date);
 
 }

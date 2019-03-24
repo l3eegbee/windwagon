@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootApplication
-@Import( Blaise.class )
-@TestPropertySource( "classpath:/blaise.test.properties" )
-public class BlaiseTest {}
+@Import(Blaise.class)
+@TestPropertySource("classpath:/blaise.test.properties")
+public class BlaiseTest {
+}

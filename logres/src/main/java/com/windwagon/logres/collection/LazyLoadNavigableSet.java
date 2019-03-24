@@ -9,52 +9,53 @@ import java.util.TreeSet;
 
 public class LazyLoadNavigableSet<E> {
 
-    public interface Initializer<E> {
+	public interface Initializer<E> {
 
-        public void init( NavigableSet<E> navigableSet );
+		void init(NavigableSet<E> navigableSet);
 
-    }
+	}
 
-    private boolean initialized = false;
+	private boolean initialized = false;
 
-    private Comparator<? super E> comparator = null;
+	private Comparator<? super E> comparator = null;
 
-    private Initializer<E> initializer = ( NavigableSet<E> navigableSet ) -> {};
+	private Initializer<E> initializer = (NavigableSet<E> navigableSet) -> {
+	};
 
-    private Set<E> initialSet = new HashSet<E>();
+	private Set<E> initialSet = new HashSet<E>();
 
-    private NavigableSet<E> navigableSet = null;
+	private NavigableSet<E> navigableSet = null;
 
-    public LazyLoadNavigableSet( Initializer<E> initializer ) {
-        this( null, initializer );
-    }
+	public LazyLoadNavigableSet(Initializer<E> initializer) {
+		this(null, initializer);
+	}
 
-    public LazyLoadNavigableSet( Comparator<? super E> comparator, Initializer<E> initializer ) {
-        this.comparator = comparator;
-        this.initializer = initializer;
-    }
+	public LazyLoadNavigableSet(Comparator<? super E> comparator, Initializer<E> initializer) {
+		this.comparator = comparator;
+		this.initializer = initializer;
+	}
 
-    public void initAdd( E obj ) {
-        initialSet.add( obj );
-    }
+	public void initAdd(E obj) {
+		initialSet.add(obj);
+	}
 
-    public NavigableSet<E> getNavigableSet() {
+	public NavigableSet<E> getNavigableSet() {
 
-        if( !initialized ) {
+		if (!initialized) {
 
-            navigableSet = comparator == null ? new TreeSet<E>() : new TreeSet<E>( comparator );
-            navigableSet.addAll( initialSet );
+			navigableSet = comparator == null ? new TreeSet<E>() : new TreeSet<E>(comparator);
+			navigableSet.addAll(initialSet);
 
-            initializer.init( navigableSet );
+			initializer.init(navigableSet);
 
-            navigableSet = Collections.unmodifiableNavigableSet( navigableSet );
+			navigableSet = Collections.unmodifiableNavigableSet(navigableSet);
 
-            initialized = true;
+			initialized = true;
 
-        }
+		}
 
-        return navigableSet;
+		return navigableSet;
 
-    }
+	}
 
 }

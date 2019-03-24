@@ -6,6 +6,6 @@ import com.windwagon.broceliande.race.entities.Owner;
 
 public interface OwnerRepository extends CrudRepository<Owner, Long> {
 
-    Owner findByName( String name );
+	Owner findByName(String name);
 
 }

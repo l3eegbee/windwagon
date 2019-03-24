@@ -2,16 +2,16 @@ package com.windwagon.kaamelott;
 
 import java.util.Set;
 
-public interface ArmoredActor < A extends Actor > {
+public interface ArmoredActor<A extends Actor> {
 
-    public String getName();
+	String getName();
 
-    public String getDescription();
+	String getDescription();
 
-    public Set<? extends ConstantProp> getConstantProps();
+	Set<? extends ConstantProp> getConstantProps();
 
-    public ConstantProp getConstantProp( String name );
+	ConstantProp getConstantProp(String name);
 
-    public A getActor();
+	A getActor();
 
 }

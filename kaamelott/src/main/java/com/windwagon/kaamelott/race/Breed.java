@@ -2,59 +2,59 @@ package com.windwagon.kaamelott.race;
 
 public enum Breed {
 
-    /**
-     * Trotteur étranger.
-     */
-    TROTTEUR_ETRANGER,
+	/**
+	 * Trotteur Ã©tranger.
+	 */
+	TROTTEUR_ETRANGER,
 
-    /**
-     * Trotteur français.
-     */
-    TROTTEUR_FRANCAIS,
+	/**
+	 * Trotteur franÃ§ais.
+	 */
+	TROTTEUR_FRANCAIS,
 
-    /**
-     * Pur sang.
-     */
-    PUR_SANG,
+	/**
+	 * Pur sang.
+	 */
+	PUR_SANG,
 
-    /**
-     * Autre Que de Pur Sang.
-     */
-    AQPS,
+	/**
+	 * Autre Que de Pur Sang.
+	 */
+	AQPS,
 
-    /**
-     * Arabe.
-     */
-    ARABE,
+	/**
+	 * Arabe.
+	 */
+	ARABE,
 
-    /**
-     * Anglo-arabe.
-     */
-    ANGLO_ARABE,
+	/**
+	 * Anglo-arabe.
+	 */
+	ANGLO_ARABE,
 
-    /**
-     * Anglo-arabe de complement.
-     */
-    ANGLO_ARABE_DE_COMPLEMENT,
+	/**
+	 * Anglo-arabe de complement.
+	 */
+	ANGLO_ARABE_DE_COMPLEMENT,
 
-    /**
-     * Cheval de selle.
-     */
-    CHEVAL_DE_SELLE,
+	/**
+	 * Cheval de selle.
+	 */
+	CHEVAL_DE_SELLE,
 
-    /**
-     * Cheval de selle français.
-     */
-    CHEVAL_DE_SELLE_FRANCAIS,
+	/**
+	 * Cheval de selle franÃ§ais.
+	 */
+	CHEVAL_DE_SELLE_FRANCAIS,
 
-    /**
-     * Origine étrangère.
-     */
-    ORIGINE_ETRANGERE,
+	/**
+	 * Origine Ã©trangÃ¨re.
+	 */
+	ORIGINE_ETRANGERE,
 
-    /**
-     * Race inconnue.
-     */
-    INCONNU;
+	/**
+	 * Race inconnue.
+	 */
+	INCONNU
 
 }

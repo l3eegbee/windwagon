@@ -1,86 +1,76 @@
 package com.windwagon.logres.triggers;
 
-import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
-import java.util.Objects;
+import org.springframework.beans.factory.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.time.*;
+import java.util.*;
 
 public class Offset implements Comparable<Offset> {
 
-    @Autowired
-    private Clock clock;
+	@Autowired
+	private Clock clock;
 
-    private Duration duration;
+	private Duration duration;
 
-    private boolean repeatly = false;
+	private boolean repeatly = false;
 
-    public Offset( Duration duration, boolean repeatly ) {
-        this.duration = duration;
-        this.repeatly = repeatly;
-    }
+	public Offset(Duration duration, boolean repeatly) {
+		this.duration = duration;
+		this.repeatly = repeatly;
+	}
 
-    public Duration getDuration() {
-        return duration;
-    }
+	public Duration getDuration() {
+		return duration;
+	}
 
-    public boolean isRepeatly() {
-        return repeatly;
-    }
+	public boolean isRepeatly() {
+		return repeatly;
+	}
 
-    public Date nextDate( Date ref ) {
+	public Date nextDate(Date ref) {
 
-        Date now = Date.from( Instant.now( clock ) );
+		Date now = Date.from(Instant.now(clock));
 
-        if( repeatly ) {
+		if (repeatly) {
 
-            if( now.before( ref ) )
-                return ref;
+			if (now.before(ref)) return ref;
 
-            double nowMillis = (double) now.getTime();
-            double refMillis = (double) ref.getTime();
-            double durMillis = (double) duration.toMillis();
+			double nowMillis = (double) now.getTime();
+			double refMillis = (double) ref.getTime();
+			double durMillis = (double) duration.toMillis();
 
-            return new Date( (long) ( Math.ceil( ( nowMillis - refMillis ) / durMillis ) * durMillis + refMillis ) );
+			return new Date((long) (Math.ceil((nowMillis - refMillis) / durMillis) * durMillis + refMillis));
 
-        } else {
+		} else {
 
-            Date next = new Date( ref.getTime() + duration.toMillis() );
-            return next.before( now ) ? null : next;
+			Date next = new Date(ref.getTime() + duration.toMillis());
+			return next.before(now) ? null : next;
 
-        }
+		}
 
-    }
+	}
 
-    @Override
-    public int compareTo( Offset offset ) {
-        return duration.compareTo( offset.duration );
-    }
+	@Override
+	public int compareTo(Offset offset) {
+		return duration.compareTo(offset.duration);
+	}
 
-    @Override
-    public boolean equals( Object obj ) {
+	@Override
+	public boolean equals(Object obj) {
 
-        if( this == obj )
-            return true;
-        if( obj == null || getClass() != obj.getClass() )
-            return false;
+		if (this == obj) return true;
+		if (obj == null || getClass() != obj.getClass()) return false;
 
-        Offset other = (Offset) obj;
+		Offset other = (Offset) obj;
 
-        if( !Objects.equals( duration, other.duration ) )
-            return false;
-        if( !Objects.equals( repeatly, other.repeatly ) )
-            return false;
+		if (!Objects.equals(duration, other.duration)) return false;
+		return Objects.equals(repeatly, other.repeatly);
 
-        return true;
+	}
 
-    }
-
-    @Override
-    public String toString() {
-        return duration.toString() + ( repeatly ? "*" : "" );
-    }
+	@Override
+	public String toString() {
+		return duration.toString() + (repeatly ? "*" : "");
+	}
 
 }

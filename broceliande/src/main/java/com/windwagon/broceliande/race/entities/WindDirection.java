@@ -6,40 +6,22 @@ import com.windwagon.broceliande.utils.pmu.PMUEnumValue;
 
 public enum WindDirection {
 
-    @PMUEnumValue( "N" )
-    @KaamelottEnumWindDirectionValue( com.windwagon.kaamelott.race.WindDirection.N )
-    N,
+	@PMUEnumValue("N") @KaamelottEnumWindDirectionValue(com.windwagon.kaamelott.race.WindDirection.N) N,
 
-    @PMUEnumValue( "NE" )
-    @KaamelottEnumWindDirectionValue( com.windwagon.kaamelott.race.WindDirection.NE )
-    NE,
+	@PMUEnumValue("NE") @KaamelottEnumWindDirectionValue(com.windwagon.kaamelott.race.WindDirection.NE) NE,
 
-    @PMUEnumValue( "E" )
-    @KaamelottEnumWindDirectionValue( com.windwagon.kaamelott.race.WindDirection.E )
-    E,
+	@PMUEnumValue("E") @KaamelottEnumWindDirectionValue(com.windwagon.kaamelott.race.WindDirection.E) E,
 
-    @PMUEnumValue( "SE" )
-    @KaamelottEnumWindDirectionValue( com.windwagon.kaamelott.race.WindDirection.SE )
-    SE,
+	@PMUEnumValue("SE") @KaamelottEnumWindDirectionValue(com.windwagon.kaamelott.race.WindDirection.SE) SE,
 
-    @PMUEnumValue( "S" )
-    @KaamelottEnumWindDirectionValue( com.windwagon.kaamelott.race.WindDirection.S )
-    S,
+	@PMUEnumValue("S") @KaamelottEnumWindDirectionValue(com.windwagon.kaamelott.race.WindDirection.S) S,
 
-    @PMUEnumValue( "SO" )
-    @KaamelottEnumWindDirectionValue( com.windwagon.kaamelott.race.WindDirection.SW )
-    SW,
+	@PMUEnumValue("SO") @KaamelottEnumWindDirectionValue(com.windwagon.kaamelott.race.WindDirection.SW) SW,
 
-    @PMUEnumValue( "O" )
-    @KaamelottEnumWindDirectionValue( com.windwagon.kaamelott.race.WindDirection.W )
-    W,
+	@PMUEnumValue("O") @KaamelottEnumWindDirectionValue(com.windwagon.kaamelott.race.WindDirection.W) W,
 
-    @PMUEnumValue( "NO" )
-    @KaamelottEnumWindDirectionValue( com.windwagon.kaamelott.race.WindDirection.NW )
-    NW,
+	@PMUEnumValue("NO") @KaamelottEnumWindDirectionValue(com.windwagon.kaamelott.race.WindDirection.NW) NW,
 
-    @PMUEnumDefaultValue
-    @KaamelottEnumWindDirectionValue( com.windwagon.kaamelott.race.WindDirection.UNKNOWN )
-    UNKNOWN;
+	@PMUEnumDefaultValue @KaamelottEnumWindDirectionValue(com.windwagon.kaamelott.race.WindDirection.UNKNOWN) UNKNOWN
 
 }

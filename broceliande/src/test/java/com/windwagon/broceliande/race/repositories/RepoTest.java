@@ -1,43 +1,44 @@
 package com.windwagon.broceliande.race.repositories;
 
-import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
+import com.windwagon.broceliande.*;
+import com.windwagon.broceliande.race.builders.*;
+import com.windwagon.broceliande.race.entities.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.equalTo;
+import org.junit.*;
+import org.junit.runner.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.boot.test.context.*;
+import org.springframework.test.context.junit4.*;
 
-import javax.transaction.Transactional;
+import javax.transaction.*;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static com.shazam.shazamcrest.matcher.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import com.windwagon.broceliande.Broceliande;
-import com.windwagon.broceliande.race.builders.Meeting_20150813_M1;
-import com.windwagon.broceliande.race.entities.Meeting;
+//import org.springframework.boot.test.context.*;
+//import static org.hamcrest.EasyMock2Matchers.equalTo;
 
-@RunWith( SpringJUnit4ClassRunner.class )
-@SpringApplicationConfiguration( classes = Broceliande.class )
+//@RunWith(SpringJUnit4ClassRunner.class) //v1
+@RunWith( /*SpringJUnit4Class*/SpringRunner.class ) //v2
+@SpringBootTest(classes = Broceliande.class) //v2
+//@SpringApplicationConfiguration(classes = Broceliande.class) //v1
 public class RepoTest {
 
-    @Autowired
-    private MeetingRepository meetingRepository;
+	@Autowired
+	private MeetingRepository meetingRepository;
 
-    @Test
-    @Transactional
-    public void saveTest() {
+	@Test
+	@Transactional
+	public void saveTest() {
 
-        Meeting saved = Meeting_20150813_M1.build();
-        meetingRepository.save( saved );
+		Meeting saved = Meeting_20150813_M1.build();
+		meetingRepository.save(saved);
 
-        Meeting found = meetingRepository.findByDateAndNumber( saved.getDate(), saved.getNumber() );
+		Meeting found = meetingRepository.findByDateAndNumber(saved.getDate(), saved.getNumber());
 
-        assertThat(
-                found,
-                is( sameBeanAs( Meeting_20150813_M1.build() ).ignoring( equalTo( "id" ) ) ) );
+		assertThat(found, is(sameBeanAs(Meeting_20150813_M1.build()).ignoring(equalTo("id"))));
 
-    }
+	}
 
 }

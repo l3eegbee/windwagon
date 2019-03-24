@@ -6,20 +6,12 @@ import com.windwagon.broceliande.utils.pmu.PMUEnumValue;
 
 public enum Horseshoe {
 
-    @PMUEnumDefaultValue
-    @KaamelottEnumHorseshoeValue( com.windwagon.kaamelott.race.Horseshoe.ALL )
-    ALL,
+	@PMUEnumDefaultValue @KaamelottEnumHorseshoeValue(com.windwagon.kaamelott.race.Horseshoe.ALL) ALL,
 
-    @PMUEnumValue( "DEFERRE_ANTERIEURS" )
-    @KaamelottEnumHorseshoeValue( com.windwagon.kaamelott.race.Horseshoe.NO_FORELEG )
-    NO_FORELEG,
+	@PMUEnumValue("DEFERRE_ANTERIEURS") @KaamelottEnumHorseshoeValue(com.windwagon.kaamelott.race.Horseshoe.NO_FORELEG) NO_FORELEG,
 
-    @PMUEnumValue( "DEFERRE_POSTERIEURS" )
-    @KaamelottEnumHorseshoeValue( com.windwagon.kaamelott.race.Horseshoe.NO_POSTERIOR )
-    NO_POSTERIOR,
+	@PMUEnumValue("DEFERRE_POSTERIEURS") @KaamelottEnumHorseshoeValue(com.windwagon.kaamelott.race.Horseshoe.NO_POSTERIOR) NO_POSTERIOR,
 
-    @PMUEnumValue( "DEFERRE_ANTERIEURS_POSTERIEURS" )
-    @KaamelottEnumHorseshoeValue( com.windwagon.kaamelott.race.Horseshoe.NONE )
-    NONE;
+	@PMUEnumValue("DEFERRE_ANTERIEURS_POSTERIEURS") @KaamelottEnumHorseshoeValue(com.windwagon.kaamelott.race.Horseshoe.NONE) NONE
 
 }

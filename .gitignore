@@ -1,12 +1,23 @@
-
-*/target/
-
 spring-shell.log
 
 **/*TODO*
 
 # eclipse files
 dependency-reduced-pom.xml
+*/target/
+
 **/.settings/
 **/.project
 **/.classpath
+
+# sensitive
+/logres/src/main/resources/logres.properties
+
+# android studio
+/.gradle/
+/.idea/
+**/build/
+/local.properties
+# !/blaise/build/
+
+/specs/

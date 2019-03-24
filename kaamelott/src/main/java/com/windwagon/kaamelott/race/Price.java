@@ -4,24 +4,24 @@ import java.util.SortedSet;
 
 public interface Price {
 
-    /**
-     * @return the bet
-     */
-    public BetType getBetType();
+	/**
+	 * @return the bet
+	 */
+	BetType getBetType();
 
-    /**
-     * @return the priceName
-     */
-    public PriceName getPriceName();
+	/**
+	 * @return the priceName
+	 */
+	PriceName getPriceName();
 
-    /**
-     * @return the price
-     */
-    public Double getPrice();
+	/**
+	 * @return the price
+	 */
+	Double getPrice();
 
-    /**
-     * @return the ticketComposition
-     */
-    public SortedSet<Horse> getTicket();
+	/**
+	 * @return the ticketComposition
+	 */
+	SortedSet<Horse> getTicket();
 
 }

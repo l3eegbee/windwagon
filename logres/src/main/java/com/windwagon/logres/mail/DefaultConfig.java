@@ -7,54 +7,54 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "mail.default")
 public class DefaultConfig {
 
-    private boolean enabled;
+	private boolean enabled;
 
-    private String from;
+	private String from;
 
-    private String to;
+	private String to;
 
-    private String subject;
+	private String subject;
 
-    private String charset;
+	private String charset;
 
-    public boolean getEnabled() {
-        return this.enabled;
-    }
+	public boolean getEnabled() {
+		return this.enabled;
+	}
 
-    public void setEnabled( boolean enabled ) {
-        this.enabled = enabled;
-    }
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
-    public String getFrom() {
-        return this.from;
-    }
+	public String getFrom() {
+		return this.from;
+	}
 
-    public void setFrom( String from ) {
-        this.from = from;
-    }
+	public void setFrom(String from) {
+		this.from = from;
+	}
 
-    public String getTo() {
-        return this.to;
-    }
+	public String getTo() {
+		return this.to;
+	}
 
-    public void setTo( String to ) {
-        this.to = to;
-    }
+	public void setTo(String to) {
+		this.to = to;
+	}
 
-    public String getSubject() {
-        return this.subject;
-    }
+	public String getSubject() {
+		return this.subject;
+	}
 
-    public void setSubject( String subject ) {
-        this.subject = subject;
-    }
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 
-    public String getCharset() {
-        return this.charset;
-    }
+	public String getCharset() {
+		return this.charset;
+	}
 
-    public void setCharset( String charset ) {
-        this.charset = charset;
-    }
+	public void setCharset(String charset) {
+		this.charset = charset;
+	}
 
 }

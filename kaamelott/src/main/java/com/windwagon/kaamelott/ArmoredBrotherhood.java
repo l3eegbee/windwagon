@@ -1,3 +1,4 @@
 package com.windwagon.kaamelott;
 
-public interface ArmoredBrotherhood extends ArmoredActor<Brotherhood> {}
+public interface ArmoredBrotherhood extends ArmoredActor<Brotherhood> {
+}
